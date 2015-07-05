@@ -1,0 +1,47 @@
+{namespace sf=Romm\SiteFactory\ViewHelpers}
+
+<f:if condition="{displayValue}">
+	<f:then>
+		<f:render section="displayValue" arguments="{_all}" />
+	</f:then>
+	<f:else>
+		<f:render section="displayForm" arguments="{_all}" />
+	</f:else>
+</f:if>
+
+<f:section name="displayForm">
+	<f:render partial="Form/Field" arguments="{field: field, additionalAttributes: {class: 'image-upload-name'}}" />
+
+	<div id="fine-uploader-{field.name}"></div>
+
+	<f:if condition="{field.value}">
+		<f:translate key="form.field.actual_file" />
+		<f:image src="{field.displayValue}" width="150" height="150" />
+	</f:if>
+	<script type="text/javascript">
+		var fieldSettings = JSON.parse('{field.settingsJson->f:format.htmlentitiesDecode()}');
+		var uploaderFunctionSettings = new SiteFactory.FineUploaderDefaultSettings();
+		uploaderFunctionSettings.formId = '{formId}';
+		uploaderFunctionSettings.fieldName = '{field.name}';
+		uploaderFunctionSettings.element = document.getElementById('fine-uploader-{field.name}');
+		if (typeof fieldSettings.allowedExtensions !== 'undefined')
+			uploaderFunctionSettings.validation.allowedExtensions = fieldSettings.allowedExtensions;
+		if (typeof fieldSettings.itemLimit !== 'undefined')
+			uploaderFunctionSettings.validation.itemLimit = fieldSettings.itemLimit;
+		if (typeof fieldSettings.sizeLimit !== 'undefined')
+			uploaderFunctionSettings.validation.sizeLimit = fieldSettings.sizeLimit;
+
+		new qq.FineUploader(uploaderFunctionSettings);
+	</script>
+</f:section>
+
+<f:section name="displayValue">
+	<f:if condition="{field.hasValue}">
+		<f:then>
+			<f:image src="{field.displayValue}" width="150" height="150" />
+		</f:then>
+		<f:else>
+			<f:translate key="form.field.no_file" />
+		</f:else>
+	</f:if>
+</f:section>

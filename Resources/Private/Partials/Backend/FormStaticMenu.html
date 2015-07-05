@@ -1,0 +1,67 @@
+<div class="static-menu row col-sm-4 col-xs-6 col-xs-offset-8" data-site-factory-form="{formId}"
+     xmlns:f="http://www.w3.org/1999/XSL/Transform">
+	<div class="panel-group col-sm-12 col-xs-10 fixed-menu">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<span class="glyphicon glyphicon-asterisk"></span>&nbsp;<f:translate key="form.static_menu.header_title" />
+				</h4>
+			</div>
+			<div class="panel-body">
+				<div class="alert alert-danger counter-errors{f:if(condition: errorsCounter, else: ' hidden')}">
+					<a data-toggle="collapse" class="alert alert-link" href="#collapse-counter-errors">
+						<span class="glyphicon glyphicon-remove"></span>&nbsp;
+						<abbr title="{f:translate(key: 'form.static_menu.errors_label_hover')}" class="counter-label" data-default-label-single="{f:translate(key: 'form.static_menu.errors_label_single')}" data-default-label-multiple="{f:translate(key: 'form.static_menu.errors_label_multiple')}">
+							<f:if condition="{errorsCounter} == 1">
+								<f:then><f:translate key="form.static_menu.errors_label_single" arguments="{s: errorsCounter}" /></f:then>
+								<f:else><f:translate key="form.static_menu.errors_label_multiple" arguments="{s: errorsCounter}" /></f:else>
+							</f:if>
+						</abbr>
+					</a>
+					<div id="collapse-counter-errors" class="panel-collapse collapse in errors-container">
+						<f:for each="{fieldsConfiguration}" as="field">
+							<f:if condition="{field.mergedValidationResult.errors}">
+								<strong>{field.label}</strong>
+									<ul>
+									<f:for each="{field.mergedValidationResult.errors}" as="error">
+										<li>{error.message}</li>
+									</f:for>
+								</ul>
+							</f:if>
+						</f:for>
+					</div>
+				</div>
+
+				<div class="alert alert-info">
+					<a data-toggle="collapse" class="alert alert-link" href="#collapse-menu-tip">
+						<span class="glyphicon glyphicon-question-sign"></span>&nbsp;<abbr title="{f:translate(key: 'form.static_menu.help_label_hover')}">&nbsp;<f:translate key="form.static_menu.help_label" /></abbr>
+					</a>
+					<div id="collapse-menu-tip" class="panel-collapse collapse in">
+						<f:translate key="form.static_menu.help_text" />
+					</div>
+				</div>
+
+				<f:if condition="{noModelSite}">
+					<f:else>
+						<div class="alert alert-success info-success{f:if(condition: errorsCounter, then: ' hidden')}">
+							<a data-toggle="collapse" class="alert alert-link" href="#collapse-menu-success">
+								<span class="glyphicon glyphicon-ok"></span> <abbr title="Pour avoir plus d'informations, cliquez-moi !"><f:translate key="form.static_menu.success_label" /></abbr>
+							</a>
+							<strong style="font-size: 1.35em;">&nbsp;<a href="#" class="alert-link easter-egg" onclick="beginEasterEgg(); return false;">&#12484;</a></strong>
+
+							<div id="collapse-menu-success" class="panel-collapse collapse in">
+								<f:translate key="form.static_menu.success_text" />&nbsp;<f:be.buttons.icon icon="actions-document-save" />
+							</div>
+						</div>
+					</f:else>
+				</f:if>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xs-2 visible-xs">
+		<button type="button" class="menu-btn-sm btn btn-default btn-lg">
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		</button>
+	</div>
+</div>

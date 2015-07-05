@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-04-01T09:45:06Z" product-name="site_factory">
+		<header/>
+		<body>
+
+			<trans-unit id="fine_uploader.label.drop_files_here">
+				<source>Drop files here</source>
+			</trans-unit>
+			<trans-unit id="fine_uploader.label.select_files">
+				<source>Select files</source>
+			</trans-unit>
+			<trans-unit id="fine_uploader.label.processing_files">
+				<source>Processing dropped files…</source>
+			</trans-unit>
+			<trans-unit id="fine_uploader.label.retry">
+				<source>Retry</source>
+			</trans-unit>
+
+			<trans-unit id="fine_uploader.message.emptyError">
+				<source>{file} is empty, please select files again without it.</source>
+			</trans-unit>
+			<trans-unit id="fine_uploader.message.maxHeightImageError">
+				<source>Image is too tall.</source>
+			</trans-unit>
+			<trans-unit id="fine_uploader.message.maxWidthImageError">
+				<source>Image is too wide.</source>
+			</trans-unit>
+			<trans-unit id="fine_uploader.message.minHeightImageError">
+				<source>Image is not tall enough.</source>
+			</trans-unit>
+			<trans-unit id="fine_uploader.message.minWidthImageError">
+				<source>Image is not wide enough.</source>
+			</trans-unit>
+			<trans-unit id="fine_uploader.message.minSizeError">
+				<source>{file} is too small, minimum file size is {minSizeLimit}.</source>
+			</trans-unit>
+			<trans-unit id="fine_uploader.message.noFilesError">
+				<source>No files to upload.</source>
+			</trans-unit>
+			<trans-unit id="fine_uploader.message.onLeave">
+				<source>The files are being uploaded, if you leave now the upload will be canceled.</source>
+			</trans-unit>
+			<trans-unit id="fine_uploader.message.retryFailTooManyItemsError">
+				<source>Retry failed - you have reached your file limit.</source>
+			</trans-unit>
+			<trans-unit id="fine_uploader.message.sizeError">
+				<source>{file} is too large, maximum file size is {sizeLimit}.</source>
+			</trans-unit>
+			<trans-unit id="fine_uploader.message.tooManyItemsError">
+				<source>Too many items ({netItems}) would be uploaded. Item limit is {itemLimit}.</source>
+			</trans-unit>
+			<trans-unit id="fine_uploader.message.typeError">
+				<source>{file} has an invalid extension. Valid extension(s): {extensions}.</source>
+			</trans-unit>
+
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,16 @@
+<f:if condition="{displayValue}">
+	<f:then>
+		<f:render section="displayValue" arguments="{_all}" />
+	</f:then>
+	<f:else>
+		<f:render section="displayForm" arguments="{_all}" />
+	</f:else>
+</f:if>
+
+<f:section name="displayForm">
+	<f:render partial="Form/Field" arguments="{field: field, test: 'test'}" />
+</f:section>
+
+<f:section name="displayValue">
+	{field.displayValue}
+</f:section>

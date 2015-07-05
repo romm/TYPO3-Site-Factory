@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext">
+		<header />
+		<body>
+
+			<trans-unit id="fields.validation.select.wrong_option_value">
+				<source>The value "%s" is not a correct.</source>
+			</trans-unit>
+			<trans-unit id="fields.validation.wrong_hexadecimal_value">
+				<source>The value "%s" does not match a hexadecimal value.</source>
+			</trans-unit>
+			<trans-unit id="fields.validation.empty_value">
+				<source>This value is empty and must be filled.</source>
+			</trans-unit>
+			<trans-unit id="fields.validation.domain_name_value">
+				<source>This value must match a domain name.</source>
+			</trans-unit>
+			<trans-unit id="fields.validation.facebook_url_value">
+				<source>This value must match a valid Facebook url.</source>
+			</trans-unit>
+			<trans-unit id="fields.validation.twitter_url_value">
+				<source>This value must match a valid Twitter url.</source>
+			</trans-unit>
+			<trans-unit id="fields.validation.integer_value">
+				<source>This value must be an integer.</source>
+			</trans-unit>
+
+		</body>
+	</file>
+</xliff>

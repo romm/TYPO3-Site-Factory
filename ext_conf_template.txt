@@ -1,0 +1,5 @@
+# cat=Basic; type=int+; label=LLL:EXT:site_factory/Resources/Private/Language/locallang_em.xlf:model_sites_pid
+modelSitesPid = 0
+
+# cat=Basic; type=int+; label=LLL:EXT:site_factory/Resources/Private/Language/locallang_em.xlf:copy_destination_uid
+copyDestination = 0

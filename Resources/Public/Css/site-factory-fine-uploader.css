@@ -1,0 +1,17 @@
+.qq-uploader {
+	min-height: 32px;
+	padding: 10px 5px 0;
+}
+
+.qq-uploader:before {
+	display: none;
+	padding-top: 5px;
+}
+.qq-uploader:hover:before {
+	display: block;
+	top: 0;
+}
+
+.qq-upload-list {
+	margin: 10px 0;
+}

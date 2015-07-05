@@ -1,0 +1,31 @@
+<f:if condition="{displayValue}">
+	<f:then>
+		<f:render section="displayValue" arguments="{_all}" />
+	</f:then>
+	<f:else>
+		<f:render section="displayForm" arguments="{_all}" />
+	</f:else>
+</f:if>
+
+<f:section name="displayForm">
+	<div class="color-picker">
+		<f:render partial="Form/Field" arguments="{field: field}" />
+	</div>
+	<div class="color-picker-preview color-picker-preview-alone">
+		<span class="color-picker-preview-cube" style="background-color: {f:if(condition: field.hasValue, then: field.value, else: white)};"></span>
+	</div>
+	<div class="color-picker-icon">
+		<a href="#" onclick="window.open('../typo3conf/ext/site_factory/Resources/Public/Contrib/hailpixel-color-picker/index.htm?field={field.name}&formId={formId}', '', config='height=400, width=400')">
+			<f:image src="typo3conf/ext/site_factory/Resources/Public/Icons/icon-color-picker.png" width="22" height="22" />
+		</a>
+	</div>
+</f:section>
+
+<f:section name="displayValue">
+	<f:if condition="{field.value}">
+		<div class="color-picker-preview">
+			<span class="color-picker-preview-cube" style="background-color: {field.value};"></span>
+			<div class="color-picker-preview-value">{field.displayValue}</div>
+		</div>
+	</f:if>
+</f:section>

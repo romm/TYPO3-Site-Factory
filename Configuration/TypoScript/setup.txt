@@ -1,0 +1,11 @@
+# Module configuration
+module.tx_sitefactory {
+	persistence {
+		storagePid = {$module.tx_sitefactory.persistence.storagePid}
+	}
+	view {
+		templateRootPath = {$module.tx_sitefactory.view.templateRootPath}
+		partialRootPath = {$module.tx_sitefactory.view.partialRootPath}
+		layoutRootPath = {$module.tx_sitefactory.view.layoutRootPath}
+	}
+}

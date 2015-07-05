@@ -1,0 +1,8 @@
+<f:form.textfield
+	id="{field.name}"
+	name="fields[{field.name}]"
+	placeholder="{field.placeholder}"
+	value="{f:if(condition: field.hasValue, then: field.value, else: field.defaultValue)}"
+	class="form-control {f:if(condition: '{field.rules}', then: 'is-evaluated')}"
+	additionalAttributes="{additionalAttributes}"
+/>

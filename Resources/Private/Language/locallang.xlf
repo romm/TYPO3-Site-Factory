@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-04-01T09:45:06Z" product-name="site_factory">
+		<header/>
+		<body>
+
+			<!-- HEADER BUTTONS -->
+			<trans-unit id="module.header_buttons.index">
+				<source>Go back to index</source>
+			</trans-unit>
+			<trans-unit id="module.header_buttons.new">
+				<source>Create a new site</source>
+			</trans-unit>
+			<trans-unit id="module.header_buttons.help">
+				<source>Open help menu</source>
+			</trans-unit>
+			<trans-unit id="module.header_buttons.save">
+				<source>Save the site with the actual configuration</source>
+			</trans-unit>
+
+			<!-- INDEX -->
+			<trans-unit id="index.header_title">
+				<source>Welcome in the Site Factory.</source>
+			</trans-unit>
+			<trans-unit id="index.global_description">
+				<source>This tool allows you to duplicate sites, among a list of pre-defined models. You can customize several parameters, like the name of the site, the logo, the background color, and others.</source>
+			</trans-unit>
+			<trans-unit id="index.get_help">
+				<source>To get information and help about using this module,</source>
+			</trans-unit>
+			<trans-unit id="index.click_here">
+				<source>click here</source>
+			</trans-unit>
+			<trans-unit id="index.available_model_sites_list">
+				<source>Here is the list of available model sites:</source>
+			</trans-unit>
+			<trans-unit id="index.create_new_site">
+				<source>Create a new site</source>
+			</trans-unit>
+			<trans-unit id="index.duplicated_sites_list">
+				<source>Duplicated sites list</source>
+			</trans-unit>
+			<trans-unit id="index.no_site_duplicated">
+				<source>No site has been duplicated yet. It's about time!</source>
+			</trans-unit>
+			<trans-unit id="index.already_duplicated_sites">
+				<source>Below stands the list of already duplicated sites:</source>
+			</trans-unit>
+
+			<trans-unit id="index.edit_site">
+				<source>Edit site</source>
+			</trans-unit>
+			<trans-unit id="index.duplicated_sites_list.last_modified">
+				<source>Last modif.:</source>
+			</trans-unit>
+
+			<!-- FORM -->
+			<trans-unit id="form.header_title_creation">
+				<source>Creation of a new site</source>
+			</trans-unit>
+			<trans-unit id="form.header_title_modification">
+				<source>Modification of the site : %s</source>
+			</trans-unit>
+			<trans-unit id="form.no_fields_configuration">
+				<source>No configuration has been set for the form fields yet. Please refer to the extension's documentation for more details.</source>
+			</trans-unit>
+			<trans-unit id="form.panel_configuration">
+				<source>Configuration</source>
+			</trans-unit>
+			<trans-unit id="form.submit_label_creation">
+				<source>Create the site</source>
+			</trans-unit>
+			<trans-unit id="form.submit_label_modification">
+				<source>Save modifications</source>
+			</trans-unit>
+
+			<trans-unit id="form.prevent_window_closing">
+				<source>The form is being filled right now. If you leave the page, the data will be lost.</source>
+			</trans-unit>
+
+			<trans-unit id="form.static_menu.header_title">
+				<source>Form's current state</source>
+			</trans-unit>
+			<trans-unit id="form.static_menu.errors_label_single">
+				<source>%s error</source>
+			</trans-unit>
+			<trans-unit id="form.static_menu.errors_label_multiple">
+				<source>%s errors</source>
+			</trans-unit>
+			<trans-unit id="form.static_menu.errors_label_hover">
+				<source>Click to have more details.</source>
+			</trans-unit>
+			<trans-unit id="form.static_menu.help_label">
+				<source>Help</source>
+			</trans-unit>
+			<trans-unit id="form.static_menu.help_label_hover">
+				<source>Click to have more details.</source>
+			</trans-unit>
+			<trans-unit id="form.static_menu.help_text">
+				<source><![CDATA[Fill the form with the desired informations.<br />
+					When the form is valid, you can run the duplication process.<br />
+					Once the duplication done, the new site will be updated with the sent data.
+				]]>
+				</source>
+			</trans-unit>
+
+			<trans-unit id="form.static_menu.success_label">
+				<source>Everything's ok</source>
+			</trans-unit>
+			<trans-unit id="form.static_menu.success_text">
+				<source>You successfully filled the information. You can now launch the duplication process by clicking the save icon, which is located in the task bar at the top of the form:</source>
+			</trans-unit>
+
+			<trans-unit id="form.field.has_errors">
+				<source>This field is not properly filled and contains at least one error.</source>
+			</trans-unit>
+
+			<!-- PRESET FORM FIELDS -->
+            <trans-unit id="form.field.label.model_site">
+				<source>Model site</source>
+			</trans-unit>
+			<trans-unit id="form.field.hint.model_site">
+				<source>The site which will be used as an example for the new site.</source>
+			</trans-unit>
+
+            <trans-unit id="form.field.label.site_name">
+				<source>Site's name</source>
+			</trans-unit>
+			<trans-unit id="form.field.hint.site_name">
+				<source>The name of the new site.</source>
+			</trans-unit>
+			<trans-unit id="form.field.default_value.site_name">
+				<source>My new site</source>
+			</trans-unit>
+
+            <trans-unit id="form.field.label.domain_name">
+				<source>Domain name</source>
+			</trans-unit>
+			<trans-unit id="form.field.hint.domain_name">
+				<source>The domain name of the new site. Example : www.example.com</source>
+			</trans-unit>
+
+			<trans-unit id="form.field.label.backend_user_username">
+				<source>Backend user's name</source>
+			</trans-unit>
+			<trans-unit id="form.field.hint.backend_user_username">
+				<source>The name of the Backend user which will be duplicated.</source>
+			</trans-unit>
+
+			<trans-unit id="form.field.label.page_backend_layout">
+				<source>Page Backend layout</source>
+			</trans-unit>
+			<trans-unit id="form.field.hint.page_backend_layout">
+				<source>The Backend layout which will be used for the root page.</source>
+			</trans-unit>
+
+			<trans-unit id="form.field.label.subpages_backend_layout">
+				<source>Subpages Backend layout</source>
+			</trans-unit>
+			<trans-unit id="form.field.hint.subpages_backend_layout">
+				<source>The Backend layout which will be used for the root page's subpages.</source>
+			</trans-unit>
+
+			<trans-unit id="form.field.label.background_color">
+				<source>Background color</source>
+			</trans-unit>
+
+			<trans-unit id="form.field.hint.color_picker_color">
+				<source>Color in hexadecimal format. Example : #FF0000</source>
+			</trans-unit>
+
+			<trans-unit id="form.field.label.facebook">
+				<source>Facebook link</source>
+			</trans-unit>
+			<trans-unit id="form.field.hint.facebook">
+				<source>Site's Facebook link. Example : https://www.facebook.com/Example</source>
+			</trans-unit>
+
+			<trans-unit id="form.field.label.twitter">
+				<source>Twitter link</source>
+			</trans-unit>
+			<trans-unit id="form.field.hint.twitter">
+				<source>Site's Twitter link. Example : https://twitter.com/Example</source>
+			</trans-unit>
+
+			<trans-unit id="form.field.label.logo">
+				<source>Logo</source>
+			</trans-unit>
+			<trans-unit id="form.field.hint.logo">
+				<source>The image used as a logo for the site.</source>
+			</trans-unit>
+			<trans-unit id="form.field.select_file">
+				<source>Select a file</source>
+			</trans-unit>
+			<trans-unit id="form.field.select_new_file">
+				<source>Select a new file</source>
+			</trans-unit>
+			<trans-unit id="form.field.actual_file">
+				<source>Actual file</source>
+			</trans-unit>
+			<trans-unit id="form.field.new_file">
+				<source>New file</source>
+			</trans-unit>
+			<trans-unit id="form.field.no_file">
+				<source>No file</source>
+			</trans-unit>
+
+			<!-- FORM ERRORS LABELS -->
+			<trans-unit id="form.field.error.empty">
+				<source>This field can not be empty.</source>
+			</trans-unit>
+			<trans-unit id="form.field.error.must_be_integer">
+				<source>This field must be an integer.</source>
+			</trans-unit>
+			<trans-unit id="form.field.error.backend_user_exists">
+				<source>This name is already used. Please choose another one.</source>
+			</trans-unit>
+			<trans-unit id="form.field.error.domain_name">
+				<source>This field must contain a valid domain name. Example : www.example.com</source>
+			</trans-unit>
+			<trans-unit id="form.field.error.picker_color">
+				<source>This filed must be in hexadecimal format. Example : #FF0000</source>
+			</trans-unit>
+			<trans-unit id="form.field.error.facebook">
+				<source>This field must be a valid Facebook URL. Example : https://www.facebook.com/Example</source>
+			</trans-unit>
+			<trans-unit id="form.field.error.twitter">
+				<source>This field must be a valid Twitter URL. Example : https://twitter.com/Example</source>
+			</trans-unit>
+
+			<!-- DUPLICATION PROCESS -->
+			<trans-unit id="duplication_process.title">
+				<source>Site duplication running…</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.title_success">
+				<source>The duplication has been done, you can now find the duplicated site in the tree.</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.title_error">
+				<source>An error has occurred during the duplication. Please try again or contact your administrator.</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.process_error_single">
+				<source>An error has occurred, please try again or contact your administrator if the problem persists.</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.process_error_detailed">
+				<source>An error has occurred :</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.process_error_unknown">
+				<source>An unknown error has occurred, please try again or contact your administrator if the problem persists.</source>
+			</trans-unit>
+
+			<trans-unit id="duplication_process.back_home">
+				<source>back to home</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.retry">
+				<source>retry</source>
+			</trans-unit>
+
+			<trans-unit id="duplication_process.error.model_page.wrong_uid">
+				<source>The model page with the uid "%d" could not be retrieved.</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.error.duplicated_page.wrong_uid">
+				<source>The duplicated page with the uid "%d" could not be retrieved.</source>
+			</trans-unit>
+
+			<trans-unit id="duplication_process.prevent_window_closing">
+				<source>Site's duplication is running. Leaving the page will stop the process and lead to potential errors.</source>
+			</trans-unit>
+
+			<trans-unit id="duplication_process.pages_duplication">
+				<source>Pages duplication…</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.pages_duplication.error.wrong_destination_uid">
+				<source>The destination page with the uid "%d" could not be retrieved.</source>
+			</trans-unit>
+
+			<trans-unit id="duplication_process.pages_association">
+				<source>New pages association…</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.pages_association.notice.amount_pages">
+				<source>%d pages have been associated.</source>
+			</trans-unit>
+
+			<trans-unit id="duplication_process.mount_point_creation">
+				<source>Mount point creation…</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.mount_point_creation.error.error_creation">
+				<source>The file mount could not be created.</source>
+			</trans-unit>
+
+			<trans-unit id="duplication_process.backend_usergroup_creation">
+				<source>Backend user group creation…</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.backend_usergroup_creation.error.must_be_integer">
+				<source>The value of backend user group's model uid must be an integer.</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.backend_usergroup_creation.error.wrong_uid">
+				<source>The model for the backend user group with the uid "%d" could not be retrieved.</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.backend_usergroup_creation.warning.wrong_mount_point_uid">
+				<source>The mount point's uid seems to be wrong (value: "%s").</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.backend_usergroup_creation.notice.success">
+				<source>A new backend user group has been created: "%s".</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.backend_usergroup_creation.notice.filemount_association_success">
+				<source>The file mount "%s" has been associated to the group.</source>
+			</trans-unit>
+
+			<trans-unit id="duplication_process.backend_user_creation">
+				<source>Backend user creation…</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.backend_user_creation.error.must_be_integer">
+				<source>The value of backend user's model uid must be an integer.</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.backend_user_creation.error.wrong_uid">
+				<source>The model for the backend user with the uid "%d" could not be retrieved.</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.backend_user_creation.warning.wrong_mount_point_uid">
+				<source>The mount point's uid seems to be wrong (value: "%s").</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.backend_user_creation.notice.success">
+				<source>A new backend user has been created: "%s".</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.backend_user_creation.notice.filemount_association_success">
+				<source>The file mount "%s" has been associated to the user.</source>
+			</trans-unit>
+
+			<trans-unit id="duplication_process.uploaded_files">
+				<source>Files management…</source>
+			</trans-unit>
+			<trans-unit id="duplication_process.uploaded_files.notice.success">
+				<source>The following file(s) have successfully been moved to "%s": %s.</source>
+			</trans-unit>
+
+			<trans-unit id="duplication_process.link_to_page_media">
+				<source>Linking medias to pages…</source>
+			</trans-unit>
+
+			<trans-unit id="duplication_process.link_to_backend_layout">
+				<source>Linking backend layouts to pages…</source>
+			</trans-unit>
+
+			<trans-unit id="duplication_process.backend_constants_assignation">
+				<source>New constants assignment…</source>
+			</trans-unit>
+
+			<trans-unit id="duplication_process.save_site_configuration">
+				<source>Saving configuration…</source>
+			</trans-unit>
+
+			<!-- MISCELLANEOUS -->
+			<trans-unit id="misc.no_model_site">
+				<source>No model site has been set yet. Please refer to the documentation for more details about creating a model site.</source>
+			</trans-unit>
+			<trans-unit id="misc.show_more">
+				<source>Show more</source>
+			</trans-unit>
+			<trans-unit id="misc.hide">
+				<source>Hide</source>
+			</trans-unit>
+
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,8 @@
+<f:form.select
+	options="{field.options}"
+	id="{field.name}"
+	value="{field.value}"
+	name="fields[{field.name}]"
+	class="form-control {f:if(condition: '{field.rules}', then: 'is-evaluated')}"
+	additionalAttributes="{additionalAttributes}"
+/>

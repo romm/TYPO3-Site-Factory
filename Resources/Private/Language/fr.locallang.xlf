@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-04-01T09:45:06Z" product-name="site_factory">
+		<header/>
+		<body>
+
+			<!-- HEADER BUTTONS -->
+			<trans-unit id="module.header_buttons.index">
+				<source>Go back to index</source>
+				<target>Retourner à l'index du module</target>
+			</trans-unit>
+			<trans-unit id="module.header_buttons.new">
+				<source>Create a new site</source>
+				<target>Créer un nouveau site.</target>
+			</trans-unit>
+			<trans-unit id="module.header_buttons.help">
+				<source>Open help menu</source>
+				<target>Ouvrir le menu d'aide.</target>
+			</trans-unit>
+			<trans-unit id="module.header_buttons.save">
+				<source>Save the site with the actual configuration</source>
+				<target>Sauvegarder le site avec la configuration actuelle.</target>
+			</trans-unit>
+
+			<!-- INDEX -->
+			<trans-unit id="index.header_title">
+				<source>Welcome in the Site Factory.</source>
+				<target>Bienvenu dans l'Usine à sites.</target>
+			</trans-unit>
+			<trans-unit id="index.global_description">
+				<source>This tool allows you to duplicate sites, among a list of pre-defined models. You can customize several parameters, like the name of the site, the logo, the background color, and others.</source>
+				<target>Cet outil vous permet de dupliquer des sites, parmi une liste de modèles prédéfinis. Vous pouvez personnaliser différents paramètres, tel que le nom du site, le logo, la couleur de fond, et bien d'autres.</target>
+			</trans-unit>
+			<trans-unit id="index.get_help">
+				<source>To get information and help about using this module,</source>
+				<target>Pour avoir des informations et de l'aide sur l'utilisation de ce module,</target>
+			</trans-unit>
+			<trans-unit id="index.click_here">
+				<source>click here</source>
+				<target>cliquez ici</target>
+			</trans-unit>
+			<trans-unit id="index.available_model_sites_list">
+				<source>Here is the list of available model sites:</source>
+				<target>Voici la liste des sites disponibles pour la duplication :</target>
+			</trans-unit>
+			<trans-unit id="index.create_new_site">
+				<source>Create a new site</source>
+				<target>Créer un nouveau site</target>
+			</trans-unit>
+			<trans-unit id="index.duplicated_sites_list">
+				<source>Duplicated sites list</source>
+				<target>Liste des sites dupliqués</target>
+			</trans-unit>
+			<trans-unit id="index.no_site_duplicated">
+				<source>No site has been duplicated yet. It's about time!</source>
+				<target>Aucun site n'a été dupliqué pour le moment. Il serait peut-être temps de s'y mettre !</target>
+			</trans-unit>
+			<trans-unit id="index.already_duplicated_sites">
+				<source>Below stands the list of already duplicated sites:</source>
+				<target>Ci-dessous se trouve la liste des sites d'ores et déjà dupliqués :</target>
+			</trans-unit>
+
+			<trans-unit id="index.edit_site">
+				<source>Edit site</source>
+				<target>Éditer le site</target>
+			</trans-unit>
+			<trans-unit id="index.duplicated_sites_list.last_modified">
+				<source>Last modif. :</source>
+				<target>Dernière modif. :</target>
+			</trans-unit>
+
+			<!-- FORM -->
+			<trans-unit id="form.header_title_creation">
+				<source>Creation of a new site</source>
+				<target>Création d'un nouveau site</target>
+			</trans-unit>
+			<trans-unit id="form.header_title_modification">
+				<source>Modification of the site : %s</source>
+				<target>Modification du site : %s</target>
+			</trans-unit>
+			<trans-unit id="form.no_fields_configuration">
+				<source>No configuration has been set for the form fields yet. Please refer to the extension's documentation for more details.</source>
+				<target>Aucune configuration n'a été définie pour les champs du formulaire. Veuillez vous référer à la documentation pour plus de détails.</target>
+			</trans-unit>
+			<trans-unit id="form.panel_configuration">
+				<source>Configuration</source>
+				<target>Configuration</target>
+			</trans-unit>
+			<trans-unit id="form.submit_label_creation">
+				<source>Create the site</source>
+				<target>Créer le site</target>
+			</trans-unit>
+			<trans-unit id="form.submit_label_modification">
+				<source>Save modifications</source>
+			</trans-unit>
+
+			<trans-unit id="form.prevent_window_closing">
+				<source>The form is being filled right now. If you leave the page, the data will be lost.</source>
+				<target>Le remplissage du formulaire est en cours. Si vous quittez la page, les données entrées seront perdues.</target>
+			</trans-unit>
+
+			<trans-unit id="form.static_menu.header_title">
+				<source>Form's current state</source>
+				<target>État du formulaire</target>
+			</trans-unit>
+			<trans-unit id="form.static_menu.errors_label_single">
+				<source>%s error</source>
+				<target>%s erreur</target>
+			</trans-unit>
+			<trans-unit id="form.static_menu.errors_label_multiple">
+				<source>%s errors</source>
+				<target>%s erreurs</target>
+			</trans-unit>
+			<trans-unit id="form.static_menu.errors_label_hover">
+				<source>Click to have more details.</source>
+				<target>Cliquez pour avoir plus de détails.</target>
+			</trans-unit>
+			<trans-unit id="form.static_menu.help_label">
+				<source>Help</source>
+				<target>Aide</target>
+			</trans-unit>
+			<trans-unit id="form.static_menu.help_label_hover">
+				<source>Click to have more details.</source>
+				<target>Cliquez pour avoir plus de détails.</target>
+			</trans-unit>
+			<trans-unit id="form.static_menu.help_text">
+				<source><![CDATA[Fill the form with the desired informations.<br />
+					When the form is valid, you can run the duplication process.<br />
+					Once the duplication done, the new site will be updated with the sent data.
+				]]>
+				</source>
+				<source><![CDATA[Remplissez le formulaire avec les informations souhaitées.<br />
+					Lorsque le formulaire est valide, vous pouvez lancer le processus de duplication.<br />
+					Une fois la duplication effectuée, le nouveau site sera mis à jour avec les informations envoyées.
+				]]>
+				</source>
+			</trans-unit>
+
+			<trans-unit id="form.static_menu.success_label">
+				<source>Everything's ok</source>
+				<source>Tout est ok</source>
+			</trans-unit>
+			<trans-unit id="form.static_menu.success_text">
+				<source>You successfully filled the information. You can now launch the duplication process by clicking the save icon, which is located in the task bar at the top of the form:</source>
+				<target>Vous avez rempli les informations avec succès. Vous pouvez désormais lancer le processus de duplication en cliquant sur l'icône de sauvegarde dans la barre des tâches en haut du formulaire :</target>
+			</trans-unit>
+
+			<trans-unit id="form.field.has_errors">
+				<source>This field is not properly filled and contains at least one error.</source>
+				<target>Ce champ n'est pas correctement rempli et présente au moins une erreur.</target>
+			</trans-unit>
+
+			<!-- PRESET FORM FIELDS -->
+			<trans-unit id="form.field.label.model_site">
+				<source>Model site</source>
+				<source>Site modèle</source>
+			</trans-unit>
+			<trans-unit id="form.field.hint.model_site">
+				<source>The site which will be used as an example for the new site.</source>
+				<target>Le site qui va servir de modèle au nouveau site.</target>
+			</trans-unit>
+
+			<trans-unit id="form.field.label.site_name">
+				<source>Site's name</source>
+				<source>Nom du site</source>
+			</trans-unit>
+			<trans-unit id="form.field.hint.site_name">
+				<source>The name of the new site.</source>
+				<target>Le nom du nouveau site.</target>
+			</trans-unit>
+			<trans-unit id="form.field.default_value.site_name">
+				<source>My new site</source>
+				<target>Mon nouveau site</target>
+			</trans-unit>
+
+			<trans-unit id="form.field.label.domain_name">
+				<source>Domain name</source>
+				<source>Nom de domaine</source>
+			</trans-unit>
+			<trans-unit id="form.field.hint.domain_name">
+				<source>The domain name of the new site. Example : www.example.com</source>
+				<target>Le nom de domaine du nouveau site. Exemple : www.exemple.fr</target>
+			</trans-unit>
+
+			<trans-unit id="form.field.label.backend_user_username">
+				<source>Backend user's name</source>
+				<source>Nom de l'utilisateur Backend</source>
+			</trans-unit>
+			<trans-unit id="form.field.hint.backend_user_username">
+				<source>The name of the Backend user which will be duplicated.</source>
+				<target>Le nom de l'utilisateur Backend qui sera dupliqué.</target>
+			</trans-unit>
+
+			<trans-unit id="form.field.label.page_backend_layout">
+				<source>Page Backend layout</source>
+				<target>Mise en page</target>
+			</trans-unit>
+			<trans-unit id="form.field.hint.page_backend_layout">
+				<source>The Backend layout which will be used for the root page.</source>
+				<source>La mise en page qui va être utilisée sur la page racine.</source>
+			</trans-unit>
+
+			<trans-unit id="form.field.label.subpages_backend_layout">
+				<source>Subpages Backend layout</source>
+				<target>Mise en page des sous-pages</target>
+			</trans-unit>
+			<trans-unit id="form.field.hint.subpages_backend_layout">
+				<source>The Backend layout which will be used for the root page's subpages.</source>
+				<source>La mise en page qui va être utilisée sur les sous-pages de la page racine.</source>
+			</trans-unit>
+
+			<trans-unit id="form.field.label.background_color">
+				<source>Background color</source>
+				<target>Couleur de fond</target>
+			</trans-unit>
+
+			<trans-unit id="form.field.hint.color_picker_color">
+				<source>Color in hexadecimal format. Example : #FF0000</source>
+				<target>Couleur au format hexadécimal. Exemple : #FF0000</target>
+			</trans-unit>
+
+			<trans-unit id="form.field.label.facebook">
+				<source>Facebook link</source>
+				<target>Lien Facebook</target>
+			</trans-unit>
+			<trans-unit id="form.field.hint.facebook">
+				<source>Site's Facebook link. Example : https://www.facebook.com/Example</source>
+				<target>Le lien Facebook du site. Exemple : https://www.facebook.com/Exemple</target>
+			</trans-unit>
+
+			<trans-unit id="form.field.label.twitter">
+				<source>Twitter link</source>
+				<target>Lien Twitter</target>
+			</trans-unit>
+			<trans-unit id="form.field.hint.twitter">
+				<source>Site's Twitter link. Example : https://twitter.com/Example</source>
+				<target>Le lien Twitter du site. Exemple : https://twitter.com/Exemple</target>
+			</trans-unit>
+
+			<trans-unit id="form.field.label.logo">
+				<source>Logo</source>
+				<target>Logo</target>
+			</trans-unit>
+			<trans-unit id="form.field.hint.logo">
+				<source>The image used as a logo for the site.</source>
+				<target>L'image qui servira de logo pour le site.</target>
+			</trans-unit>
+			<trans-unit id="form.field.select_file">
+				<source>Select a file</source>
+				<target>Sélectionner un fichier</target>
+			</trans-unit>
+			<trans-unit id="form.field.select_new_file">
+				<source>Select a new file</source>
+				<target>Sélectionner un nouveau fichier</target>
+			</trans-unit>
+			<trans-unit id="form.field.actual_file">
+				<source>Actual file</source>
+				<target>Fichier actuel</target>
+			</trans-unit>
+			<trans-unit id="form.field.new_file">
+				<source>New file</source>
+				<target>Nouveau fichier</target>
+			</trans-unit>
+			<trans-unit id="form.field.no_file">
+				<source>No file</source>
+				<target>Aucun fichier</target>
+			</trans-unit>
+
+			<!-- FORM ERRORS LABELS -->
+			<trans-unit id="form.field.error.empty">
+				<source>This field can not be empty.</source>
+				<target>Ce champ ne peut pas être vide.</target>
+			</trans-unit>
+			<trans-unit id="form.field.error.must_be_integer">
+				<source>This field must be an integer.</source>
+				<target>Ce champ doit être un entier.</target>
+			</trans-unit>
+			<trans-unit id="form.field.error.backend_user_exists">
+				<source>This name is already used. Please choose another one.</source>
+				<target>Ce nom est déjà utilisé. Veuillez en choisir un nouveau.</target>
+			</trans-unit>
+			<trans-unit id="form.field.error.domain_name">
+				<source>This field must contain a valid domain name. Example : www.example.com</source>
+				<target>Ce champ doit contenir un nom de domaine valide. Exemple : www.exemple.com</target>
+			</trans-unit>
+			<trans-unit id="form.field.error.picker_color">
+				<source>This filed must be in hexadecimal format. Example : #FF0000</source>
+				<target>Ce champ doit être au format hexadécimal. Exemple : #FF0000</target>
+			</trans-unit>
+			<trans-unit id="form.field.error.facebook">
+				<source>This field must be a valid Facebook URL. Example : https://www.facebook.com/Example</source>
+				<target>Ce champ doit être une URL Facebook valide. Exemple : https://www.facebook.com/Exemple</target>
+			</trans-unit>
+			<trans-unit id="form.field.error.twitter">
+				<source>This field must be a valid Twitter URL. Example : https://twitter.com/Example</source>
+				<target>Ce champ doit être une URL Twitter valide. Exemple : https://twitter.com/Exemple</target>
+			</trans-unit>
+
+			<!-- DUPLICATION PROCESS -->
+			<trans-unit id="duplication_process.title">
+				<source>Site duplication running…</source>
+				<target>Duplication du site en cours…</target>
+			</trans-unit>
+			<trans-unit id="duplication_process.title_success">
+				<source>The duplication has been done, you can now find the duplicated site in the tree.</source>
+				<target>La duplication a été effectuée, vous pouvez dès à présent retrouver le site dupliqué dans l'arborescence de votre plateforme.</target>
+			</trans-unit>
+			<trans-unit id="duplication_process.title_error">
+				<source>An error has occurred during the duplication. Please try again or contact your administrator.</source>
+				<target>Une erreur est survenue durant la duplication. Veuillez retenter l'opération ou contacter votre administrateur.</target>
+			</trans-unit>
+			<trans-unit id="duplication_process.process_error_single">
+				<source>An error has occurred, please try again or contact your administrator if the problem persists.</source>
+				<target>Une erreur est survenue, veuillez réessayer ou contacter votre administrateur si le problème persiste.</target>
+			</trans-unit>
+			<trans-unit id="duplication_process.process_error_detailed">
+				<source>An error has occurred :</source>
+				<target>Une erreur est survenue :</target>
+			</trans-unit>
+			<trans-unit id="duplication_process.process_error_unknown">
+				<source>An unknown error has occurred, please try again or contact your administrator if the problem persists.</source>
+				<target>Une erreur inconnue est survenue, veuillez réessayer ou contacter votre administrateur si le problème persiste.</target>
+			</trans-unit>
+
+			<trans-unit id="duplication_process.back_home">
+				<source>back to home</source>
+				<target>retour à l'accueil</target>
+			</trans-unit>
+
+			<trans-unit id="duplication_process.prevent_window_closing">
+				<source>Site's duplication is running. Leaving the page will stop the process and lead to potential errors.</source>
+				<target>La duplication du site est en cours. Quitter la page entraînera une erreur dans le processus.</target>
+			</trans-unit>
+
+			<trans-unit id="duplication_process.pages_duplication">
+				<source>Pages duplication…</source>
+				<target>Duplication des pages…</target>
+			</trans-unit>
+			<trans-unit id="duplication_process.pages_association">
+				<source>New pages association…</source>
+				<target>Association des nouvelles pages…</target>
+			</trans-unit>
+			<trans-unit id="duplication_process.mount_point_creation">
+				<source>Mount point creation…</source>
+				<target>Création du point de montage…</target>
+			</trans-unit>
+			<trans-unit id="duplication_process.backend_usergroup_creation">
+				<source>Backend user group creation…</source>
+				<target>Création du groupe d'utilisateurs Backend…</target>
+			</trans-unit>
+			<trans-unit id="duplication_process.backend_user_creation">
+				<source>Backend user creation…</source>
+				<target>Création de l'utilisateur backend…</target>
+			</trans-unit>
+			<trans-unit id="duplication_process.uploaded_files">
+				<source>Files management…</source>
+				<target>Gestion des fichiers…</target>
+			</trans-unit>
+			<trans-unit id="duplication_process.link_to_page_media">
+				<source>Linking medias to pages…</source>
+				<target>Attachement des médias aux pages…</target>
+			</trans-unit>
+			<trans-unit id="duplication_process.link_to_backend_layout">
+				<source>Linking backend layouts to pages…</source>
+				<target>Attachement des mises en page…</target>
+			</trans-unit>
+			<trans-unit id="duplication_process.backend_constants_assignation">
+				<source>New constants assignment…</source>
+				<target>Assignation des nouvelles constantes…</target>
+			</trans-unit>
+			<trans-unit id="duplication_process.save_site_configuration">
+				<source>Save management…</source>
+				<target>Sauvegarde de la configuration…</target>
+			</trans-unit>
+
+			<!-- MISCELLANEOUS -->
+			<trans-unit id="misc.no_model_site">
+				<source>No model site has been set yet. Please refer to the documentation for more details about creating a model site.</source>
+				<target>Aucun site modèle n'existe pour le moment. Veuillez vous référer à la documentation pour plus de détails sur la création d'un site modèle.</target>
+			</trans-unit>
+			<trans-unit id="misc.show_more">
+				<source>Show more</source>
+				<target>Voir plus</target>
+			</trans-unit>
+			<trans-unit id="misc.hide">
+				<source>Hide</source>
+				<target>Cacher</target>
+			</trans-unit>
+
+		</body>
+	</file>
+</xliff>

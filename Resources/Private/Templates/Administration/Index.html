@@ -1,0 +1,159 @@
+{namespace sf=Romm\SiteFactory\ViewHelpers}
+
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+	<f:layout name="Backend/Default" />
+
+	<f:section name="content">
+
+		<sf:be.importAsset
+			jsFiles="{
+				0: 'EXT:site_factory/Resources/Public/JavaScript/site-factory-index.js'
+			}"
+		/>
+
+		<div class="container">
+			<div class="text-center">
+				<f:image src="EXT:site_factory/ext_icon.png" alt="Site Factory" />
+			</div>
+			<h1>
+				<span class="glyphicon glyphicon-hand-right"></span>
+				<f:translate key="index.header_title" />
+			</h1>
+
+			<hr />
+
+			<p><f:translate key="index.global_description" /></p>
+
+			<div class="alert alert-info" role="alert">
+				<span class="glyphicon glyphicon-question-sign"></span>&nbsp;<f:translate key="index.get_help" /> <f:link.action action="help"><f:translate key="index.click_here" /></f:link.action>.
+			</div>
+
+			<hr />
+
+			<f:if condition="{modelSitesList}">
+				<f:then>
+					<f:render section="modelSitesList" arguments="{_all}" />
+
+					<hr />
+
+					<f:link.action action="new" class="btn btn-primary btn-lg button-create-site">
+						<span class="glyphicon glyphicon-plus-sign"></span>
+						<f:translate key="index.create_new_site" />
+					</f:link.action>
+				</f:then>
+				<f:else>
+					<div class="alert alert-warning">
+						<span class="glyphicon glyphicon-warning-sign"></span>&nbsp;<f:translate key="misc.no_model_site" />
+					</div>
+				</f:else>
+			</f:if>
+
+			<hr />
+
+			<h2><f:translate key="index.duplicated_sites_list" /></h2>
+
+			<f:if condition="{savedSites}">
+				<f:then>
+					<f:render section="duplicatedSitesList" arguments="{_all}" />
+				</f:then>
+				<f:else>
+					<div class="alert alert-info">
+						<span class="glyphicon glyphicon-info-sign"></span>&nbsp;<f:translate key="index.no_site_duplicated" />&nbsp;<span class="glyphicon glyphicon-thumbs-up"></span>
+					</div>
+				</f:else>
+			</f:if>
+		</div>
+
+	</f:section>
+
+	<f:section name="modelSitesList">
+		<p><f:translate key="index.available_model_sites_list" /></p>
+
+		<div class="model-sites">
+
+			<div class="fadeout-container" id="model-sites-list" data-height="100">
+				<ul class="fadeout-content">
+					<f:for each="{modelSitesList}" as="model">
+						<li>
+							<a href="#" title="Créer un site avec ce modèle"><span class="glyphicon glyphicon-plus-sign"></span></a>&nbsp;&#8211;&nbsp;{model}
+						</li>
+					</f:for>
+				</ul>
+			</div>
+
+			<div class="fadeout-area">
+				<a href="#model-sites-list" class="fadeout-toggle" data-hide-label="{f:translate(key: 'misc.hide')}">
+					<span class="glyphicon glyphicon-plus fadeout-toggle-icon"></span>&nbsp;<span class="fadeout-toggle-label"><f:translate key="misc.show_more" /></span>
+				</a>
+				<div class="fadeout-background"></div>
+			</div>
+		</div>
+	</f:section>
+
+	<f:section name="duplicatedSitesList">
+		<p><f:translate key="index.already_duplicated_sites" /></p>
+
+		<div class="row duplicated-sites-list">
+			<f:for each="{savedSites}" as="site" key="key">
+				<div class="col col-md-3">
+					<div class="content">
+						<span class="glyphicon glyphicon-globe"></span>
+						<h3>{site.configuration.page.title}</h3>
+
+						<p class="site-last-modified">
+							<f:translate key="index.duplicated_sites_list.last_modified" />
+							<f:format.date format="d M Y H:i:s">@{site.date}</f:format.date>
+						</p>
+
+						<div class="site-configuration fadeout-container" id="duplicated-site-{key}" data-height="85">
+							<div class="fadeout-content">
+								<ul>
+									<f:for each="{site.configuration.fields}" as="field">
+										<f:if condition="{field.hasValue}">
+											<li>
+												<f:if condition="{field.hint}">
+													<span class="glyphicon glyphicon-question-sign factory-tooltip" title="{field.hint}" data-placement="top"></span>
+												</f:if>
+												<span class="site-configuration-label">
+													<strong>{field.label}</strong>
+												</span>
+												<br />
+												<span class="value">
+													<f:render partial="Form/Fields/{field.type}" arguments="{field: field, displayValue: 1}" />
+												</span>
+											</li>
+										</f:if>
+									</f:for>
+								</ul>
+							</div>
+						</div>
+
+						<div class="fadeout-area">
+							<a href="#duplicated-site-{key}" class="fadeout-toggle" data-hide-label="{f:translate(key: 'misc.hide')}">
+								<span class="glyphicon glyphicon-plus fadeout-toggle-icon"></span>&nbsp;<span class="fadeout-toggle-label"><f:translate key="misc.show_more" /></span>
+							</a>
+							<div class="fadeout-background"></div>
+						</div>
+
+						<hr />
+
+						<div class="button-block">
+							<f:link.action action="new" class="btn btn-primary" arguments="{modifySite: site.configuration.page.uid}">
+								<span class="glyphicon glyphicon-cog"></span>
+								<f:translate key="index.edit_site" />
+							</f:link.action>
+						</div>
+					</div>
+				</div>
+			</f:for>
+		</div>
+	</f:section>
+
+	<f:section name="headerButtons">
+		<f:be.buttons.icon uri="{f:uri.action(action: 'new')}" icon="actions-document-new" title="{f:translate(key: 'index.create_new_site')}" />
+		<!--<f:be.buttons.icon uri="{f:uri.action(action: 'help')}" icon="actions-document-info" title="{f:translate(key: 'module.header_buttons.help')}" />-->
+	</f:section>
+
+</div>

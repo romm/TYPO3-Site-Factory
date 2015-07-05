@@ -1,0 +1,114 @@
+module.tx_sitefactory {
+	fields {
+		# The domain name used for the new site.
+		domain {
+			type = text
+			label = form.field.label.domain_name
+			hint = form.field.hint.domain_name
+			placeholder = www.example.com
+			validation {
+				# Obviously we want a correct domain name here...
+				correctDomainName {
+					validator = Romm\SiteFactory\Form\Validation\DomainNameValidator
+				}
+			}
+		}
+
+		# The color of the body's background.
+		backgroundColor {
+			type = color_picker
+			label = form.field.label.background_color
+			hint = form.field.hint.color_picker_color
+			placeholder = #FFFFFF
+			defaultValue = #FFFFFF
+		}
+
+		# The link to the Facebook page.
+		facebook {
+			type = text
+			label = form.field.label.facebook
+			hint = form.field.hint.facebook
+			placeholder = https://www.facebook.com/Example
+			validation {
+				facebookUrl {
+					validator = Romm\SiteFactory\Form\Validation\FacebookUrlValidator
+				}
+			}
+		}
+
+		# The link to the Twitter page.
+		twitter {
+			type = text
+			label = form.field.label.twitter
+			hint = form.field.hint.twitter
+			placeholder = https://twitter.com/Example
+			validation {
+				twitterUrl {
+					validator = Romm\SiteFactory\Form\Validation\TwitterUrlValidator
+				}
+			}
+		}
+
+		# The name for the duplicated be_users
+#		backendUserUsername {
+#			type = text
+#			label = form.field.label.backend_user_username
+#			hint = form.field.hint.backend_user_username
+#			placeholder = form.field.label.backend_user_username
+#			defaultValue = form.field.label.backend_user_username
+#			validation {
+#				# We want at least one character for the name.
+#				noEmpty {
+#					validator = Romm\SiteFactory\Form\Validation\NotEmptyValidator
+#				}
+#			}
+#		}
+
+		# The logo (image) of the site.
+		logo {
+			type = image_upload
+			label = form.field.label.logo
+			hint = form.field.hint.logo
+
+			# Contains the HTML template of the uploader.
+			partialsHeader.1 = Form/Fields/Header/ImageUploadHeader
+
+			settings {
+				# The file will be moved to the file mount created during the duplication.
+				moveToFileMount = 1
+
+				linkToPageMedia {
+					page = homePage
+				}
+
+				allowedExtensions {
+					0 = jpg
+					1 = jepg
+					2 = png
+					3 = gif
+				}
+				itemLimit = 1
+				# sizeLimit: 400 kB = 400 * 1024 bytes
+				sizeLimit = 409600
+			}
+		}
+
+		# The header (image) of the site.
+		banner {
+			type = image_upload
+			label = Bannière d'entête
+			hint = Bannière d'entête
+			moveToFileMount = 1
+			settings {
+				allowedExtensions {
+					0 = jpg
+				}
+			}
+			uploadOptions {
+				width = 150c
+				#				height = 150c
+			}
+			#newPath = images/monNouveauLogo
+		}
+	}
+}

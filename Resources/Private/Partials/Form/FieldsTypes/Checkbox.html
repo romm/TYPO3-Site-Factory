@@ -1,0 +1,8 @@
+<f:form.checkbox
+	id="{field.name}"
+	name="fields[{field.name}]"
+	checked="{f:if(condition: field.hasValue, then: field.value, else: field.defaultValue)}"
+	value="1"
+	class="{f:if(condition: '{field.rules}', then: 'is-evaluated')}"
+	additionalAttributes="{additionalAttributes}"
+/>

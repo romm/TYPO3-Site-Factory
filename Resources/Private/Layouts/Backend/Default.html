@@ -1,0 +1,52 @@
+{namespace sf=Romm\SiteFactory\ViewHelpers}
+
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+	     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers" >
+
+	<f:be.container>
+		<sf:be.importAsset
+			jsFiles="{
+				0: 'EXT:site_factory/Resources/Public/JavaScript/jquery.min.js',
+				1: 'EXT:site_factory/Resources/Public/JavaScript/bootstrap.min.js',
+				2: 'EXT:site_factory/Resources/Public/JavaScript/jquery-tooltip-fix.js',
+				3: 'EXT:site_factory/Resources/Public/JavaScript/SiteFactory.Main.js'
+			}"
+			cssFiles="{
+				0: 'EXT:site_factory/Resources/Public/Css/bootstrap.min.css',
+				1: 'EXT:site_factory/Resources/Public/Css/bootstrap-theme.min.css',
+				2: 'EXT:site_factory/Resources/Public/Css/site-factory.css'
+			}"
+		/>
+
+		<div class="typo3-fullDoc" xmlns="http://www.w3.org/1999/xhtml" lang="en" xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+			<f:form id="submitSiteFactoryForm" class="form-horizontal" additionalAttributes="{role: 'form'}">
+				<f:form.hidden id="hidden-form-submit" name="submitted" value="0" />
+				<div id="typo3-docheader">
+					<!--<div class="typo3-docheader-functions">-->
+						<!--<div class="left"></div>-->
+						<!--<div class="right">-->
+							<!--f:be.pagePath /-->
+							<!--f:be.pageInfo /-->
+						<!--</div>-->
+					<!--</div>-->
+					<div class="typo3-docheader-buttons" style="box-sizing: initial; -moz-box-sizing: initial;">
+						<div class="left">
+							<div class="buttongroup">
+								<f:render section="headerButtons" />
+							</div>
+						</div>
+						<div class="right">
+							<f:be.buttons.shortcut />
+						</div>
+					</div>
+				</div>
+				<div id="typo3-docbody">
+					<div id="typo3-inner-docbody" class="news-administration">
+						<f:render section="content" />
+					</div>
+				</div>
+			</f:form>
+		</div>
+	</f:be.container>
+
+</div>

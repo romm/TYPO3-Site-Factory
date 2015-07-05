@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-04-01T09:45:06Z" product-name="site_factory">
+		<header/>
+		<body>
+
+			<trans-unit id="model_sites_pid">
+				<source>Uid of the page containing the model sites</source>
+				<target>Uid de la page contenant les sites modèles</target>
+			</trans-unit>
+
+			<trans-unit id="copy_destination_uid">
+				<source>Uid of the page where the sites will be duplicated</source>
+				<target>Uid de la page vers laquelle seront dupliqué les sites</target>
+			</trans-unit>
+
+		</body>
+	</file>
+</xliff>

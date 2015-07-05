@@ -1,0 +1,33 @@
+module.tx_sitefactory {
+	persistence {
+		storagePid = 0
+		classes {
+            Romm\SiteFactory\Domain\Model\Save {
+                mapping {
+                    tableName = tx_sitefactory_domain_model_save
+                    columns {
+                        uid.mapOnProperty				= uid
+                        pid.mapOnProperty				= pid
+                        root_page_uid.mapOnProperty		= rootPageUid
+                        date.mapOnProperty			    = date
+                        configuration.mapOnProperty	    = configuration
+                    }
+                }
+            }
+
+            # Pages model full definition.
+            Romm\SiteFactory\Domain\Model\Pages {
+                mapping {
+                    tableName = pages
+                    columns {
+                        uid.mapOnProperty		= uid
+                        pid.mapOnProperty		= pid
+                        title.mapOnProperty		= title
+                        hidden.mapOnProperty	= hidden
+	                    deleted.mapOnProperty	= deleted
+                    }
+                }
+            }
+		}
+	}
+}

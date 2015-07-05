@@ -1,0 +1,100 @@
+{namespace sf=Romm\SiteFactory\ViewHelpers\Be}
+
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+	<f:layout name="Backend/Default" />
+
+	<f:section name="content">
+
+		<sf:importAsset
+			jsFiles="{
+				0: 'EXT:site_factory/Resources/Public/JavaScript/jquery.min.js'
+				1: 'EXT:site_factory/Resources/Public/JavaScript/bootstrap.min.js'
+				2: 'EXT:site_factory/Resources/Public/JavaScript/site-factory-index.js'
+				3: 'EXT:site_factory/Resources/Public/JavaScript/jquery-tooltip-fix.js'
+			}"
+			cssFiles="{
+				0: 'EXT:site_factory/Resources/Public/Css/bootstrap.min.css'
+				1: 'EXT:site_factory/Resources/Public/Css/bootstrap-theme.min.css'
+				2: 'EXT:site_factory/Resources/Public/Css/site-factory.css'
+			}"
+		/>
+
+		<h1>Déploiement semi-automatisé de sites</h1>
+
+		<p>
+			Ce module permet de générer des sites et de décliner des modèles disponibles.
+		</p>
+		<p>
+			Veuillez suivre pas-à-pas les instructions ci-dessous pour procéder à la création d'un nouveau site.
+		</p>
+
+		<hr />
+
+		<h1>Créer un nouveau site</h1>
+
+		<p>
+			Pour créer un nouveau site, cliquez sur le bouton prévu à cet effet dans la barre en haut de cette fenêtre, ou cliquez <f:link.action action="new">ici</f:link.action>.
+		</p>
+		<p>
+			Un formulaire va s'afficher. Vous devrez remplir tous les champs correctement, jusqu'à ce qu'aucune erreur ne soit trouvée. Pour avoir des indications sur l'état du formulaire, référez-vous au panneau situé à droite de l'écran.
+		</p>
+
+		<div style="text-align: center;">
+			<f:image src="EXT:site_factory/Resources/Public/Images/Help/form.png" class="img-thumbnail" alt="Formulaire" width="650c" />
+		</div>
+
+		<hr />
+
+		<p>
+			Astuce : Vous pouvez avoir des informations sur un champ en particulier en passant votre curseur au dessus de son icône <span class="glyphicon glyphicon-question-sign"></span> associée.
+		</p>
+
+		<div style="text-align: center;">
+			<f:image src="EXT:site_factory/Resources/Public/Images/Help/pannel-1.png" class="img-thumbnail" alt="Formulaire" width="400c" />
+			<br />
+			<f:image src="EXT:site_factory/Resources/Public/Images/Help/pannel-2.png" class="img-thumbnail" alt="Formulaire" width="400c" />
+		</div>
+
+		<hr />
+
+		<p>
+			Lorsque le formulaire est valide, lancez le processus de création. Ne quittez pas la page tant que le processus ne s'est pas terminé.
+		</p>
+
+		<div style="text-align: center;">
+			<f:image src="EXT:site_factory/Resources/Public/Images/Help/duplication.jpg" class="img-thumbnail" alt="Formulaire" width="650c" />
+		</div>
+
+		<hr />
+
+		<p>
+			Une fois le site dupliqué, vous pouvez le retrouver dans l'arborescence de TYPO3.
+		</p>
+
+		<div style="text-align: center;">
+			<f:image src="EXT:site_factory/Resources/Public/Images/Help/tree.png" class="img-thumbnail" alt="Formulaire" width="300c" />
+		</div>
+
+		<hr />
+
+		<h1>Modifier un site</h1>
+
+		<p>
+			Il est possible de modifier les valeurs associées à un site. Pour ce faire, rendez vous sur la page d'accueil. En bas de page, vous retrouverez la liste des sites déjà dupliquer. Cliquez sur le bouton d'édition, et suivez le processus normal.
+		</p>
+
+		<div style="text-align: center;">
+			<f:image src="EXT:site_factory/Resources/Public/Images/Help/modify.png" class="img-thumbnail" alt="Formulaire" width="650c" />
+		</div>
+
+	</f:section>
+
+
+	<f:section name="headerButtons">
+		<f:be.buttons.icon uri="{f:uri.action(action: 'index')}" icon="actions-document-close" title="{f:translate(key: 'module.header_buttons.index')}" />
+		<f:be.buttons.icon uri="{f:uri.action(action: 'new')}" icon="actions-document-new" title="{f:translate(key: 'index.create_new_site')}" />
+	</f:section>
+
+</div>

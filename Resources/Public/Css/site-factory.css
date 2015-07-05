@@ -1,0 +1,472 @@
+/***********
+ *  INDEX  *
+ ***********/
+.panel-title {
+	font-size: 1.3em;
+}
+.panel-title .glyphicon {
+	margin-right: 5px;
+}
+
+.panel-group .panel {
+	overflow: visible;
+}
+
+.fadeout-area .fadeout-background {
+	display: none;
+	position: relative;
+	bottom: 4em;
+	margin-bottom: -4em;
+	height: 5.5em;
+	pointer-events: none;
+}
+
+.fadeout-area .fadeout-background,
+.fadeout-area.fadeout-disabled .fadeout-toggle:hover + .fadeout-background {
+	background: -webkit-linear-gradient(
+		rgba(255, 255, 255, 0) 0%,
+		rgba(255, 255, 255, 1) 100%
+	);
+	background-image: -moz-linear-gradient(
+		rgba(255, 255, 255, 0) 0%,
+		rgba(255, 255, 255, 1) 100%
+	);
+	background-image: -o-linear-gradient(
+		rgba(255, 255, 255, 0) 0%,
+		rgba(255, 255, 255, 1) 100%
+	);
+	background-image: linear-gradient(
+		rgba(255, 255, 255, 0) 0%,
+		rgba(255, 255, 255, 1) 100%
+	);
+	background-image: -ms-linear-gradient(
+		rgba(255, 255, 255, 0) 0%,
+		rgba(255, 255, 255, 1) 100%
+	);
+}
+
+.fadeout-background a {
+	display: block;
+	bottom: 0;
+	position: absolute;
+	pointer-events: all;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+.fadeout-background a:hover {
+	text-decoration: none;
+	font-style: italic;
+}
+.fadeout-area {
+	position: relative;
+	height: 0;
+}
+.fadeout-area.fadeout-disabled .fadeout-background {
+	background: none;
+}
+.fadeout-toggle {
+	margin: 10px;
+	position: absolute;
+	clear: both;
+	top: -10px;
+	left: 0;
+	right: 0;
+	z-index: 10;
+}
+
+.fadeout-background .fadeout-toggle-label {
+	border-bottom: 1px #808080 dotted;
+}
+
+.fadeout-container {
+	overflow: hidden;
+}
+
+#model-sites-list ul {
+	list-style-type: none;
+}
+
+.model-sites .fadeout-toggle {
+	margin-left: 4em;
+}
+
+.button-create-site {
+	display: block;
+	margin: auto;
+	width: 400px;
+}
+
+.duplicated-sites-list .col {
+	padding: 5px;
+}
+
+.duplicated-sites-list .col .content {
+	border: 1px solid #AFAFAF;
+	border-radius: 4px;
+	padding: 10px;
+	text-align: center;
+	overflow-x: hidden;
+	height: 350px;
+	max-height: 350px;
+}
+.duplicated-sites-list .col .content:hover {
+	background-color: rgb(248, 248, 248);
+}
+
+.duplicated-sites-list .col .content:hover .fadeout-area.fadeout-disabled .fadeout-background {
+	background: none;
+}
+.duplicated-sites-list .col .content:hover .fadeout-area .fadeout-background,
+.duplicated-sites-list .col .content:hover .fadeout-area.fadeout-disabled .fadeout-toggle:hover + .fadeout-background {
+	background: -webkit-linear-gradient(
+		rgba(248, 248, 248, 0) 0%,
+		rgba(248, 248, 248, 1) 100%
+	);
+	background-image: -moz-linear-gradient(
+		rgba(248, 248, 248, 0) 0%,
+		rgba(248, 248, 248, 1) 100%
+	);
+	background-image: -o-linear-gradient(
+		rgba(248, 248, 248, 0) 0%,
+		rgba(248, 248, 248, 1) 100%
+	);
+	background-image: linear-gradient(
+		rgba(248, 248, 248, 0) 0%,
+		rgba(248, 248, 248, 1) 100%
+	);
+	background-image: -ms-linear-gradient(
+		rgba(248, 248, 248, 0) 0%,
+		rgba(248, 248, 248, 1) 100%
+	);
+}
+
+.duplicated-sites-list .col .content .glyphicon-globe {
+	font-size: 2em;
+}
+.duplicated-sites-list .col .content h3 {
+	margin-top: 10px;
+}
+.duplicated-sites-list .site-last-modified {
+	font-style: italic;
+}
+
+.duplicated-sites-list .site-configuration ul {
+	list-style-type: none;
+	padding: 0;
+}
+.duplicated-sites-list .site-configuration ul li {
+	padding-top: 5px;
+	border: 1px solid #EEE;
+	margin: 1px;
+}
+
+/**********
+ *  FORM  *
+ **********/
+.form-group .color-picker {
+	padding-right: 80px;
+}
+
+.form-group .color-picker input {
+	float: left;
+}
+
+.form-group .color-picker-icon a {
+	float: right;
+	margin: 5px 5px 0 0;
+}
+
+.color-picker-preview.color-picker-preview-alone {
+	margin: 0;
+	float: right;
+	width: 30px;
+	min-width: 30px;
+}
+
+.color-picker-preview.color-picker-preview-alone .color-picker-preview-cube {
+	height: 30px;
+	border-radius: 8px;
+	border: none;
+}
+
+.form-group .image-upload input {
+	float: left;
+	margin-right: 10px;
+}
+
+.form-group .image-upload button {
+	height: 30px;
+}
+
+.submit-button {
+	text-align: center;
+	margin-top: 10px;
+}
+
+.form-group .form-field .actual-file {
+	text-align: center;
+	border: 1px solid #a5a5c7;
+	border-radius: 4px;
+	margin: 5px 0;
+	padding: 5px;
+
+}
+.form-group .form-field input[type="checkbox"] {
+	width: 24px;
+	height: 24px;
+}
+
+.form-group .form-field .actual-file h3 {
+	margin-top: 0;
+}
+
+/***************************
+ *  AJAX UPLOAD OVERWRITE  *
+ ***************************/
+
+body .ajax-upload-dragdrop {
+	padding: 10px;
+	background: url('/typo3conf/ext/site_factory/Resources/Public/Images/drag-drop-file.png') no-repeat right;
+	background-size: contain;
+}
+
+body .ajax-file-upload-progress {
+	width: 100%;
+	margin: 0px;
+}
+
+body .ajax-file-upload-statusbar {
+	margin-left: 0;
+	border-color: #A5A5C7;
+}
+
+body .delete-button {
+	margin: auto;
+	display: block;
+	width: 30%;
+	min-width: 150px;
+}
+
+body .image-preview {
+	text-align: center;
+	padding-top: 5px;
+}
+
+/******************
+ *   FIXED MENU   *
+ ******************/
+.static-menu {
+	position: fixed;
+	right: 30px;
+	z-index: 256;
+	pointer-events: none;
+	min-width: 250px;
+}
+.static-menu > div {
+	padding: 0;
+	pointer-events: initial;
+}
+
+.fixed-menu .alert {
+	padding: 3px;
+	margin-bottom: 5px;
+}
+.fixed-menu .alert a.alert:hover {
+	text-decoration: none;
+	font-style: italic;
+}
+
+.fixed-menu .alert .glyphicon {
+	padding-left: 5px;
+}
+.fixed-menu .panel-body {
+	padding: 5px;
+}
+.fixed-menu #collapse-menu-tip {
+	text-align: justify;
+}
+.fixed-menu .easter-egg:hover {
+	text-decoration: none;
+}
+
+.form-evaluation-loading {
+	display: none;
+	margin-top: 7px;
+	width: 20px;
+	height: 20px;
+}
+
+.color-picker .form-evaluation-loading {
+	right: 85px;
+}
+
+.form-group.has-feedback .factory-tooltip-form-container {
+	padding: 0;
+	text-align: center;
+}
+
+.form-group.has-feedback .form-label {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	margin-right: 20px;
+}
+
+.form-group.has-feedback .form-field {
+	padding-right: 30px;
+}
+
+.form-group.has-feedback .form-infos {
+	top: 0;
+	right: 15px;
+	position: absolute;
+}
+
+.form-group.has-feedback .factory-tooltip-form-error {
+	width: 100%;
+}
+
+.form-group.has-feedback .factory-tooltip-form-question {
+	right: 0;
+}
+
+.form-group {
+	padding: 5px 0;
+}
+
+.form-group:hover {
+	background: #ECECEC;
+	border-radius: 4px;
+}
+
+.form-group.has-feedback .factory-tooltip-form-select {
+	right: 25px;
+}
+
+.form-group.has-feedback .color-picker .factory-tooltip-form-select {
+	right: 75px;
+}
+
+/*.fixed-menu .info-success, .fixed-menu .counter-errors, */.fixed-menu .counter-warnings {
+	display: none;
+}
+
+.fixed-menu .counter-errors .collapsing, .fixed-menu .counter-errors .collapse.in {
+	max-height: 400px;
+	overflow-y: scroll;
+}
+
+.fixed-menu .counter-errors #collapse-counter-errors {
+	margin-top: 10px;
+}
+
+.fixed-menu .counter-errors ul {
+	padding-left: 20px;
+}
+
+/**********************
+ *  SITE NAME HEADER  *
+ **********************/
+.static-site-name {
+	font-weight: bold;
+	color: rgb(88, 88, 88);
+	margin-left: 20px;
+}
+
+/**********************
+ *  SITE DUPLICATION  *
+ **********************/
+.site-duplication ul.site-duplication-process {
+	/*text-align: center;*/
+}
+
+.site-duplication h3 {
+	text-align: center;
+}
+
+.site-duplication ul.site-duplication-process li {
+	list-style: none;
+	font-size: 1.3em;
+}
+
+.site-duplication .dummy {
+	display: none;
+}
+
+.site-duplication ul.site-duplication-process .result .status {
+	margin-right: 10px;
+}
+.site-duplication ul.site-duplication-process .result .result-text-container {
+	display: none;
+	margin-left: 50px;
+}
+.site-duplication ul.site-duplication-process .result ul {
+	padding-left: 0;
+}
+.site-duplication ul.site-duplication-process .result ul.result-list li {
+	font-size: 1em;
+}
+.site-duplication ul.site-duplication-process .result ul.result-list li:before {
+	content: "\e127";
+	font-family: 'Glyphicons Halflings';
+	margin-right: 10px;
+}
+.site-duplication ul.site-duplication-process .result .retry {
+	display: none;
+}
+
+.site-duplication ul.site-duplication-process .loading {
+	width: 16px;
+	height: 16px;
+}
+
+.site-duplication ul.site-duplication-process .time {
+	display: none;
+}
+
+.site-duplication .back-home {
+	display: none;
+}
+
+/*******************
+ *  MISCELLANEOUS  *
+ *******************/
+.tooltip-inner {
+	text-align: justify;
+	white-space: pre-line;
+	max-width: 300px;
+	min-width: 200px;
+}
+
+.form-control-feedback.factory-tooltip-disabled {
+	display: none;
+}
+
+.control-label {
+	white-space: nowrap;
+}
+
+.site-duplication .title-error, .site-duplication .title-success {
+	display: none;
+}
+
+.color-picker-preview {
+	display: inline-block;
+	margin: 5px;
+	border-radius: 10px;
+	border: 1px solid #A5A5C7;
+	min-width: 50px;
+}
+.color-picker-preview .color-picker-preview-cube {
+	display: inline-block;
+	border-radius: 8px 8px 0 0;
+	width: 100%;
+	height: 50px;
+	border-bottom: 1px solid #A5A5C7;
+}
+.color-picker-preview .color-picker-preview-value {
+	margin: 5px;
+	font-weight: bold;
+}

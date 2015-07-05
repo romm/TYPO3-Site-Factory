@@ -1,0 +1,27 @@
+<div class="field-container">
+	<f:switch expression="{field.fieldType}">
+		<f:case value="Text">
+			<f:render section="FieldRenderer" arguments="{_all}" />
+		</f:case>
+		<f:case value="Select">
+			<f:render section="FieldRenderer" arguments="{_all}" />
+		</f:case>
+		<f:case value="Checkbox">
+			<f:render section="FieldRenderer" arguments="{_all}" />
+		</f:case>
+		<f:case value="Radio">
+			<f:render section="FieldRenderer" arguments="{_all}" />
+		</f:case>
+		<f:case value="Textarea">
+			<f:render section="FieldRenderer" arguments="{_all}" />
+		</f:case>
+		<f:case value="Hidden">
+			<f:render section="FieldRenderer" arguments="{_all}" />
+		</f:case>
+		<f:case default="TRUE">TODO: WRONG FIELD TYPE</f:case>
+	</f:switch>
+</div>
+
+<f:section name="FieldRenderer">
+	<f:render partial="Form/FieldsTypes/{field.fieldType}" arguments="{_all}" />
+</f:section>

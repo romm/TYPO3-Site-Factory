@@ -1,0 +1,80 @@
+<?php
+namespace Romm\SiteFactory\Core;
+
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) 2015 Romain CANON <romain.canon@exl-group.com>
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+/**
+ * Clear cache hook.
+ */
+class ClearCacheCommand {
+	/**
+	 * The minimum time needed to remove a cache file.
+	 *
+	 * @var int
+	 */
+	private static $minTimeToRemove = 86400; // 86400 = 1 day.
+
+	/**
+	 * Hook for : $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']
+	 *
+	 * This function will remove all files from the extension process folder
+	 * that are older than self::$minTimeToRemove.
+	 *
+	 * @param $params
+	 */
+	public function clearCache(&$params) {
+		if ($params['cacheCmd'] == 'all') {
+			$this->deleteInFolderRecursive(PATH_site . Core::getProcessedFolderPath(), self::$minTimeToRemove);
+		}
+	}
+
+	/**
+	 * Recursive function for $this->clearCache()
+	 *
+	 * Will scan a given folder and its sub-folders, and remove all files older
+	 * than the given time.
+	 *
+	 * @param $folder			string	The absolute path to the folder where the function will occur.
+	 * @param $minTimeToRemove	int		The maximum age of a file, if it is older, it will be deleted.
+	 */
+	private function deleteInFolderRecursive($folder, $minTimeToRemove) {
+		$files = scandir($folder);
+		foreach($files as $file) {
+			if ($file == '.' || $file == '..') continue;
+
+			$file = $folder . $file;
+
+			if (is_dir($file)) {
+				$this->deleteInFolderRecursive($file . '/', $minTimeToRemove);
+			}
+			else {
+				$time = filemtime($file);
+				if ($time < (time() - $minTimeToRemove)) {
+					unlink($file);
+				}
+			}
+		}
+	}
+
+}
