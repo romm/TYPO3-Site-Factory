@@ -2,31 +2,37 @@
 
 <f:layout name="Backend/Default" />
 
-<!--
-	Main section of the module containing the form.
-	Fields will be created dynamically, using the configuration which
-	declares the fields options.
--->
+##############################
+
+Page containing the form to create/edit a site.
+Fields will be created dynamically, using the configuration which declares the fields options.
+
+Useful variables:
+ - {formId}: a unique id given to the form, which allows to instantiate several form if needed.
+ - {fieldsConfiguration}: array containing all the fields and their configuration.
+ - {refreshForm}: if true, the form might be refreshed after the page is loaded.
+
 <f:section name="content">
-	<div id="{formId}">
-		<sf:be.importAsset
-			jsFiles="{
-				0: 'EXT:site_factory/Resources/Public/JavaScript/SiteFactory.Form.js',
-				1: 'EXT:site_factory/Resources/Public/JavaScript/SiteFactory.Menu.js',
-				2: 'EXT:site_factory/Resources/Public/JavaScript/SiteFactory.Field.js'
-			}"
-		/>
+	<sf:be.importAsset
+		jsFiles="{
+			0: 'EXT:site_factory/Resources/Public/JavaScript/SiteFactory.Form.js',
+			1: 'EXT:site_factory/Resources/Public/JavaScript/SiteFactory.Menu.js',
+			2: 'EXT:site_factory/Resources/Public/JavaScript/SiteFactory.Field.js'
+		}"
+	/>
 
+	<script type="text/javascript">
+		window['{formId}'] = new SiteFactory.Form.Instance('{formId}');
+		var preventWindowClosing = '<f:translate key="form.prevent_window_closing" />';
+	</script>
+
+	<f:if condition="{refreshForm}">
 		<script type="text/javascript">
-			window['{formId}'] = new SiteFactory.Form.Instance('{formId}');
-			var preventWindowClosing = '<f:translate key="form.prevent_window_closing" />';
+			var refreshForm = true;
 		</script>
+	</f:if>
 
-		<f:if condition="{refreshForm}">
-			<script type="text/javascript">
-				var refreshForm = true;
-			</script>
-		</f:if>
+	<div id="{formId}">
 
 		<f:form.hidden name="action" additionalAttributes="{field-name: 'action'}" value="" />
 
@@ -45,12 +51,9 @@
 			</f:if>
 		</f:for>
 
-		<f:render partial="Backend/EasterEgg" />
-
-		<f:render partial="Backend/FormStaticMenu" arguments="{_all}" />
+		<f:render partial="New/FormStaticMenu" arguments="{_all}" />
 
 		<div class="panel-group col-sm-8 col-xs-12">
-
 			<h1>
 				<f:if condition="{modifySite}">
 					<f:then>
@@ -73,7 +76,7 @@
 							</div>
 						</f:then>
 						<f:else>
-							<f:render section="pannels" arguments="{_all}" />
+							<f:render partial="New/Pannels" arguments="{_all}" />
 						</f:else>
 					</f:if>
 				</f:then>
@@ -84,97 +87,18 @@
 				</f:else>
 			</f:if>
 		</div>
+
 	</div>
 </f:section>
 
-<f:section name="pannels">
-	<!-- SETTINGS -->
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<a data-toggle="collapse" href="#collapse-settings">
-				<h4 class="panel-title">
-					<span class="glyphicon glyphicon-cog"></span>&nbsp;<f:translate key="form.panel_configuration" />
-				</h4>
-			</a>
-		</div>
-		<div id="collapse-settings" class="panel-collapse collapse in">
-			<div class="panel-body">
+##############################
 
-				<f:for each="{fieldsConfiguration}" as="field">
-					<f:if condition="{modifySite}">
-						<f:then>
-							<f:if condition="{field.hideInSiteModification}">
-								<f:else>
-									<f:render section="fieldBody" arguments="{_all}" />
-								</f:else>
-							</f:if>
-						</f:then>
-						<f:else>
-							<f:render section="fieldBody" arguments="{_all}" />
-						</f:else>
-					</f:if>
-				</f:for>
+Contains the buttons which will appear in the header menu.
 
-			</div>
-		</div>
-	</div>
-
-	<div class="submit-button">
-		<button class="btn btn-default btn-lg" onclick="window['{formId}'].submit('new');">
-			<f:if condition="{modifySite}">
-				<f:then>
-					<f:translate key="form.submit_label_modification" />
-				</f:then>
-				<f:else>
-					<f:translate key="form.submit_label_creation" />
-				</f:else>
-			</f:if>
-		</button>
-	</div>
-</f:section>
-
-<!-- Field rendering section. -->
-<f:section name="fieldBody">
-	<div class="form-group has-feedback {f:if(condition: field.mergedValidationResult.errors, then: 'has-error', else: 'has-success')}">
-		<label class="control-label col-sm-3" for="{field.name}">
-			<div class="form-label">
-				{field.label}
-				<f:if condition="{field.hint}">
-					<f:render
-						partial="Form/Tooltips/Question"
-						arguments="{label: field.hint, extraClasses: 'factory-tooltip-form-question', placement: 'top'}"
-					/>
-				</f:if>
-			</div>
-		</label>
-		<div class="col-sm-9">
-			<div class="form-field{f:if(condition: '{field.validation}', then: ' is-evaluated')}" data-type="{field.lowerCaseType}" data-fieldtype="{field.lowerCaseFieldType}" data-name="{field.name}" data-label="{field.label->sf:addSlashes(onlyDoubleQuotes: 1)}">
-				<f:render partial="Form/Fields/{field.type}" arguments="{_all}" />
-			</div>
-
-			<f:if condition="{field.validation}">
-				<div class="form-infos">
-					<f:render
-						partial="Form/Tooltips/Error"
-						arguments="{
-							label: '{f:if(condition: field.mergedValidationResult.errors, then: \'{sf:be.errorMessage(errors: field.mergedValidationResult.errors)}\')}',
-							extraClasses: 'factory-tooltip-form-error',
-							placement: 'left'
-						}"
-					/>
-					<f:image src="EXT:t3skin/images/spinner/big-f0f0f0.gif" class="form-evaluation-loading" />
-				</div>
-			</f:if>
-		</div>
-	</div>
-</f:section>
-
-<!-- Header buttons. -->
 <f:section name="headerButtons">
 	<f:be.buttons.icon uri="{f:uri.action(action: 'index')}" icon="actions-document-close" title="{f:translate(key: 'module.header_buttons.index')}" />
 	<f:be.buttons.icon uri="{f:uri.action(action: 'new')}" icon="actions-document-new" title="{f:translate(key: 'module.header_buttons.new')}" />
 	<!--<f:be.buttons.icon uri="{f:uri.action(action: 'help')}" icon="actions-document-info" title="{f:translate(key: 'module.header_buttons.help')}" />-->
-	<!--<f:be.buttons.icon uri="{f:uri.action(action: 'configure')}" icon="actions-system-extension-configure" title="{f:translate(key: 'module.header_buttons.help')}" />-->
 	<f:if condition="{fieldsConfiguration}">
 		<f:be.buttons.icon uri="#" additionalAttributes="{onclick: 'window[\'{formId}\'].submit(\'new\');'}" icon="actions-document-save" title="{f:translate(key: 'module.header_buttons.save')}" />
 

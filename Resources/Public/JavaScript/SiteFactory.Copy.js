@@ -28,21 +28,21 @@ SiteFactory.Copy = {
 	 * Initialization function.
 	 */
 	initialize: function () {
-		$(document).ready(function() {
+		jQuery(document).ready(function() {
 			// Getting dummy HTML codes.
-			SiteFactory.Copy.statusPendingHtml		= $('.site-duplication .dummy-status-pending').html();
-			SiteFactory.Copy.statusProcessingHtml	= $('.site-duplication .dummy-status-processing').html();
-			SiteFactory.Copy.statusOkHtml			= $('.site-duplication .dummy-status-ok').html();
-			SiteFactory.Copy.statusErrorHtml		= $('.site-duplication .dummy-status-error').html();
-			SiteFactory.Copy.statusWarningHtml		= $('.site-duplication .dummy-status-warning').html();
-			SiteFactory.Copy.statusNoticeHtml		= $('.site-duplication .dummy-status-notice').html();
+			SiteFactory.Copy.statusPendingHtml		= jQuery('.site-duplication .dummy-status-pending').html();
+			SiteFactory.Copy.statusProcessingHtml	= jQuery('.site-duplication .dummy-status-processing').html();
+			SiteFactory.Copy.statusOkHtml			= jQuery('.site-duplication .dummy-status-ok').html();
+			SiteFactory.Copy.statusErrorHtml		= jQuery('.site-duplication .dummy-status-error').html();
+			SiteFactory.Copy.statusWarningHtml		= jQuery('.site-duplication .dummy-status-warning').html();
+			SiteFactory.Copy.statusNoticeHtml		= jQuery('.site-duplication .dummy-status-notice').html();
 
 			// Running the first process, the next ones will follow.
 			SiteFactory.Copy.processDuplicationRecursive(0);
 
 			// Detecting a click on the "retry" buttons for the processes.
-			$('.site-duplication-process .retry').on('click', function() {
-				var processIndex = $(this).attr('data-key');
+			jQuery('.site-duplication-process .retry').on('click', function() {
+				var processIndex = jQuery(this).attr('data-key');
 				var processIndexKey = SiteFactory.Copy.getProcessIndexKey(processIndex);
 				if (processIndexKey !== null) {
 					// If the process has already been called, and warnings were returned, we run this process only once again.
@@ -97,13 +97,13 @@ SiteFactory.Copy = {
 	 */
 	processDuplication: function(processIndexKey) {
 		var	processIndex = this.duplicationConfiguration[processIndexKey],
-			d = $.Deferred();
+			d = jQuery.Deferred();
 
 		// If the element has already been processed, we break.
 		if (this.duplicationCompleted[processIndex] === true)
 			d.resolve(true);
 		else {
-			var duplicationProcessElement = $('.site-duplication-process');
+			var duplicationProcessElement = jQuery('.site-duplication-process');
 
 			// Managing some elements' visibility.
 			var statusElement = duplicationProcessElement.find('.' + processIndex + ' .status');
@@ -113,12 +113,12 @@ SiteFactory.Copy = {
 			var retryElement = duplicationProcessElement.find('.' + processIndex + ' .retry');
 			retryElement.hide();
 
-			$('.site-duplication .title-normal').show();
-			$('.site-duplication .title-error').hide();
+			jQuery('.site-duplication .title-normal').show();
+			jQuery('.site-duplication .title-error').hide();
 
 			// Managing timer.
 			var timePassed = -1;
-			var timeElement = $(duplicationProcessElement).find('.' + processIndex + ' .time');
+			var timeElement = jQuery(duplicationProcessElement).find('.' + processIndex + ' .time');
 			timeElement.show();
 			var timerFunction = function() {
 				timePassed += 1;
@@ -159,8 +159,8 @@ SiteFactory.Copy = {
 						// At least an error occurred.
 						retryElement.show();
 						statusElement.html(SiteFactory.Copy.statusErrorHtml);
-						$('.site-duplication .title-normal').hide();
-						$('.site-duplication .title-error').show();
+						jQuery('.site-duplication .title-normal').hide();
+						jQuery('.site-duplication .title-error').show();
 
 						message = SiteFactory.Copy.convertMessagesArrayToHtmlList(result['errors'], 'text-danger');
 					}
@@ -174,8 +174,8 @@ SiteFactory.Copy = {
 				error:	function(xhr, status, error) {
 					retryElement.show();
 					statusElement.html(SiteFactory.Copy.statusErrorHtml);
-					$('.site-duplication .title-normal').hide();
-					$('.site-duplication .title-error').show();
+					jQuery('.site-duplication .title-normal').hide();
+					jQuery('.site-duplication .title-error').show();
 
 					var errorMessage = SiteFactory.Copy.convertMessagesArrayToHtmlList({0: SiteFactory.Copy.unknownErrorMessage}, 'text-danger');
 					resultElem.find('.result-list').html(errorMessage);
@@ -221,8 +221,8 @@ SiteFactory.Copy = {
 	 */
 	updateProgressBar: function() {
 		var processedNumber = 0;
-		var maxNumber = $(this.duplicationConfiguration).length;
-		$.each(this.duplicationConfiguration, function(index, processIndex) {
+		var maxNumber = jQuery(this.duplicationConfiguration).length;
+		jQuery.each(this.duplicationConfiguration, function(index, processIndex) {
 			if (SiteFactory.Copy.duplicationCompleted[processIndex] === true || SiteFactory.Copy.duplicationCompleted[processIndex] == 'warnings')
 				processedNumber++;
 		});
@@ -230,13 +230,13 @@ SiteFactory.Copy = {
 		var percent = processedNumber / maxNumber * 100;
 
 		if (processedNumber == maxNumber) {
-			$('.site-duplication .title-normal').hide();
-			$('.site-duplication .title-error').hide();
-			$('.site-duplication .title-success').show();
+			jQuery('.site-duplication .title-normal').hide();
+			jQuery('.site-duplication .title-error').hide();
+			jQuery('.site-duplication .title-success').show();
 		}
 
 
-		var progressBar = $('.site-duplication .progress .progress-bar');
+		var progressBar = jQuery('.site-duplication .progress .progress-bar');
 		progressBar.attr('aria-valuenow', percent);
 		progressBar.css('width', progressBar.attr('aria-valuenow') + '%');
 	},
@@ -272,7 +272,7 @@ SiteFactory.Copy = {
 	 * @returns	{*}
 	 */
 	ajaxProcess: function(request, dataType, callBackSuccessFunction, callBackErrorFunction, callBackCompleteFunction) {
-		return $.ajax({
+		return jQuery.ajax({
 			async:		true,
 			url:		TYPO3.settings.ajaxUrls['ajaxDispatcher'],
 			type:		'GET',

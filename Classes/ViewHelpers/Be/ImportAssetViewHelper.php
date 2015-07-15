@@ -49,7 +49,7 @@ class ImportAssetViewHelper extends AbstractBackendViewHelper {
 
 		foreach ($jsFiles as $value) {
 			$path = $this->getFileRealPath($value);
-			$pageRenderer->addJsFile($path);
+			$pageRenderer->addJsLibrary($path, $path);
 		}
 	}
 

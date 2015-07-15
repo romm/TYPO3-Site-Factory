@@ -28,7 +28,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Domain\Model\BackendUserGroup;
 use TYPO3\CMS\Extbase\Domain\Model\FileMount;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
 
 /**

@@ -7,8 +7,8 @@
 			<trans-unit id="fine_uploader.label.drop_files_here">
 				<source>Drop files here</source>
 			</trans-unit>
-			<trans-unit id="fine_uploader.label.select_files">
-				<source>Select files</source>
+			<trans-unit id="fine_uploader.label.select_file">
+				<source>Select file</source>
 			</trans-unit>
 			<trans-unit id="fine_uploader.label.processing_files">
 				<source>Processing dropped files…</source>

@@ -45,8 +45,8 @@ SiteFactory.Form = {
 		 */
 		this.getFields = function() {
 			if (Object.keys(this.fields).length == 0) {
-				$('.form-field').each(function() {
-					var field = new SiteFactory.Field(localForm, $(this));
+				jQuery('.form-field').each(function() {
+					var field = new SiteFactory.Field(localForm, jQuery(this));
 					localForm.fields[field.name] = field;
 				});
 			}
@@ -117,21 +117,21 @@ SiteFactory.Form = {
 		 */
 		this.submit = function(action) {
 			this.findElement('input[field-name="action"]').attr('value', action);
-			$('#' + this.element).parents('form').submit();
+			jQuery('#' + this.element).parents('form').submit();
 
 			return false;
 		};
 
 		this.findElement = function(selector) {
-			return $('#' + this.element).find(selector);
+			return jQuery('#' + this.element).find(selector);
 		};
 
 		this.refreshSiteNameHeader = function(val) {
-			$('.static-site-name span.content').html(val);
+			jQuery('.static-site-name span.content').html(val);
 		};
 
-		$(document).ready(function() {
-			var menu = $('.static-menu[data-site-factory-form="' + localForm.element + '"]');
+		jQuery(document).ready(function() {
+			var menu = jQuery('.static-menu[data-site-factory-form="' + localForm.element + '"]');
 			if (typeof menu != 'undefined')
 				localForm.menu = new SiteFactory.Menu(localForm, menu);
 
@@ -140,7 +140,7 @@ SiteFactory.Form = {
 			if (modelSiteField) {
 				var modelSiteSelect = modelSiteField.input;
 				localForm.modelSiteId = modelSiteSelect.val();
-				$(modelSiteSelect).on(
+				jQuery(modelSiteSelect).on(
 					'change',
 					{form: localForm},
 					function(event) {
@@ -170,7 +170,7 @@ SiteFactory.Form = {
 				localForm.refreshSiteNameHeader(siteNameField.input.val());
 
 				siteNameField.input.on('change keyup', function() {
-					localForm.refreshSiteNameHeader($(this).val());
+					localForm.refreshSiteNameHeader(jQuery(this).val());
 				});
 			}
 		});

@@ -100,9 +100,9 @@ module.tx_sitefactory {
 			hint = Bannière d'entête
 			moveToFileMount = 1
 			settings {
-				allowedExtensions {
-					0 = jpg
-				}
+#				allowedExtensions {
+#					0 = jpg
+#				}
 			}
 			uploadOptions {
 				width = 150c

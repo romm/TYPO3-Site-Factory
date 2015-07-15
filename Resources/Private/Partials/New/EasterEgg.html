@@ -1,0 +1,26 @@
+<f:image src="EXT:site_factory/Resources/Public/Images/easter-egg.png" id="easterEggImage" style="position: fixed; right: -100px; z-index: 512;" />
+<script type="text/javascript">
+	var easterEggRunning = false;
+
+	function beginEasterEgg() {
+		if (easterEggRunning) return;
+		easterEggRunning = true;
+
+		var increase = 80;
+		var speed = 700;
+		jQuery('#easterEggImage').css('top', 100 + Math.random() * 400 + 'px');
+		jQuery('#easterEggImage').animate(
+			{ right: '+=' + increase },
+			speed,
+			function() {
+				jQuery('#easterEggImage').animate(
+					{ right: '-=' + increase },
+					speed,
+					function() {
+						easterEggRunning = false;
+					}
+				)
+			}
+		);
+	}
+</script>

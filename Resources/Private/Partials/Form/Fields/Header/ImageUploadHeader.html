@@ -2,40 +2,23 @@
 
 <script type="text/template" id="qq-template-validation">
 	<div class="qq-uploader-selector qq-uploader" qq-drop-area-text="{f:translate(key: 'fine_uploader.label.drop_files_here')}">
-		<div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
-			<div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-total-progress-bar-selector qq-progress-bar qq-total-progress-bar"></div>
-		</div>
 		<div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
 			<span class="qq-upload-drop-area-text-selector"></span>
 		</div>
 		<div class="qq-upload-button-selector btn btn-primary">
-			<div><f:translate key="fine_uploader.label.select_files" /></div>
+			<span class="glyphicon glyphicon-file"></span>&nbsp;<f:translate key="fine_uploader.label.select_file" />
 		</div>
             <span class="qq-drop-processing-selector qq-drop-processing">
-                <span><f:translate key="fine_uploader.label.processing_files" /></span>
+                <span><f:translate key="fine_uploader.label.processi    ng_files" /></span>
                 <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
             </span>
-		<ul class="qq-upload-list-selector qq-upload-list" aria-live="polite" aria-relevant="additions removals">
-			<li>
-				<div class="qq-progress-bar-container-selector">
-					<div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
-				</div>
-				<span class="qq-upload-spinner-selector qq-upload-spinner"></span>
-				<img class="qq-thumbnail-selector" qq-max-size="100" qq-server-scale>
-				<span class="qq-upload-file-selector qq-upload-file"></span>
-				<span class="qq-upload-size-selector qq-upload-size"></span>
-				<button class="qq-upload-cancel-selector btn btn-danger"><f:translate key="LLL:EXT:lang/locallang_common.xlf:cancel" /></button>
-				<button class="qq-upload-retry-selector btn btn-success"><f:translate key="fine_uploader.label.retry" /></button>
-				<button class="qq-upload-delete-selector btn btn-danger"><f:translate key="LLL:EXT:lang/locallang_common.xlf:delete" /></button>
-				<span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
-			</li>
-		</ul>
+
+		<f:render section="Items" />
 
 		<dialog class="qq-alert-dialog-selector">
 			<div class="qq-dialog-message-selector"></div>
 			<div class="qq-dialog-buttons">
 				<span class="qq-cancel-button-selector btn btn-default"><f:translate key="LLL:EXT:lang/locallang_common.xlf:close" /></span>
-
 			</div>
 		</dialog>
 
@@ -72,3 +55,51 @@
 	SiteFactory.fineUploaderDefaultSettings.messages.tooManyItemsError =            '{f:translate(key: "fine_uploader.message.tooManyItemsError")->sf:addSlashes()}';
 	SiteFactory.fineUploaderDefaultSettings.messages.typeError =                    '{f:translate(key: "fine_uploader.message.typeError")->sf:addSlashes()}';
 </script>
+
+<f:section name="Items">
+	<ul class="qq-upload-list-selector qq-upload-list" aria-live="polite" aria-relevant="additions removals">
+		<li class="alert alert-info">
+			<div class="row text-center" style="margin: 0;">
+				<div class="col-md-3">
+					<f:if condition="{field.value}">
+						<f:then>
+							<f:image src="{field.displayValue}" width="150" height="150" />
+						</f:then>
+						<f:else>
+							<img class="qq-thumbnail-selector" qq-max-size="150" qq-server-scale>
+						</f:else>
+					</f:if>
+				</div>
+				<div class="col-md-6">
+					<span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
+				</div>
+				<div class="col-md-3">
+					<f:if condition="{field.value}">
+						<f:else>
+							<button class="qq-upload-retry-selector btn btn-success">
+								<span class="glyphicon glyphicon-refresh"></span>&nbsp;<f:translate key="fine_uploader.label.retry" />
+							</button>
+							<button class="qq-upload-cancel-selector btn btn-danger">
+								<span class="glyphicon glyphicon-remove"></span>&nbsp;<f:translate key="LLL:EXT:lang/locallang_common.xlf:cancel" />
+							</button>
+						</f:else>
+					</f:if>
+					<button class="qq-upload-delete-selector btn btn-danger">
+						<span class="glyphicon glyphicon-trash"></span>&nbsp;<f:translate key="LLL:EXT:lang/locallang_common.xlf:delete" />
+					</button>
+				</div>
+			</div>
+
+			<f:if condition="{field.value}">
+				<f:else>
+					<div class="text-center">
+						<span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+					</div>
+					<div class="qq-progress-bar-container-selector">
+						<div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
+					</div>
+				</f:else>
+			</f:if>
+		</li>
+	</ul>
+</f:section>

@@ -3,6 +3,9 @@ SiteFactory.FineUploaderDefaultSettings = function() {
 	this.formElement = null;
 	this.fieldName = '';
 	this.template = 'qq-template-validation';
+	this.deleteFile = {
+		enabled: true
+	};
 	this.request = {
 		endpoint:       TYPO3.settings.ajaxUrls['ajaxDispatcher'],
 		paramsInBody:   false,
@@ -15,21 +18,23 @@ SiteFactory.FineUploaderDefaultSettings = function() {
 	};
 	this.thumbnails = {
 		placeholders: {
-			waitingPath: '/typo3conf/ext/site_factory/Resources/Public/Contrib/fine-uploader/placeholders/waiting-generic.png',
-			notAvailablePath: '/typo3conf/ext/site_factory/Resources/Public/Contrib/fine-uploader/placeholders/not_available-generic.png'
+			waitingPath: '',
+			notAvailablePath: ''
 		}
 	};
 	this.validation = {
-		allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
-		itemLimit: 1,
-		sizeLimit: 409600 // 400 kB = 400 * 1024 bytes
+		allowedExtensions: ['jpeg', 'jpg', 'gif', 'png', 'bmp'/* @todo: delete BMP */],
+		itemLimit: 5,
+		sizeLimit: 409600000 // 400 kB = 400 * 1024 bytes
 	};
 	this.classes = {
-		fail: 'alert alert-danger counter-errors'
+		fail:		'alert alert-danger counter-errors',
+		success:	'alert alert-info'
 	};
 	this.messages =  {};
 	this.callbacks = {
 		onComplete: function(id, name, response) {
+			// Changing the value of the form element to the path of the file.
 			var formElement = window[this._options.formId];
 			var fieldName = this._options.fieldName;
 			var fieldElement = formElement.getFieldByName(fieldName);

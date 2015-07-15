@@ -12,12 +12,20 @@
 <f:section name="displayForm">
 	<f:render partial="Form/Field" arguments="{field: field, additionalAttributes: {class: 'image-upload-name'}}" />
 
-	<div id="fine-uploader-{field.name}"></div>
+	<div class="file-uploader-container">
+		<div id="fine-uploader-{field.name}">
+			<div class="qq-upload-button-selector btn btn-primary">
+				<span class="glyphicon glyphicon-file"></span>&nbsp;<input type="file" name="somename" />
+			</div>
+		</div>
 
-	<f:if condition="{field.value}">
-		<f:translate key="form.field.actual_file" />
-		<f:image src="{field.displayValue}" width="150" height="150" />
-	</f:if>
+		<f:if condition="{field.value}">
+			<div class="qq-uploader-selector qq-uploader">
+				<f:render partial="Form/Fields/Header/ImageUploadHeader" section="Items" arguments="{field: field}"/>
+			</div>
+		</f:if>
+	</div>
+
 	<script type="text/javascript">
 		var fieldSettings = JSON.parse('{field.settingsJson->f:format.htmlentitiesDecode()}');
 		var uploaderFunctionSettings = new SiteFactory.FineUploaderDefaultSettings();

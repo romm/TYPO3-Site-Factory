@@ -26,7 +26,6 @@ namespace Romm\SiteFactory\Utility;
 
 use Romm\SiteFactory\Core\Core;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Class containing main functions to get/set a page's constants that match this

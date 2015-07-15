@@ -25,8 +25,6 @@ namespace Romm\SiteFactory\Form\Fields;
  ***************************************************************/
 
 use Romm\SiteFactory\Utility\TypoScriptUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-use Romm\SiteFactory\Core\Configuration\Configuration;
 
 /**
  * @todo

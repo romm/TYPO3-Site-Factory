@@ -25,7 +25,6 @@ namespace Romm\SiteFactory\Form\Fields;
  ***************************************************************/
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * A class allowing to manage the fields configuration.

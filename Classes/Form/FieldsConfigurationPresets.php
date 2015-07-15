@@ -65,7 +65,7 @@ class FieldsConfigurationPresets {
 		$params = array(
 			'table'		=> 'pages',
 			'field'		=> 'backend_layout',
-			'row'		=> BackendUtility::getRecord('pages', 1, '*'),
+			'row'		=> BackendUtility::getRecord('pages', 1, '*'), // @todo: manage "page" uid!
 			'items'		=> &$items
 		);
 		$backendLayoutView->addBackendLayoutItems($params);

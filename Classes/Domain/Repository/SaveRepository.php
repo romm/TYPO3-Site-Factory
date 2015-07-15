@@ -34,7 +34,7 @@ use Romm\SiteFactory\Domain\Model\Save;
 /**
  * The repository for the "Save" model.
  *
- * @method Save|null findOneByRootPageUid()
+ * @method Save|null findOneByRootPageUid(int $pageUid)
  */
 class SaveRepository extends Repository {
 

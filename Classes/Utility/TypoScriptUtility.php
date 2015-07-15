@@ -28,7 +28,6 @@ use Romm\SiteFactory\Core\CacheManager;
 use Romm\SiteFactory\Core\Core;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Handles the TypoScript configuration's construction of the extension.

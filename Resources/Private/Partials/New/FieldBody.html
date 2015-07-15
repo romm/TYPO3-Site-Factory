@@ -1,0 +1,34 @@
+{namespace sf=Romm\SiteFactory\ViewHelpers}
+
+<div class="form-group has-feedback {f:if(condition: field.mergedValidationResult.errors, then: 'has-error', else: 'has-success')}">
+	<label class="control-label col-sm-3" for="{field.name}">
+		<div class="form-label">
+			{field.label}
+			<f:if condition="{field.hint}">
+				<f:render
+						partial="Form/Tooltips/Question"
+						arguments="{label: field.hint, extraClasses: 'factory-tooltip-form-question', placement: 'top'}"
+						/>
+			</f:if>
+		</div>
+	</label>
+	<div class="col-sm-9">
+		<div class="form-field{f:if(condition: '{field.validation}', then: ' is-evaluated')}" data-type="{field.lowerCaseType}" data-fieldtype="{field.lowerCaseFieldType}" data-name="{field.name}" data-label="{field.label->sf:addSlashes(onlyDoubleQuotes: 1)}">
+			<f:render partial="Form/Fields/{field.type}" arguments="{_all}" />
+		</div>
+
+		<f:if condition="{field.validation}">
+			<div class="form-infos">
+				<f:render
+						partial="Form/Tooltips/Error"
+						arguments="{
+							label: '{f:if(condition: field.mergedValidationResult.errors, then: \'{sf:be.errorMessage(errors: field.mergedValidationResult.errors)}\')}',
+							extraClasses: 'factory-tooltip-form-error',
+							placement: 'left'
+						}"
+						/>
+				<f:image src="EXT:t3skin/images/spinner/big-f0f0f0.gif" class="form-evaluation-loading" />
+			</div>
+		</f:if>
+	</div>
+</div>

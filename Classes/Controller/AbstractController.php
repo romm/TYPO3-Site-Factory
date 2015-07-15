@@ -1,5 +1,5 @@
 <?php
-namespace Romm\SiteFactory\Duplication\Process;
+namespace Romm\SiteFactory\Controller;
 
 /***************************************************************
  *  Copyright notice
@@ -24,19 +24,26 @@ namespace Romm\SiteFactory\Duplication\Process;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
-use Romm\SiteFactory\Utility\ConstantManagerUtility;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Romm\SiteFactory\Core\Core;
+use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 
 /**
- * @todo: comment
+ * Controller managing the duplication of sites.
  */
-class BackendConstantsAssignationProcess extends AbstractDuplicationProcess {
-	public function run() {
-		ConstantManagerUtility::manageTemplateConstants(
-			$this->getModelPageUid(),
-			$this->getDuplicatedPageUid(),
-			$this->getFieldsValues(),
-			$this->getDuplicationData('pagesUidAssociation')
-		);
+class AbstractController extends ActionController {
+
+	/**
+	 * Is called before any action.
+	 */
+	public function initializeAction() {
+		Core::loadJquery();
+	}
+
+	/**
+	 * @param ViewInterface $view
+	 */
+	protected function initializeView(ViewInterface $view) {
+		$this->view->assign('pathSite', $_SERVER['SERVER_NAME']);
 	}
 }

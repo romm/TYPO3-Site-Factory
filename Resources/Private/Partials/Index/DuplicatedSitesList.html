@@ -1,0 +1,56 @@
+<p><f:translate key="index.already_duplicated_sites" /></p>
+
+<div class="row duplicated-sites-list">
+	<f:for each="{savedSites}" as="site" key="key">
+		<div class="col col-md-3">
+			<div class="content">
+				<span class="glyphicon glyphicon-globe"></span>
+				<h3>{site.configuration.page.title}</h3>
+
+				<p class="site-last-modified">
+					<f:translate key="index.duplicated_sites_list.last_modified" />
+					<f:format.date format="d M Y H:i:s">@{site.date}</f:format.date>
+				</p>
+
+				<div class="site-configuration fadeout-container" id="duplicated-site-{key}" data-height="85">
+					<div class="fadeout-content">
+						<ul>
+							<f:for each="{site.configuration.fields}" as="field">
+								<f:if condition="{field.hasValue}">
+									<li>
+										<f:if condition="{field.hint}">
+											<span class="glyphicon glyphicon-question-sign factory-tooltip" title="{field.hint}" data-placement="top"></span>
+										</f:if>
+											<span class="site-configuration-label">
+												<strong>{field.label}</strong>
+											</span>
+										<br />
+											<span class="value">
+												<f:render partial="Form/Fields/{field.type}" arguments="{field: field, displayValue: 1}" />
+											</span>
+									</li>
+								</f:if>
+							</f:for>
+						</ul>
+					</div>
+				</div>
+
+				<div class="fadeout-area">
+					<a href="#duplicated-site-{key}" class="fadeout-toggle" data-hide-label="{f:translate(key: 'misc.hide')}">
+						<span class="glyphicon glyphicon-plus fadeout-toggle-icon"></span>&nbsp;<span class="fadeout-toggle-label"><f:translate key="misc.show_more" /></span>
+					</a>
+					<div class="fadeout-background"></div>
+				</div>
+
+				<hr />
+
+				<div class="button-block">
+					<f:link.action action="new" class="btn btn-primary" arguments="{modifySite: site.configuration.page.uid}">
+						<span class="glyphicon glyphicon-cog"></span>
+						<f:translate key="index.edit_site" />
+					</f:link.action>
+				</div>
+			</div>
+		</div>
+	</f:for>
+</div>

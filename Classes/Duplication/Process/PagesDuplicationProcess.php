@@ -27,7 +27,6 @@ namespace Romm\SiteFactory\Duplication\Process;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\Tree\Pagetree\Commands;
 use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Class containing functions called when a site is being duplicated.

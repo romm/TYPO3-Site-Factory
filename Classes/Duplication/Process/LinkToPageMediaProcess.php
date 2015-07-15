@@ -26,7 +26,6 @@ namespace Romm\SiteFactory\Duplication\Process;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\ArrayUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
 use Romm\SiteFactory\Utility\ConstantManagerUtility;
 

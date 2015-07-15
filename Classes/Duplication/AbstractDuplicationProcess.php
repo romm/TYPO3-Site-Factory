@@ -24,15 +24,12 @@ namespace Romm\SiteFactory\Duplication;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Romm\SiteFactory\Utility\TypoScriptUtility;
+use TYPO3\CMS\Core\Http\AjaxRequestHandler;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Error\Error;
-use TYPO3\CMS\Extbase\Error\Warning;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-use Romm\SiteFactory\Core\Configuration\Configuration;
 use Romm\SiteFactory\Core\Core;
 use Romm\SiteFactory\Form\Fields\Field;
+use Romm\SiteFactory\Utility\TypoScriptUtility;
 
 /**
  * Class containing functions called when a site is being duplicated.
@@ -98,13 +95,6 @@ abstract class AbstractDuplicationProcess implements DuplicationProcessInterface
 	}
 
 	/**
-	 * Do the process of your duplication step in this function.
-	 *
-	 * @return bool
-	 */
-	public function run() {}
-
-	/**
 	 * Will initialize all the fields, based on the uid of the model page. Will
 	 * fill the values of these fields with the duplication data.
 	 *
@@ -115,7 +105,7 @@ abstract class AbstractDuplicationProcess implements DuplicationProcessInterface
 	private function initializeFields(array $fieldsValues) {
 		$id = $this->getModelPageUid();
 		if ($id) {
-			$this->fields = Field::getFields($id); // @todo Check site modification?
+			$this->fields = Field::getFields($id);
 
 			if (is_array($fieldsValues) && !empty($fieldsValues)) {
 				foreach($fieldsValues as $fieldName => $fieldValue) {
@@ -129,6 +119,10 @@ abstract class AbstractDuplicationProcess implements DuplicationProcessInterface
 		return $this;
 	}
 
+	/**
+	 * Returns the fields values in an array like: fieldName => fieldValue.
+	 * @return array
+	 */
 	public function getFieldsValues() {
 		$fieldsValues = array();
 		foreach ($this->getFields() as $field)
@@ -351,7 +345,7 @@ abstract class AbstractDuplicationProcess implements DuplicationProcessInterface
 	 * @return bool
 	 */
 	public function checkAjaxCall() {
-		if ($GLOBALS['ajaxObj'] instanceof \TYPO3\CMS\Core\Http\AjaxRequestHandler) {
+		if ($GLOBALS['ajaxObj'] instanceof AjaxRequestHandler) {
 			return true;
 		}
 		return false;

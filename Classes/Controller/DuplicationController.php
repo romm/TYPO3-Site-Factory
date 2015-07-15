@@ -27,8 +27,6 @@ namespace Romm\SiteFactory\Controller;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Error\Error;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use Romm\SiteFactory\Core\CacheManager;
 use Romm\SiteFactory\Core\Core;
 use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
@@ -36,7 +34,7 @@ use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
 /**
  * Controller managing the duplication of sites.
  */
-class DuplicationController extends ActionController {
+class DuplicationController extends AbstractController {
 
 	/**
 	 * Ajax implementation of the function "processDuplication". Will display
