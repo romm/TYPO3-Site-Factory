@@ -169,10 +169,8 @@ class ConstantManagerUtility {
 				array(
 					'pid'					=> intval($pageUid),
 					'title'					=> 'Site Factory Template',
-//					'site_factory_template'	=> 1,
 					'tstamp'				=> time(),
 					'crdate'				=> time(),
-//					'sorting'				=> 1999999999
 				)
 			);
 	}
@@ -188,11 +186,6 @@ class ConstantManagerUtility {
 		/** @var $templateService \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService */
 		$templateService = Core::getObjectManager()->get('TYPO3\\CMS\\Core\\TypoScript\\ExtendedTemplateService');
 		$template = $templateService->ext_getFirstTemplate($pageUid);
-//		$template = Core::getDatabase()->exec_SELECTgetSingleRow(
-//			'*',
-//			'sys_template',
-//			'pid=' . intval($pageUid)
-//		);
 
 		return $template;
 	}
