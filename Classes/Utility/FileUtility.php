@@ -25,6 +25,8 @@ namespace Romm\SiteFactory\Utility;
  ***************************************************************/
 
 use Romm\SiteFactory\Core\Core;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Set of functions to manipulate files.
@@ -49,8 +51,20 @@ class FileUtility {
 
 			echo json_encode(array(
 				'tmpFilePath' 	=> $tmpFilePath,
+				'newUuid'		=> $tmpFileName,
 				'success'		=> true
 			));
+		}
+	}
+
+	/**
+	 * Deletes a specific file from the processing folder.
+	 */
+	public function deleteFile() {
+		$fileName = GeneralUtility::_GP('fileName');
+		$filePath = PATH_site . Core::getProcessedFolderPath() . $fileName;
+		if (file_exists($filePath)) {
+			unlink($filePath);
 		}
 	}
 

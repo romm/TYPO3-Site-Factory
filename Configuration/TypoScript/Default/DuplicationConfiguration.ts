@@ -84,10 +84,8 @@ module.tx_sitefactory {
 		10  < module.tx_sitefactory.duplicationProcesses.pagesDuplication
 		20  < module.tx_sitefactory.duplicationProcesses.treeUidAssociation
 		30  < module.tx_sitefactory.duplicationProcesses.sysFileMounts
-		40  < module.tx_sitefactory.duplicationProcesses.backendUserGroupCreation
-		40.settings.modelUid = 13
-		50  < module.tx_sitefactory.duplicationProcesses.backendUserCreation
-		50.settings.modelUid = 1
+#		40  < module.tx_sitefactory.duplicationProcesses.backendUserGroupCreation
+#		50  < module.tx_sitefactory.duplicationProcesses.backendUserCreation
 		60  < module.tx_sitefactory.duplicationProcesses.uploadedFiles
 		70  < module.tx_sitefactory.duplicationProcesses.backendConstantsAssignation
 		80  < module.tx_sitefactory.duplicationProcesses.linkToPageMedia

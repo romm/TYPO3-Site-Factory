@@ -15,27 +15,42 @@
 
 		<f:render section="Items" />
 
-		<dialog class="qq-alert-dialog-selector">
-			<div class="qq-dialog-message-selector"></div>
-			<div class="qq-dialog-buttons">
-				<span class="qq-cancel-button-selector btn btn-default"><f:translate key="LLL:EXT:lang/locallang_common.xlf:close" /></span>
+		<dialog class="qq-alert-dialog-selector modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><f:translate key="fine_uploader.title.message" /></h4>
+				</div>
+				<div class="modal-body qq-dialog-message-selector"></div>
+				<div class="modal-footer qq-dialog-buttons">
+					<span class="qq-cancel-button-selector btn btn-default"><f:translate key="LLL:EXT:lang/locallang_common.xlf:close" /></span>
+				</div>
 			</div>
 		</dialog>
 
-		<dialog class="qq-confirm-dialog-selector">
-			<div class="qq-dialog-message-selector"></div>
-			<div class="qq-dialog-buttons">
-				<span class="qq-cancel-button-selector btn btn-danger"><f:translate key="LLL:EXT:lang/locallang_common.xlf:no" /></span>
-				<span class="qq-cancel-button-selector btn btn-success"><f:translate key="LLL:EXT:lang/locallang_common.xlf:yes" /></span>
+		<dialog class="qq-confirm-dialog-selector modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><f:translate key="fine_uploader.title.message" /></h4>
+				</div>
+				<div class="modal-body qq-dialog-message-selector"></div>
+				<div class="modal-footer qq-dialog-buttons">
+					<span class="qq-cancel-button-selector btn btn-danger"><f:translate key="LLL:EXT:lang/locallang_common.xlf:no" /></span>
+					<span class="qq-ok-button-selector btn btn-success"><f:translate key="LLL:EXT:lang/locallang_common.xlf:yes" /></span>
+				</div>
 			</div>
 		</dialog>
 
-		<dialog class="qq-prompt-dialog-selector">
-			<div class="qq-dialog-message-selector"></div>
-			<input type="text">
-			<div class="qq-dialog-buttons">
-				<span class="qq-cancel-button-selector btn btn-danger"><f:translate key="LLL:EXT:lang/locallang_common.xlf:cancel" /></span>
-				<span class="qq-cancel-button-selector btn btn-success"><f:translate key="LLL:EXT:lang/locallang_common.xlf:ok" /></span>
+		<dialog class="qq-prompt-dialog-selector modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><f:translate key="fine_uploader.title.message" /></h4>
+				</div>
+				<div class="modal-body qq-dialog-message-selector"></div>
+				<input type="text">
+				<div class="modal-footer qq-dialog-buttons">
+					<span class="qq-cancel-button-selector btn btn-danger"><f:translate key="LLL:EXT:lang/locallang_common.xlf:cancel" /></span>
+					<span class="qq-ok-button-selector btn btn-success"><f:translate key="LLL:EXT:lang/locallang_common.xlf:ok" /></span>
+				</div>
 			</div>
 		</dialog>
 	</div>

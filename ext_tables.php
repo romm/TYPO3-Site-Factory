@@ -24,7 +24,6 @@ call_user_func(
 			);
 		}
 
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($extensionKey, 'Configuration/TypoScript/Default', 'Site Factory - Default settings');
 		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($extensionKey, 'Configuration/TypoScript/FieldsExample', 'Site Factory - Fields example');
 
 		// Extending locallang files.

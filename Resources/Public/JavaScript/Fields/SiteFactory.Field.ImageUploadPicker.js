@@ -16,6 +16,15 @@ SiteFactory.FineUploaderDefaultSettings = function() {
 			}
 		}
 	};
+	this.deleteFile = {
+		enabled: true,
+		forceConfirm: true,
+		endpoint:       TYPO3.settings.ajaxUrls['ajaxDispatcher'] + '&dummy=',
+		paramsInBody:   false,
+		params: {
+
+		}
+	};
 	this.thumbnails = {
 		placeholders: {
 			waitingPath: '',
@@ -23,7 +32,7 @@ SiteFactory.FineUploaderDefaultSettings = function() {
 		}
 	};
 	this.validation = {
-		allowedExtensions: ['jpeg', 'jpg', 'gif', 'png', 'bmp'/* @todo: delete BMP */],
+		allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
 		itemLimit: 5,
 		sizeLimit: 409600000 // 400 kB = 400 * 1024 bytes
 	};
@@ -39,6 +48,25 @@ SiteFactory.FineUploaderDefaultSettings = function() {
 			var fieldName = this._options.fieldName;
 			var fieldElement = formElement.getFieldByName(fieldName);
 			fieldElement.input.val('new:' + response['tmpFilePath']);
+		},
+		onSubmitDelete: function (id) {
+			this.setDeleteFileParams(
+				{
+					fileName:	this.getUuid(id),
+					ajaxID:		'ajaxDispatcher',
+					request: {
+						function: 'Romm\\SiteFactory\\Utility\\FileUtility->deleteFile'
+					}
+				},
+				id
+			);
+		},
+		onDeleteComplete: function () {
+			// Changing the value of the form element to the path of the file.
+			var formElement = window[this._options.formId];
+			var fieldName = this._options.fieldName;
+			var fieldElement = formElement.getFieldByName(fieldName);
+			fieldElement.input.val('');
 		}
 	};
 };

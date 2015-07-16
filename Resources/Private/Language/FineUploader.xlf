@@ -4,6 +4,10 @@
 		<header/>
 		<body>
 
+			<trans-unit id="fine_uploader.title.message">
+				<source>Upload message</source>
+			</trans-unit>
+
 			<trans-unit id="fine_uploader.label.drop_files_here">
 				<source>Drop files here</source>
 			</trans-unit>

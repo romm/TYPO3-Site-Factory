@@ -25,6 +25,7 @@ namespace Romm\SiteFactory\Duplication\Process;
  ***************************************************************/
 
 use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * @todo: comment
@@ -71,24 +72,26 @@ class UploadedFilesProcess extends AbstractDuplicationProcess {
 						$fileExtension = substr(strrchr($path, '.'), 1);
 						$identifier = $folderPath . $name . '.' . $fileExtension;
 
-						/** @var $file \TYPO3\CMS\Core\Resource\File */
-						if ($driver->fileExists($identifier)) {
-							$file = $storage->getFile($identifier);
-							$storage->replaceFile($file, $path);
+						if (file_exists($path)) {
+							/** @var $file \TYPO3\CMS\Core\Resource\File */
+							if ($driver->fileExists($identifier)) {
+								$file = $storage->getFile($identifier);
+								$storage->replaceFile($file, $path);
 
-							/** @var $processedFileRepository \TYPO3\CMS\Core\Resource\ProcessedFileRepository */
-							$processedFileRepository = $this->objectManager->get('TYPO3\\CMS\\Core\\Resource\\ProcessedFileRepository');
-							/** @var $processedFiles \TYPO3\CMS\Core\Resource\ProcessedFile[] */
-							$processedFiles = $processedFileRepository->findAllByOriginalFile($file);
+								/** @var $processedFileRepository \TYPO3\CMS\Core\Resource\ProcessedFileRepository */
+								$processedFileRepository = $this->objectManager->get('TYPO3\\CMS\\Core\\Resource\\ProcessedFileRepository');
+								/** @var $processedFiles \TYPO3\CMS\Core\Resource\ProcessedFile[] */
+								$processedFiles = $processedFileRepository->findAllByOriginalFile($file);
 
-							foreach($processedFiles as $processedFile)
-								$processedFile->delete();
+								foreach($processedFiles as $processedFile)
+									$processedFile->delete();
+							}
+							else
+								$file = $storage->addFile($path, $folder, $name . '.' . $fileExtension, 'replace');
+
+							$this->getField($field->getName())->setValue($driver->getPublicUrl($identifier));
+							$filesMoved[$name] = $file->getName();
 						}
-						else
-							$file = $storage->addFile($path, $folder, $name . '.' . $fileExtension, 'replace');
-
-						$this->getField($field->getName())->setValue($driver->getPublicUrl($identifier));
-						$filesMoved[$name] = $file->getName();
 					}
 
 					if (!empty($filesMoved)) {
