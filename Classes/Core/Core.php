@@ -26,6 +26,7 @@ namespace Romm\SiteFactory\Core;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Extbase\Error;
 use Romm\SiteFactory\Form\FieldsConfigurationPresets;
@@ -327,12 +328,19 @@ class Core {
 	 * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController|\TYPO3\CMS\Backend\Template\DocumentTemplate
 	 */
 	public static function getDocumentTemplate() {
-		/** @var $environmentService \TYPO3\CMS\Extbase\Service\EnvironmentService */
-		$environmentService = self::getObjectManager()->get('TYPO3\\CMS\\Extbase\\Service\\EnvironmentService');
-		if ($environmentService->isEnvironmentInFrontendMode())
+		if (self::isEnvironmentInFrontendMode())
 			return $GLOBALS['TSFE'];
 		else
 			return $GLOBALS['TBE_TEMPLATE'];
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isEnvironmentInFrontendMode() {
+		/** @var $environmentService \TYPO3\CMS\Extbase\Service\EnvironmentService */
+		$environmentService = self::getObjectManager()->get('TYPO3\\CMS\\Extbase\\Service\\EnvironmentService');
+		return $environmentService->isEnvironmentInFrontendMode();
 	}
 
 	/**

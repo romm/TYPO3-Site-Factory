@@ -16,14 +16,20 @@ SiteFactory.FineUploaderDefaultSettings = function() {
 			}
 		}
 	};
-	this.deleteFile = {
-		enabled: true,
-		forceConfirm: true,
-		endpoint:       TYPO3.settings.ajaxUrls['ajaxDispatcher'] + '&dummy=',
-		paramsInBody:   false,
+	this.session = {
+		endpoint:       TYPO3.settings.ajaxUrls['ajaxDispatcher'],
 		params: {
-
+			ajaxID:		'ajaxDispatcher',
+			request: {
+				function: 'Romm\\SiteFactory\\Utility\\FileUtility->getExistingFiles'
+			},
+			fieldSettings: null
 		}
+	};
+	this.deleteFile = {
+		enabled:		true,
+		forceConfirm:	true,
+		endpoint:		TYPO3.settings.ajaxUrls['ajaxDispatcher'] + '&dummy='
 	};
 	this.thumbnails = {
 		placeholders: {

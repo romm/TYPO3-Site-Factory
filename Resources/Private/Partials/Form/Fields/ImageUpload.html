@@ -19,11 +19,14 @@
 			</div>
 		</div>
 
-		<f:if condition="{field.value}">
-			<div class="qq-uploader-selector qq-uploader">
-				<f:render partial="Form/Fields/Header/ImageUploadHeader" section="Items" arguments="{field: field}"/>
-			</div>
-		</f:if>
+		<f:comment>
+			<!--DELETE!-->
+			<f:if condition="{field.value}">
+				<div class="qq-uploader-selector qq-uploader">
+					<f:render partial="Form/Fields/Header/ImageUploadHeader" section="Items" arguments="{field: field}"/>
+				</div>
+			</f:if>
+		</f:comment>
 	</div>
 
 	<script type="text/javascript">
@@ -32,6 +35,7 @@
 		uploaderFunctionSettings.formId = '{formId}';
 		uploaderFunctionSettings.fieldName = '{field.name}';
 		uploaderFunctionSettings.element = document.getElementById('fine-uploader-{field.name}');
+		uploaderFunctionSettings.session.params.fieldValue = '{field.value}';
 		if (typeof fieldSettings.allowedExtensions !== 'undefined')
 			uploaderFunctionSettings.validation.allowedExtensions = fieldSettings.allowedExtensions;
 		if (typeof fieldSettings.itemLimit !== 'undefined')

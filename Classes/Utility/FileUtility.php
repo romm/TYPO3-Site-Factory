@@ -26,6 +26,7 @@ namespace Romm\SiteFactory\Utility;
 
 use Romm\SiteFactory\Core\Core;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Set of functions to manipulate files.
@@ -65,6 +66,29 @@ class FileUtility {
 		if (file_exists($filePath)) {
 			unlink($filePath);
 		}
+	}
+
+	public function getExistingFiles() {
+		$files = array();
+
+		$fieldValue = GeneralUtility::_GP('fieldValue');
+		if ($fieldValue != '') {
+//			/** @var \TYPO3\CMS\Extbase\Service\ImageService $imageService */
+//			$imageService = Core::getObjectManager()->get('TYPO3\\CMS\\Extbase\\Service\\ImageService');
+//
+//			$image = $imageService->getImage($fieldValue, null, false);
+//			$uri = $imageService->getImageUri($image);
+			$imageUrl = GeneralUtility::locationHeaderUrl('/' . $fieldValue);
+			if (file_exists(PATH_site . $fieldValue))
+				$files[] = array(
+					'name'			=> $fieldValue,
+					'uuid'			=> $fieldValue,
+//					'thumbnailUrl'	=> 'http://site-factory.demo4u.net/fileadmin/user_upload/my_new_site/logo.jpg'
+					'thumbnailUrl'	=> $imageUrl
+				);
+		}
+
+		return json_encode($files);
 	}
 
 }

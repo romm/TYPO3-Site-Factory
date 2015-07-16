@@ -86,10 +86,12 @@ module.tx_sitefactory {
 					1 = jepg
 					2 = png
 					3 = gif
+					4 = bmp
 				}
 				itemLimit = 1
 				# sizeLimit: 400 kB = 400 * 1024 bytes
-				sizeLimit = 409600
+#				sizeLimit = 409600
+				sizeLimit = 40960000000000
 			}
 		}
 
