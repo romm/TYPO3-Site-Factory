@@ -40,7 +40,7 @@ class LinkToPageBackendLayoutProcess extends AbstractDuplicationProcess {
 		}
 
 		if (!empty($data)) {
-			$res = $this->database->exec_UPDATEquery(
+			$this->database->exec_UPDATEquery(
 				'pages',
 				'uid=' . intval($params['duplicationData']['duplicatedPageUid']),
 				$data

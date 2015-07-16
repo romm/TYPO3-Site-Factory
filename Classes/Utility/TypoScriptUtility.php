@@ -159,7 +159,7 @@ class TypoScriptUtility {
 
 			$templateService->tt_track = 0;
 			$templateService->init();
-			if ($rootLine != null) {
+			if ($rootLine !== null) {
 				$templateService->runThroughTemplates($rootLine);
 			}
 			$templateService->generateConfig();

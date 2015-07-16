@@ -1,5 +1,6 @@
 <?php
-defined('TYPO3_MODE') or die();
+if (!defined('TYPO3_MODE'))
+	throw new \Exception('Access denied.');
 
 call_user_func(
 	function($extensionKey) {

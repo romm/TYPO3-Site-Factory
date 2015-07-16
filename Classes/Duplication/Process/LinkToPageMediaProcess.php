@@ -65,7 +65,7 @@ class LinkToPageMediaProcess extends AbstractDuplicationProcess {
 					}
 
 					if ($targetedPage) {
-						$res = $this->database->exec_DELETEquery(
+						$this->database->exec_DELETEquery(
 							'sys_file_reference',
 							'uid_foreign=' . $targetedPage .
 							' AND tablenames="pages"' .
@@ -85,7 +85,7 @@ class LinkToPageMediaProcess extends AbstractDuplicationProcess {
 							'table_local'	=> 'sys_file'
 						);
 
-						$res = $this->database->exec_INSERTquery(
+						$this->database->exec_INSERTquery(
 							'sys_file_reference',
 							$data
 						);

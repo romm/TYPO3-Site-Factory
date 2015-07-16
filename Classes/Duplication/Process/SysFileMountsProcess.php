@@ -108,7 +108,6 @@ class SysFileMountsProcess extends AbstractDuplicationProcess {
 		$fileMount->setTitle($siteTitle);
 		$fileMount->setIsAbsolutePath(true);
 		// @todo: seems it must be on pid=0, check?
-//		$fileMount->setPid($this->getDuplicatedPageUid());
 		$fileMount->setPid(0);
 
 		/** @var $persistenceManager \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager */

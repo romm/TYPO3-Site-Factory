@@ -26,7 +26,6 @@ namespace Romm\SiteFactory\Utility;
 
 use Romm\SiteFactory\Core\Core;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Set of functions to manipulate files.

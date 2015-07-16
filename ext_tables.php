@@ -1,5 +1,6 @@
 <?php
-defined('TYPO3_MODE') or die();
+if (!defined('TYPO3_MODE'))
+	throw new \Exception('Access denied.');
 
 call_user_func(
 	function($extensionKey) {
@@ -22,6 +23,7 @@ call_user_func(
 			);
 		}
 
+		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($extensionKey, 'Configuration/TypoScript/Default', 'Site Factory - Default settings');
 		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($extensionKey, 'Configuration/TypoScript/FieldsExample', 'Site Factory - Fields example');
 
 		// Extending locallang files.

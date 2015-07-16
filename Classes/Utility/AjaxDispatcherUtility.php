@@ -116,9 +116,6 @@ class AjaxDispatcherUtility {
 	 */
 	public static $instanceName = null;
 
-	/** @var \TYPO3\CMS\Core\TimeTracker\TimeTracker */
-	private $timeTracker;
-
 	/**
 	 * Main function of the class, will run the function call process.
 	 *
@@ -134,9 +131,6 @@ class AjaxDispatcherUtility {
 			->initializeTypo3DbGlobal()
 			->applyAdditionalConfigurationSettings()
 			->initializeBackendUser();
-
-//		$this->timeTracker = $this->objectManager->get('TYPO3\\CMS\\Core\\TimeTracker\\TimeTracker');
-//		$this->timeTracker->start();
 
 		// Gets the Ajax call parameters.
 		$arguments = GeneralUtility::_GP('request');

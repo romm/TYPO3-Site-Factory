@@ -25,7 +25,6 @@ namespace Romm\SiteFactory\Duplication\Process;
  ***************************************************************/
 
 use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * @todo: comment
