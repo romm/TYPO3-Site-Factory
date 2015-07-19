@@ -28,9 +28,14 @@ use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
 use Romm\SiteFactory\Utility\ConstantManagerUtility;
 
 /**
- * @todo: comment
+ * Class containing functions called when a site is being duplicated.
+ * See function "run" for more information.
  */
 class BackendConstantsAssignationProcess extends AbstractDuplicationProcess {
+	/**
+	 * Manages the constants by setting the new values put in the fields, and
+	 * linking the pages of the model site with the duplicated one's.
+	 */
 	public function run() {
 		ConstantManagerUtility::manageTemplateConstants(
 			$this->getModelPageUid(),

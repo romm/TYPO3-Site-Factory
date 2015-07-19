@@ -26,7 +26,6 @@ namespace Romm\SiteFactory\Core;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Extbase\Error;
 use Romm\SiteFactory\Form\FieldsConfigurationPresets;
@@ -98,7 +97,7 @@ class Core {
 			$validationResultArray[$validationName] = array();
 			if (!is_array($validationResult)) $validationResult = array($validationResult);
 			foreach($validationResult as $validatorResult) {
-				/** @var $values \TYPO3\CMS\Extbase\Error\Message[] */
+				/** @var \TYPO3\CMS\Extbase\Error\Message[] $values */
 				$values = ObjectAccess::getProperty($validatorResult, $validationName);
 				foreach($values as $value) {
 					$validationResultArray[$validationName][] = $value->render();
@@ -254,7 +253,7 @@ class Core {
 	public static function checkUidIsSavedSite($uid) {
 		$objectManager = self::getObjectManager();
 
-		/** @var $saveRepository \Romm\SiteFactory\Domain\Repository\SaveRepository */
+		/** @var \Romm\SiteFactory\Domain\Repository\SaveRepository $saveRepository */
 		$saveRepository = $objectManager->get('Romm\\SiteFactory\\Domain\\Repository\\SaveRepository');
 		$save = $saveRepository->findLastByRootPageUid($uid);
 
@@ -275,7 +274,7 @@ class Core {
 	 * @return string	The cleaned value.
 	 */
 	public static function getCleanedValueFromTCA($table, $field, $value, $pid, $checkUnique = true) {
-		/** @var $dataHandler \TYPO3\CMS\Core\DataHandling\DataHandler */
+		/** @var \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler */
 		$dataHandler = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\DataHandling\\DataHandler');
 
 		$res = array('value' => NULL);
@@ -318,7 +317,7 @@ class Core {
 	 * Get the current page renderer, and loads jQuery in the templates.
 	 */
 	public static function loadJquery() {
-		/** @var $documentTemplate \TYPO3\CMS\Backend\Template\DocumentTemplate */
+		/** @var \TYPO3\CMS\Backend\Template\DocumentTemplate $documentTemplate */
 		$documentTemplate = self::getDocumentTemplate();
 		$pageRenderer = $documentTemplate->getPageRenderer();
 		$pageRenderer->loadJquery('1.11.0', 'local', $pageRenderer::JQUERY_NAMESPACE_DEFAULT_NOCONFLICT);
@@ -338,7 +337,7 @@ class Core {
 	 * @return bool
 	 */
 	public static function isEnvironmentInFrontendMode() {
-		/** @var $environmentService \TYPO3\CMS\Extbase\Service\EnvironmentService */
+		/** @var \TYPO3\CMS\Extbase\Service\EnvironmentService $environmentService */
 		$environmentService = self::getObjectManager()->get('TYPO3\\CMS\\Extbase\\Service\\EnvironmentService');
 		return $environmentService->isEnvironmentInFrontendMode();
 	}

@@ -223,7 +223,7 @@ class AjaxDispatcherUtility {
 		$this->addRequestArgumentsToGlobal(array($pluginKey => $arguments['arguments']));
 
 		// Calling the controller by running an Extbase Bootstrap with the correct configuration.
-		/** @var $bootstrap \TYPO3\CMS\Extbase\Core\Bootstrap */
+		/** @var \TYPO3\CMS\Extbase\Core\Bootstrap $bootstrap */
 		$bootstrap = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Core\\Bootstrap');
 		$result = $bootstrap->run('', $bootstrapConfiguration);
 
@@ -278,9 +278,9 @@ class AjaxDispatcherUtility {
 	 * @return	string	The result of the content object.
 	 */
 	private function callContentObject($configuration, $arguments = array()) {
-		/** @var $contentObjectRenderer \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
+		/** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $contentObjectRenderer */
 		$contentObjectRenderer = $this->objectManager->get('TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer');
-		/** @var $contentObject \TYPO3\CMS\Frontend\ContentObject\AbstractContentObject */
+		/** @var \TYPO3\CMS\Frontend\ContentObject\AbstractContentObject $contentObject */
 		$contentObject = $contentObjectRenderer->getContentObject($configuration['_typoScriptNodeValue']);
 
 		// Add the arguments to the PHP global $_GET var.
@@ -347,18 +347,18 @@ class AjaxDispatcherUtility {
 	 * @return	array	The page configuration.
 	 */
 	public static function getPageConfiguration($uid = 0) {
-		/** @var $objectManager \TYPO3\CMS\Extbase\Object\ObjectManager */
+		/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
 		$objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
 
-		/** @var $typoScriptService \TYPO3\CMS\Extbase\Service\TypoScriptService */
+		/** @var \TYPO3\CMS\Extbase\Service\TypoScriptService $typoScriptService */
 		$typoScriptService = $objectManager->get('TYPO3\\CMS\\Extbase\\Service\\TypoScriptService');
 
 		if ($uid && MathUtility::canBeInterpretedAsInteger($uid) && $uid > 0) {
-			/** @var $pageRepository \TYPO3\CMS\Frontend\Page\PageRepository */
+			/** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
 			$pageRepository = $objectManager->get('TYPO3\\CMS\\Frontend\\Page\\PageRepository');
 			$rootLine = $pageRepository->getRootLine($uid);
 
-			/** @var $templateService \TYPO3\CMS\Core\TypoScript\TemplateService */
+			/** @var \TYPO3\CMS\Core\TypoScript\TemplateService $templateService */
 			$templateService = $objectManager->get('TYPO3\\CMS\\Core\\TypoScript\\TemplateService');
 			$templateService->tt_track = 0;
 			$templateService->init();
@@ -368,7 +368,7 @@ class AjaxDispatcherUtility {
 			$fullConfiguration = $typoScriptService->convertTypoScriptArrayToPlainArray($templateService->setup);
 		}
 		else {
-			/** @var $configurationManager \TYPO3\CMS\Extbase\Configuration\ConfigurationManager */
+			/** @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManager $configurationManager */
 			$configurationManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager');
 
 			$fullConfiguration = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
@@ -441,7 +441,7 @@ class AjaxDispatcherUtility {
 	 */
 	public function runFrontendAjaxDispatcher() {
 		if (GeneralUtility::_GP('eID') != null && GeneralUtility::_GP('eID') == AjaxDispatcherUtility::$instanceName) {
-			/** @var $ajaxDispatcher AjaxDispatcherUtility */
+			/** @var AjaxDispatcherUtility $ajaxDispatcher */
 			$ajaxDispatcher = new AjaxDispatcherUtility();
 			$ajaxDispatcher->run();
 		}

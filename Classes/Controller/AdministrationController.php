@@ -62,7 +62,7 @@ class AdministrationController extends AbstractController {
 	 */
 	protected $pageRepository = NULL;
 
-	/** @var $fieldsConfiguration array */
+	/** @var array $fieldsConfiguration */
 	public $fieldsConfiguration = NULL;
 
 	/**
@@ -76,19 +76,19 @@ class AdministrationController extends AbstractController {
 		$this->view->assign('modelSitesList', FieldsConfigurationPresets::getModelSitesList());
 
 		// Managing the already duplicated sites list.
-		/** @var $savedSites \Romm\SiteFactory\Domain\Model\Save[] */
+		/** @var \Romm\SiteFactory\Domain\Model\Save[] $savedSites */
 		$savedSites = $this->saveRepository->findAll();
 
 		$finalSavedSites = array();
 		foreach($savedSites as $key => $site) {
 			// Adding root page of the site in the configuration.
-			/** @var $defaultQuerySettings \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface */
+			/** @var \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface $defaultQuerySettings */
 			$defaultQuerySettings = Core::getObjectManager()->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\QuerySettingsInterface');
 			$defaultQuerySettings->setRespectStoragePage(false);
 			$defaultQuerySettings->setIgnoreEnableFields(true);
 			$this->pageRepository->setDefaultQuerySettings($defaultQuerySettings);
 
-			/** @var $page \Romm\SiteFactory\Domain\Model\Pages */
+			/** @var \Romm\SiteFactory\Domain\Model\Pages $page */
 			$page = $this->pageRepository->findByUid($site->getRootPageUid());
 
 			// The page may have been deleted.
@@ -176,7 +176,7 @@ class AdministrationController extends AbstractController {
 				$pageUid = $this->request->getArgument('modifySite');
 				$this->view->assign('modifySite', $pageUid);
 
-				/** @var $savedSite \Romm\SiteFactory\Domain\Model\Save */
+				/** @var \Romm\SiteFactory\Domain\Model\Save $savedSite */
 				$savedSite = $this->saveRepository->findOneByRootPageUid($pageUid);
 				$fields = $this->fillFieldsValuesFromSavedSite($savedSite, false);
 			}
@@ -244,7 +244,7 @@ class AdministrationController extends AbstractController {
 					$redirectParameters['modifySite'] = $this->request->getArgument('modifySite');
 
 					// We get back the last saved configuration. It prevents missing values as some fields may not be in the modification form (e.g. the "model site").
-					/** @var $savedSite \Romm\SiteFactory\Domain\Model\Save */
+					/** @var \Romm\SiteFactory\Domain\Model\Save $savedSite */
 					$savedSite = $this->saveRepository->findOneByRootPageUid($redirectParameters['modifySite']);
 					$duplicationData = $savedSite->getConfiguration();
 				}
@@ -300,7 +300,7 @@ class AdministrationController extends AbstractController {
 			$cacheData['duplicationData']['modifySite'] = $modifySite;
 			$cacheData['duplicationData']['duplicatedPageUid'] = $modifySite;
 
-			/** @var $savedSite \Romm\SiteFactory\Domain\Model\Save */
+			/** @var \Romm\SiteFactory\Domain\Model\Save $savedSite */
 			$savedSite = $this->saveRepository->findLastByRootPageUid($modifySite);
 			$cacheData['savedSite'] = $savedSite->getConfiguration();
 		}

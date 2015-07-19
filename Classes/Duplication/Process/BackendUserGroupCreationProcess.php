@@ -32,6 +32,7 @@ use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
 
 /**
  * Class containing functions called when a site is being duplicated.
+ * See function "run" for more information.
  *
  * Available duplication settings:
  *  - modelUid: The uid of the backend user group which will be duplicated.
@@ -66,10 +67,10 @@ class BackendUserGroupCreationProcess extends AbstractDuplicationProcess {
 		}
 
 		// Checking if the given backend user group is valid.
-		/** @var $backendUserGroupRepository \TYPO3\CMS\Extbase\Domain\Repository\BackendUserGroupRepository */
+		/** @var \TYPO3\CMS\Extbase\Domain\Repository\BackendUserGroupRepository $backendUserGroupRepository */
 		$backendUserGroupRepository = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Repository\\BackendUserGroupRepository');
 
-		/** @var $backendUserGroup \TYPO3\CMS\Extbase\Domain\Model\BackendUserGroup */
+		/** @var \TYPO3\CMS\Extbase\Domain\Model\BackendUserGroup $backendUserGroup */
 		$backendUserGroup = $backendUserGroupRepository->findByUid($backendUserGroupModelUid);
 
 		if (!$backendUserGroup) {
@@ -82,7 +83,7 @@ class BackendUserGroupCreationProcess extends AbstractDuplicationProcess {
 		}
 
 		// Creating a new instance of backend user, and copying the values from the model one.
-		/** @var $backendUserGroupClone \TYPO3\CMS\Extbase\Domain\Model\BackendUserGroup */
+		/** @var \TYPO3\CMS\Extbase\Domain\Model\BackendUserGroup $backendUserGroupClone */
 		$backendUserGroupClone = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Domain\\Model\\BackendUserGroup');
 
 		$backendUserGroupClone->setPid($this->getDuplicatedPageUid());
@@ -94,7 +95,7 @@ class BackendUserGroupCreationProcess extends AbstractDuplicationProcess {
 			$backendUserGroup->getTitle();
 		$backendUserGroupClone->setTitle($backendUserGroupTitle);
 
-		/** @var $persistenceManager \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager */
+		/** @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager $persistenceManager */
 		$persistenceManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager');
 		$persistenceManager->add($backendUserGroupClone);
 		$persistenceManager->persistAll();
@@ -108,10 +109,10 @@ class BackendUserGroupCreationProcess extends AbstractDuplicationProcess {
 		// Managing file mount.
 		$fileMountUid = $this->getProcessSettings('sysFileMountUid');
 		if ($fileMountUid) {
-			/** @var $fileMountRepository \TYPO3\CMS\Extbase\Domain\Repository\FileMountRepository */
+			/** @var \TYPO3\CMS\Extbase\Domain\Repository\FileMountRepository $fileMountRepository */
 			$fileMountRepository = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Repository\\FileMountRepository');
 
-			/** @var $fileMount \TYPO3\CMS\Extbase\Domain\Model\FileMount */
+			/** @var \TYPO3\CMS\Extbase\Domain\Model\FileMount $fileMount */
 			$fileMount = $fileMountRepository->findByUid($fileMountUid);
 			if (!$fileMount) {
 				$this->addWarning(
@@ -144,11 +145,11 @@ class BackendUserGroupCreationProcess extends AbstractDuplicationProcess {
 	}
 
 	/**
-	 * Currently, "file_mountpoints" is not mapped to the BackendUserGroup
-	 * model, so we need to map "the old way".
+	 * Currently, "file_mountpoints" is not bound to the BackendUserGroup
+	 * model, so we need to bind "the old way".
 	 *
 	 * @param	BackendUserGroup	$backendUserGroup	The backend user group.
-	 * @param	FileMount			$fileMount			The file mount which will be mapped to the given backend user group.
+	 * @param	FileMount			$fileMount			The file mount which will be bound to the given backend user group.
 	 * @return	boolean|\mysqli_result|object MySQLi result object / DBAL object
 	 */
 	private function fixFileMountForBackendUserGroup(BackendUserGroup $backendUserGroup, FileMount $fileMount) {

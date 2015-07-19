@@ -45,7 +45,7 @@ class SaveRepository extends Repository {
 	 * @return array|QueryResultInterface
 	 */
 	public function findLastByRootPageUid($rootPageUid) {
-		/** @var $query \TYPO3\CMS\Extbase\Persistence\Generic\Query */
+		/** @var \TYPO3\CMS\Extbase\Persistence\Generic\Query $query */
 		$query = $this->createQuery();
 
 		$query->matching(
@@ -70,7 +70,7 @@ class SaveRepository extends Repository {
 	 * @return array|QueryResultInterface
 	 */
 	public function findAllByDistinctRootPageUid() {
-		/** @var $query \TYPO3\CMS\Extbase\Persistence\Generic\Query */
+		/** @var \TYPO3\CMS\Extbase\Persistence\Generic\Query $query */
 		$query = $this->createQuery();
 
 		return $query
@@ -104,18 +104,18 @@ class SaveRepository extends Repository {
 		if (!$records) return NULL;
 
 		$objectManager = Core::getObjectManager();
-		/** @var $pagesRepository \Romm\SiteFactory\Domain\Repository\PagesRepository */
+		/** @var \Romm\SiteFactory\Domain\Repository\PagesRepository $pagesRepository */
 		$pagesRepository = $objectManager->get('Romm\\SiteFactory\\Domain\\Repository\\PagesRepository');
 
 		if (is_array($records) || $records instanceof QueryResult) {
-			/** @var $records \Romm\SiteFactory\Domain\Model\Save[] */
+			/** @var \Romm\SiteFactory\Domain\Model\Save[] $records */
 			foreach($records as $key => $record) {
 				$page = $pagesRepository->findByUidWithoutCondition($record->getRootPageUid());
 				$records[$key]->setPage($page[0]);
 			}
 		}
 		elseif($records instanceof Save) {
-			/** @var $page \Romm\SiteFactory\Domain\Model\Pages */
+			/** @var \Romm\SiteFactory\Domain\Model\Pages $page */
 			$page = $pagesRepository->findByUidWithoutCondition($records->getRootPageUid());
 			$records->setPage($page[0]);
 		}

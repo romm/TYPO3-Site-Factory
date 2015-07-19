@@ -26,10 +26,12 @@ namespace Romm\SiteFactory\Utility;
 
 use Romm\SiteFactory\Core\Core;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 /**
  * Set of functions to manipulate files.
+ * Used with the JavaScript library FineUploader.
+ *
  * @todo make me become a service
  */
 class FileUtility {
@@ -68,27 +70,31 @@ class FileUtility {
 		}
 	}
 
+	/**
+	 * Handles the existing files of a Fine Uploader form.
+	 * The values are stored in the GET/POST var at the index "fieldValue".
+	 *
+	 * @return string
+	 */
 	public function getExistingFiles() {
 		$files = array();
 
 		$fieldValue = GeneralUtility::_GP('fieldValue');
 		if ($fieldValue != '') {
-//			/** @var \TYPO3\CMS\Extbase\Service\ImageService $imageService */
-//			$imageService = Core::getObjectManager()->get('TYPO3\\CMS\\Extbase\\Service\\ImageService');
-//
-//			$image = $imageService->getImage($fieldValue, null, false);
-//			$uri = $imageService->getImageUri($image);
-			$imageUrl = GeneralUtility::locationHeaderUrl('/' . $fieldValue);
-			if (file_exists(PATH_site . $fieldValue))
+			$imagePath = GeneralUtility::getFileAbsFileName($fieldValue);
+			$imageName = PathUtility::basename($imagePath);
+			$imageDirectoryPath = PathUtility::dirname($imagePath);
+			$imageDirectoryPath = PathUtility::getRelativePath(PATH_site, $imageDirectoryPath);
+			$imageUrl = GeneralUtility::locationHeaderUrl('/' . $imageDirectoryPath . $imageName);
+
+			if (file_exists($imagePath))
 				$files[] = array(
-					'name'			=> $fieldValue,
-					'uuid'			=> $fieldValue,
-//					'thumbnailUrl'	=> 'http://site-factory.demo4u.net/fileadmin/user_upload/my_new_site/logo.jpg'
+					'name'			=> $imageName,
+					'uuid'			=> $imageUrl,
 					'thumbnailUrl'	=> $imageUrl
 				);
 		}
 
 		return json_encode($files);
 	}
-
 }

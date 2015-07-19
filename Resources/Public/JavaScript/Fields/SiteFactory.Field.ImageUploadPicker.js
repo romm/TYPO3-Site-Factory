@@ -1,11 +1,26 @@
 SiteFactory.FineUploaderDefaultSettings = function() {
+	// For further Site Factory usage.
 	this.element = null;
 	this.formElement = null;
 	this.fieldName = '';
-	this.template = 'qq-template-validation';
-	this.deleteFile = {
-		enabled: true
+
+	// Validation settings for files.
+	this.validation = {
+		allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
+		itemLimit: 1,
+		sizeLimit: 409600000 // 400 kB = 400 * 1024 bytes
 	};
+
+	// Custom classes added to element on certain events.
+	this.classes = {
+		fail:		'alert alert-danger counter-errors',
+		success:	'alert alert-info'
+	};
+
+	// Id of the HTML element containing the Fine Uploader template.
+	this.template = 'qq-template-validation';
+
+	// TYPO3 request handler when a new file is added.
 	this.request = {
 		endpoint:       TYPO3.settings.ajaxUrls['ajaxDispatcher'],
 		paramsInBody:   false,
@@ -16,6 +31,8 @@ SiteFactory.FineUploaderDefaultSettings = function() {
 			}
 		}
 	};
+
+	// Request managing the already existing files for a field.
 	this.session = {
 		endpoint:       TYPO3.settings.ajaxUrls['ajaxDispatcher'],
 		params: {
@@ -26,28 +43,28 @@ SiteFactory.FineUploaderDefaultSettings = function() {
 			fieldSettings: null
 		}
 	};
+
+	// Setting up the delete functionality.
 	this.deleteFile = {
 		enabled:		true,
 		forceConfirm:	true,
 		endpoint:		TYPO3.settings.ajaxUrls['ajaxDispatcher'] + '&dummy='
 	};
+
+	// Paths to the thumbnails.
 	this.thumbnails = {
 		placeholders: {
 			waitingPath: '',
 			notAvailablePath: ''
 		}
 	};
-	this.validation = {
-		allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
-		itemLimit: 5,
-		sizeLimit: 409600000 // 400 kB = 400 * 1024 bytes
-	};
-	this.classes = {
-		fail:		'alert alert-danger counter-errors',
-		success:	'alert alert-info'
-	};
+
+	// Initializing the messages object which are filled in the Fluid template.
 	this.messages =  {};
+
+	// Callback functions customization.
 	this.callbacks = {
+		// When a file has been uploaded.
 		onComplete: function(id, name, response) {
 			// Changing the value of the form element to the path of the file.
 			var formElement = window[this._options.formId];
@@ -55,11 +72,12 @@ SiteFactory.FineUploaderDefaultSettings = function() {
 			var fieldElement = formElement.getFieldByName(fieldName);
 			fieldElement.input.val('new:' + response['tmpFilePath']);
 		},
+
+		// When a delete request is sent.
 		onSubmitDelete: function (id) {
 			this.setDeleteFileParams(
 				{
 					fileName:	this.getUuid(id),
-					ajaxID:		'ajaxDispatcher',
 					request: {
 						function: 'Romm\\SiteFactory\\Utility\\FileUtility->deleteFile'
 					}
@@ -67,8 +85,10 @@ SiteFactory.FineUploaderDefaultSettings = function() {
 				id
 			);
 		},
+
+		// When a delete request has been done.
 		onDeleteComplete: function () {
-			// Changing the value of the form element to the path of the file.
+			// Emptying the value of the form element.
 			var formElement = window[this._options.formId];
 			var fieldName = this._options.fieldName;
 			var fieldElement = formElement.getFieldByName(fieldName);

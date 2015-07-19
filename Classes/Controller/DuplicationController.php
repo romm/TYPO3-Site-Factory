@@ -74,7 +74,7 @@ class DuplicationController extends AbstractController {
 		$cacheData = $cache->get($cacheToken);
 		$cacheData = json_decode($cacheData, true);
 
-		/** @var $result \TYPO3\CMS\Extbase\Error\Result */
+		/** @var \TYPO3\CMS\Extbase\Error\Result $result */
 		$result = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Error\\Result');
 
 		try {
@@ -91,7 +91,7 @@ class DuplicationController extends AbstractController {
 							: array();
 
 						// Calling the function of the current process step.
-						/** @var $class AbstractDuplicationProcess */
+						/** @var AbstractDuplicationProcess $class */
 						$class = GeneralUtility::makeInstance($class, $cacheData['duplicationData'], $settings, $cacheData['fieldsValues']);
 						if ($class instanceof AbstractDuplicationProcess) {
 							// @todo : else
@@ -121,7 +121,7 @@ class DuplicationController extends AbstractController {
 				throw new \Exception('The duplication data must contain a valid index for "modelPageUid".', 1422885697);
 		}
 		catch(\Exception $exception) {
-			/** @var $backendUser \TYPO3\CMS\Core\Authentication\BackendUserAuthentication */
+			/** @var \TYPO3\CMS\Core\Authentication\BackendUserAuthentication $backendUser */
 			$backendUser = $GLOBALS['BE_USER'];
 
 			// Setting up error message. If the user is admin, it gets a detailed message.

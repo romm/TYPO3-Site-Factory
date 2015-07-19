@@ -114,6 +114,7 @@ class ConstantManagerUtility {
 		if (!is_array($pagesPaths)) {} // @todo: exception
 		else {
 			$constants = TypoScriptUtility::getTypoScriptConstants($pageUid);
+
 			foreach ($pagesPaths as $path)
 				foreach ($fieldValues as $key => $value) {
 					$fullPath = $path . '.' . $key;
@@ -157,8 +158,7 @@ class ConstantManagerUtility {
 	}
 
 	/**
-	 * If no template marked with "site_factory_template" exists for the given
-	 * page, a new one is created.
+	 * If no template exists for the given page, a new one is created.
 	 *
 	 * @param	int	$pageUid	The page uid.
 	 */
@@ -183,7 +183,7 @@ class ConstantManagerUtility {
 	 * @return	array|false				Array of result, false if no template was found.
 	 */
 	private static function getPageTemplate($pageUid) {
-		/** @var $templateService \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService */
+		/** @var \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService $templateService */
 		$templateService = Core::getObjectManager()->get('TYPO3\\CMS\\Core\\TypoScript\\ExtendedTemplateService');
 		$template = $templateService->ext_getFirstTemplate($pageUid);
 

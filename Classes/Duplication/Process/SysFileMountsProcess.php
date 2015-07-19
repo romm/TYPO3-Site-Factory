@@ -30,6 +30,7 @@ use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
 
 /**
  * Class containing functions called when a site is being duplicated.
+ * See function "run" for more information.
  *
  * Available duplication settings:
  *  - path:	Path of the folder created on the server.
@@ -102,7 +103,7 @@ class SysFileMountsProcess extends AbstractDuplicationProcess {
 		// @todo: manage warning when overriding a folder?
 		GeneralUtility::mkdir_deep(PATH_site . 'fileadmin' . $folderPath);
 
-		/** @var $fileMount \TYPO3\CMS\Extbase\Domain\Model\FileMount */
+		/** @var \TYPO3\CMS\Extbase\Domain\Model\FileMount $fileMount */
 		$fileMount = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Domain\\Model\\FileMount');
 		$fileMount->setPath($folderPath);
 		$fileMount->setTitle($siteTitle);
@@ -110,7 +111,7 @@ class SysFileMountsProcess extends AbstractDuplicationProcess {
 		// @todo: seems it must be on pid=0, check?
 		$fileMount->setPid(0);
 
-		/** @var $persistenceManager \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager */
+		/** @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager $persistenceManager */
 		$persistenceManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager');
 		$persistenceManager->add($fileMount);
 		$persistenceManager->persistAll();

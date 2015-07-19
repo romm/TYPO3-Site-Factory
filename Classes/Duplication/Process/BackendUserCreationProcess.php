@@ -33,6 +33,7 @@ use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
 
 /**
  * Class containing functions called when a site is being duplicated.
+ * See function "run" for more information.
  *
  * Available duplication settings:
  *  - modelUid: The uid of the backend user which will be duplicated.
@@ -67,10 +68,10 @@ class BackendUserCreationProcess extends AbstractDuplicationProcess {
 		}
 
 		// Checking if the given backend user is valid.
-		/** @var $backendUserRepository \TYPO3\CMS\Extbase\Domain\Repository\BackendUserRepository */
+		/** @var \TYPO3\CMS\Extbase\Domain\Repository\BackendUserRepository $backendUserRepository */
 		$backendUserRepository = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Repository\\BackendUserRepository');
 
-		/** @var $backendUser \TYPO3\CMS\Extbase\Domain\Model\BackendUser */
+		/** @var \TYPO3\CMS\Extbase\Domain\Model\BackendUser $backendUser */
 		$backendUser = $backendUserRepository->findByUid($backendUserModelUid);
 
 		if (!$backendUser) {
@@ -83,7 +84,7 @@ class BackendUserCreationProcess extends AbstractDuplicationProcess {
 		}
 
 		// Creating a new instance of backend user, and copying the values from the model one.
-		/** @var $backendUserClone \TYPO3\CMS\Extbase\Domain\Model\BackendUser */
+		/** @var \TYPO3\CMS\Extbase\Domain\Model\BackendUser $backendUserClone */
 		$backendUserClone = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Domain\\Model\\BackendUser');
 
 		$backendUserClone->setPid($this->getDuplicatedPageUid());
@@ -91,7 +92,7 @@ class BackendUserCreationProcess extends AbstractDuplicationProcess {
 		$backendUserName = Core::getCleanedValueFromTCA('be_users', 'username', $backendUser->getUserName(), 0);
 		$backendUserClone->setUserName($backendUserName);
 
-		/** @var $persistenceManager \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager */
+		/** @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager $persistenceManager */
 		$persistenceManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager');
 		$persistenceManager->add($backendUserClone);
 		$persistenceManager->persistAll();
@@ -111,10 +112,10 @@ class BackendUserCreationProcess extends AbstractDuplicationProcess {
 		// Managing file mount.
 		$fileMountUid = $this->getProcessSettings('sysFileMountUid');
 		if ($fileMountUid) {
-			/** @var $fileMountRepository \TYPO3\CMS\Extbase\Domain\Repository\FileMountRepository */
+			/** @var \TYPO3\CMS\Extbase\Domain\Repository\FileMountRepository $fileMountRepository */
 			$fileMountRepository = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Repository\\FileMountRepository');
 
-			/** @var $fileMount \TYPO3\CMS\Extbase\Domain\Model\FileMount */
+			/** @var \TYPO3\CMS\Extbase\Domain\Model\FileMount $fileMount */
 			$fileMount = $fileMountRepository->findByUid($fileMountUid);
 			if (!$fileMount) {
 				$this->addWarning(
@@ -146,11 +147,11 @@ class BackendUserCreationProcess extends AbstractDuplicationProcess {
 	}
 
 	/**
-	 * Currently, "file_mountpoints" is not mapped to the BackendUser model, so
-	 * we need to map "the old way".
+	 * Currently, "file_mountpoints" is not bound to the BackendUser model, so
+	 * we need to bind "the old way".
 	 *
 	 * @param	BackendUser	$backendUser	The backend user.
-	 * @param	FileMount	$fileMount		The file mount which will be mapped to the given backend user.
+	 * @param	FileMount	$fileMount		The file mount which will be bound to the given backend user.
 	 * @return	boolean|\mysqli_result|object MySQLi result object / DBAL object
 	 */
 	private function fixFileMountForBackendUser(BackendUser $backendUser, FileMount $fileMount) {
@@ -161,8 +162,8 @@ class BackendUserCreationProcess extends AbstractDuplicationProcess {
 		);
 	}
 	/**
-	 * Currently, "db_mountpoints" is not mapped to the BackendUser model, so
-	 * we need to map "the old way".
+	 * Currently, "db_mountpoints" is not bound to the BackendUser model, so
+	 * we need to bind "the old way".
 	 *
 	 * @param	BackendUser	$backendUser	The backend user.
 	 * @param	int			$uid			The uid of the root page.

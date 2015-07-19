@@ -194,7 +194,7 @@ abstract class AbstractField extends AbstractEntity implements FieldInterface {
 	 * @throws \Exception
 	 */
 	public function fillConfiguration($configuration) {
-		/** @var $propertyReflection \TYPO3\CMS\Extbase\Reflection\ClassReflection */
+		/** @var \TYPO3\CMS\Extbase\Reflection\ClassReflection $propertyReflection */
 		$propertyReflection = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Reflection\\ClassReflection', get_class($this));
 
 		// Setting properties.
@@ -230,7 +230,7 @@ abstract class AbstractField extends AbstractEntity implements FieldInterface {
 		$validation = $this->getValidation();
 
 		foreach($validation as $validatorName => $validatorConfiguration) {
-			/** @var $validator \Romm\SiteFactory\Form\Validation\AbstractValidator */
+			/** @var \Romm\SiteFactory\Form\Validation\AbstractValidator $validator */
 			$validator = $validatorConfiguration['validator'];
 			$this->validationResult[$validatorName] = $validator->validate($this);
 		}
@@ -497,7 +497,7 @@ abstract class AbstractField extends AbstractEntity implements FieldInterface {
 		if (!array_key_exists($hash, $this->mergedValidationResult)) {
 			unset($this->mergedValidationResult);
 
-			/** @var $result \TYPO3\CMS\Extbase\Error\Result */
+			/** @var \TYPO3\CMS\Extbase\Error\Result $result */
 			$result = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Error\\Result');
 			foreach($this->validationResult as $validationResult) {
 				$result->merge($validationResult);

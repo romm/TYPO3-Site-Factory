@@ -15,18 +15,9 @@
 	<div class="file-uploader-container">
 		<div id="fine-uploader-{field.name}">
 			<div class="qq-upload-button-selector btn btn-primary">
-				<span class="glyphicon glyphicon-file"></span>&nbsp;<input type="file" name="somename" />
+				<span class="glyphicon glyphicon-file"></span>&nbsp;<input type="file" />
 			</div>
 		</div>
-
-		<f:comment>
-			<!--DELETE!-->
-			<f:if condition="{field.value}">
-				<div class="qq-uploader-selector qq-uploader">
-					<f:render partial="Form/Fields/Header/ImageUploadHeader" section="Items" arguments="{field: field}"/>
-				</div>
-			</f:if>
-		</f:comment>
 	</div>
 
 	<script type="text/javascript">

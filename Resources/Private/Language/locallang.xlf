@@ -189,6 +189,14 @@
 			<trans-unit id="form.field.hint.logo">
 				<source>The image used as a logo for the site.</source>
 			</trans-unit>
+
+			<trans-unit id="form.field.label.banner">
+				<source>Header banner</source>
+			</trans-unit>
+			<trans-unit id="form.field.hint.banner">
+				<source>The image used as a banned for the site.</source>
+			</trans-unit>
+
 			<trans-unit id="form.field.select_file">
 				<source>Select a file</source>
 			</trans-unit>
