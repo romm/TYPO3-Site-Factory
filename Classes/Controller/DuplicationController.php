@@ -27,8 +27,6 @@ namespace Romm\SiteFactory\Controller;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Error\Error;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use Romm\SiteFactory\Core\CacheManager;
 use Romm\SiteFactory\Core\Core;
 use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
@@ -36,7 +34,7 @@ use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
 /**
  * Controller managing the duplication of sites.
  */
-class DuplicationController extends ActionController {
+class DuplicationController extends AbstractController {
 
 	/**
 	 * Ajax implementation of the function "processDuplication". Will display
@@ -76,7 +74,7 @@ class DuplicationController extends ActionController {
 		$cacheData = $cache->get($cacheToken);
 		$cacheData = json_decode($cacheData, true);
 
-		/** @var $result \TYPO3\CMS\Extbase\Error\Result */
+		/** @var \TYPO3\CMS\Extbase\Error\Result $result */
 		$result = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Error\\Result');
 
 		try {
@@ -93,7 +91,7 @@ class DuplicationController extends ActionController {
 							: array();
 
 						// Calling the function of the current process step.
-						/** @var $class AbstractDuplicationProcess */
+						/** @var AbstractDuplicationProcess $class */
 						$class = GeneralUtility::makeInstance($class, $cacheData['duplicationData'], $settings, $cacheData['fieldsValues']);
 						if ($class instanceof AbstractDuplicationProcess) {
 							// @todo : else
@@ -123,7 +121,7 @@ class DuplicationController extends ActionController {
 				throw new \Exception('The duplication data must contain a valid index for "modelPageUid".', 1422885697);
 		}
 		catch(\Exception $exception) {
-			/** @var $backendUser \TYPO3\CMS\Core\Authentication\BackendUserAuthentication */
+			/** @var \TYPO3\CMS\Core\Authentication\BackendUserAuthentication $backendUser */
 			$backendUser = $GLOBALS['BE_USER'];
 
 			// Setting up error message. If the user is admin, it gets a detailed message.

@@ -58,14 +58,14 @@ class FieldsConfigurationPresets {
 	 * @return	array	The backend layouts in an array. Empty array if none was found.
 	 */
 	public static function getBackendLayoutsList() {
-		/** @var $backendLayoutView \TYPO3\CMS\Backend\View\BackendLayoutView */
+		/** @var \TYPO3\CMS\Backend\View\BackendLayoutView $backendLayoutView */
 		$backendLayoutView = GeneralUtility::makeInstance('TYPO3\\CMS\\Backend\\View\\BackendLayoutView');
 
 		$items = array();
 		$params = array(
 			'table'		=> 'pages',
 			'field'		=> 'backend_layout',
-			'row'		=> BackendUtility::getRecord('pages', 1, '*'),
+			'row'		=> BackendUtility::getRecord('pages', 1, '*'), // @todo: manage "page" uid!
 			'items'		=> &$items
 		);
 		$backendLayoutView->addBackendLayoutItems($params);

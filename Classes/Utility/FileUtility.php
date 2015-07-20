@@ -25,9 +25,13 @@ namespace Romm\SiteFactory\Utility;
  ***************************************************************/
 
 use Romm\SiteFactory\Core\Core;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 /**
  * Set of functions to manipulate files.
+ * Used with the JavaScript library FineUploader.
+ *
  * @todo make me become a service
  */
 class FileUtility {
@@ -49,9 +53,48 @@ class FileUtility {
 
 			echo json_encode(array(
 				'tmpFilePath' 	=> $tmpFilePath,
+				'newUuid'		=> $tmpFileName,
 				'success'		=> true
 			));
 		}
 	}
 
+	/**
+	 * Deletes a specific file from the processing folder.
+	 */
+	public function deleteFile() {
+		$fileName = GeneralUtility::_GP('fileName');
+		$filePath = PATH_site . Core::getProcessedFolderPath() . $fileName;
+		if (file_exists($filePath)) {
+			unlink($filePath);
+		}
+	}
+
+	/**
+	 * Handles the existing files of a Fine Uploader form.
+	 * The values are stored in the GET/POST var at the index "fieldValue".
+	 *
+	 * @return string
+	 */
+	public function getExistingFiles() {
+		$files = array();
+
+		$fieldValue = GeneralUtility::_GP('fieldValue');
+		if ($fieldValue != '') {
+			$imagePath = GeneralUtility::getFileAbsFileName($fieldValue);
+			$imageName = PathUtility::basename($imagePath);
+			$imageDirectoryPath = PathUtility::dirname($imagePath);
+			$imageDirectoryPath = PathUtility::getRelativePath(PATH_site, $imageDirectoryPath);
+			$imageUrl = GeneralUtility::locationHeaderUrl('/' . $imageDirectoryPath . $imageName);
+
+			if (file_exists($imagePath))
+				$files[] = array(
+					'name'			=> $imageName,
+					'uuid'			=> $imageUrl,
+					'thumbnailUrl'	=> $imageUrl
+				);
+		}
+
+		return json_encode($files);
+	}
 }

@@ -27,10 +27,10 @@ namespace Romm\SiteFactory\Duplication\Process;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\Tree\Pagetree\Commands;
 use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Class containing functions called when a site is being duplicated.
+ * See function "run" for more information.
  */
 class PagesDuplicationProcess extends AbstractDuplicationProcess {
 	/**
@@ -88,7 +88,7 @@ class PagesDuplicationProcess extends AbstractDuplicationProcess {
 		$nodeData->id = $nodeUid;
 		$nodeData->type = 'pages';
 
-		/** @var $node \TYPO3\CMS\Backend\Tree\Pagetree\PagetreeNode */
+		/** @var \TYPO3\CMS\Backend\Tree\Pagetree\PagetreeNode $node */
 		$node = GeneralUtility::makeInstance('TYPO3\\CMS\\Backend\\Tree\\Pagetree\\PagetreeNode', (array)$nodeData);
 
 		$duplicatedPageUid = Commands::copyNode($node, $destinationUid);

@@ -9,8 +9,8 @@ SiteFactory.Field = function(formElement, fieldElement) {
 	this.type				= fieldElement.attr('data-type');
 	this.fieldType			= fieldElement.attr('data-fieldtype');
 	this.label				= fieldElement.attr('data-label');
-	this.input				= $(fieldElement).find('.field-container :input');
-	this.parentElement		= $(fieldElement).parents('.form-group');
+	this.input				= jQuery(fieldElement).find('.field-container :input');
+	this.parentElement		= jQuery(fieldElement).parents('.form-group');
 	this.errorTooltip		= this.parentElement.find('.factory-tooltip-error');
 	this.errors				= [];
 
@@ -38,12 +38,12 @@ SiteFactory.Field = function(formElement, fieldElement) {
 			// Success callback function.
 			success: function(result) {
 				loading.hide();
-				result = $.parseJSON(result);
-				var parentElement = $(element).parents('.form-group');
+				result = jQuery.parseJSON(result);
+				var parentElement = jQuery(element).parents('.form-group');
 				var errorTooltip = parentElement.find('.factory-tooltip-error');
 
 				// The field has at least one error.
-				if ($(result['validationResult']['errors']).length > 0) {
+				if (jQuery(result['validationResult']['errors']).length > 0) {
 					localField.errors = [];
 					localField.addErrors(result['validationResult']['errors']).showErrors();
 				}
@@ -64,7 +64,7 @@ SiteFactory.Field = function(formElement, fieldElement) {
 			}
 		};
 
-		$.ajax({
+		jQuery.ajax({
 			async:		'true',
 			url:		TYPO3.settings.ajaxUrls['ajaxDispatcher'],
 			type:		'GET',
@@ -161,6 +161,6 @@ SiteFactory.Field = function(formElement, fieldElement) {
 	};
 
 	this.findElement = function(selector) {
-		return $(this.element).find(selector);
+		return jQuery(this.element).find(selector);
 	};
 };

@@ -30,13 +30,18 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
 
 /**
- * @todo: comment
+ * Class containing functions called when a site is being duplicated.
+ * See function "run" for more information.
  */
 class SaveSiteConfigurationProcess extends AbstractDuplicationProcess {
+	/**
+	 * When a site is being saved, this function will save all the fields values
+	 * in the DataBase, for further usage.
+	 */
 	public function run() {
 		$objectManager = Core::getObjectManager();
 
-		/** @var $saveRepository \Romm\SiteFactory\Domain\Repository\SaveRepository */
+		/** @var \Romm\SiteFactory\Domain\Repository\SaveRepository $saveRepository */
 		$saveRepository = $objectManager->get('Romm\\SiteFactory\\Domain\\Repository\\SaveRepository');
 
 		$saveObject = $saveRepository->findOneByRootPageUid($this->getDuplicatedPageUid());
@@ -44,7 +49,7 @@ class SaveSiteConfigurationProcess extends AbstractDuplicationProcess {
 		$newObject = false;
 		if (empty($saveObject)) {
 			$newObject = true;
-			/** @var $saveObject \Romm\SiteFactory\Domain\Model\Save */
+			/** @var \Romm\SiteFactory\Domain\Model\Save $saveObject */
 			$saveObject = GeneralUtility::makeInstance('Romm\\SiteFactory\\Domain\\Model\\Save');
 			$saveObject->setRootPageUid($this->getDuplicatedPageUid());
 		}

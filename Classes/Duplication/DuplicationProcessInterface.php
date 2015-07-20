@@ -28,5 +28,8 @@ namespace Romm\SiteFactory\Duplication;
  * Class containing functions called when a site is being duplicated.
  */
 interface DuplicationProcessInterface {
+	/**
+	 * Do the process of your duplication step in this function.
+	 */
 	public function run();
 }

@@ -1,0 +1,41 @@
+.qq-uploader {
+	min-height: 96px;
+	padding: 10px 5px 0;
+	margin: 5px;
+	border: none;
+}
+
+.qq-uploader[qq-drop-area-text] {
+	border: 1px dashed #CCC;
+}
+.qq-uploader[qq-drop-area-text]:before {
+	background: url('/typo3conf/ext/site_factory/Resources/Public/Images/drag-drop-file.png') no-repeat 99%;
+}
+.qq-uploader:before {
+	display: none;
+	padding-top: 5px;
+	height: 96px;
+}
+.qq-uploader:hover:before {
+	display: block;
+	top: 0;
+}
+
+.qq-upload-list {
+	margin: 10px 0;
+}
+
+.qq-upload-button-selector {
+	margin-top: 20px;
+}
+
+.file-uploader-container {
+	border: 1px solid #CCC;
+	border-radius: 4px;
+}
+
+dialog {
+	padding: 0px;
+	border: none;
+	background: none;
+}

@@ -85,7 +85,7 @@ SiteFactory.Menu = function(formElement, menuElement) {
 		}
 	};
 
-	$(document).ready(function() {
+	jQuery(document).ready(function() {
 		var menu = localMenu.findElement('.fixed-menu > *');
 
 		/*
@@ -94,7 +94,7 @@ SiteFactory.Menu = function(formElement, menuElement) {
 		 * via a "menu button".
 		 */
 		localMenu.findElement('.menu-btn-sm').click(function() {
-			var glyph = $(this).find('.glyphicon');
+			var glyph = jQuery(this).find('.glyphicon');
 			menu.toggle(100, function() {
 				if (menu.is(':visible') == true) {
 					glyph.removeClass('glyphicon-chevron-left');
@@ -107,8 +107,8 @@ SiteFactory.Menu = function(formElement, menuElement) {
 			});
 		});
 
-		$(window).resize(function() {
-			if ($(this).width() >= 768) {
+		jQuery(window).resize(function() {
+			if (jQuery(this).width() >= 768) {
 				var menuButton = localMenu.findElement('.menu-btn-sm');
 				var glyph = menuButton.find('.glyphicon');
 
@@ -120,6 +120,6 @@ SiteFactory.Menu = function(formElement, menuElement) {
 	});
 
 	this.findElement = function(selector) {
-		return $(this.element).find(selector);
+		return jQuery(this.element).find(selector);
 	};
 };

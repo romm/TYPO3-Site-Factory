@@ -182,6 +182,7 @@
 	margin: 0;
 	float: right;
 	width: 30px;
+	height: 32px;
 	min-width: 30px;
 }
 
@@ -220,38 +221,6 @@
 
 .form-group .form-field .actual-file h3 {
 	margin-top: 0;
-}
-
-/***************************
- *  AJAX UPLOAD OVERWRITE  *
- ***************************/
-
-body .ajax-upload-dragdrop {
-	padding: 10px;
-	background: url('/typo3conf/ext/site_factory/Resources/Public/Images/drag-drop-file.png') no-repeat right;
-	background-size: contain;
-}
-
-body .ajax-file-upload-progress {
-	width: 100%;
-	margin: 0px;
-}
-
-body .ajax-file-upload-statusbar {
-	margin-left: 0;
-	border-color: #A5A5C7;
-}
-
-body .delete-button {
-	margin: auto;
-	display: block;
-	width: 30%;
-	min-width: 150px;
-}
-
-body .image-preview {
-	text-align: center;
-	padding-top: 5px;
 }
 
 /******************

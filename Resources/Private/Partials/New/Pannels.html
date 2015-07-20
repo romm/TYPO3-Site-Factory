@@ -1,0 +1,42 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<a data-toggle="collapse" href="#collapse-settings">
+			<h4 class="panel-title">
+				<span class="glyphicon glyphicon-cog"></span>&nbsp;<f:translate key="form.panel_configuration" />
+			</h4>
+		</a>
+	</div>
+	<div id="collapse-settings" class="panel-collapse collapse in">
+		<div class="panel-body">
+
+			<f:for each="{fieldsConfiguration}" as="field">
+				<f:if condition="{modifySite}">
+					<f:then>
+						<f:if condition="{field.hideInSiteModification}">
+							<f:else>
+								<f:render partial="New/FieldBody" arguments="{_all}" />
+							</f:else>
+						</f:if>
+					</f:then>
+					<f:else>
+						<f:render partial="New/FieldBody" arguments="{_all}" />
+					</f:else>
+				</f:if>
+			</f:for>
+
+		</div>
+	</div>
+</div>
+
+<div class="submit-button">
+	<button class="btn btn-default btn-lg" onclick="window['{formId}'].submit('new');">
+		<f:if condition="{modifySite}">
+			<f:then>
+				<f:translate key="form.submit_label_modification" />
+			</f:then>
+			<f:else>
+				<f:translate key="form.submit_label_creation" />
+			</f:else>
+		</f:if>
+	</button>
+</div>

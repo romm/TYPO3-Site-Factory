@@ -6,8 +6,8 @@
 		if (easterEggRunning) return;
 		easterEggRunning = true;
 
-		increase = 80;
-		speed = 700;
+		var increase = 80;
+		var speed = 700;
 		jQuery('#easterEggImage').css('top', 100 + Math.random() * 400 + 'px');
 		jQuery('#easterEggImage').animate(
 			{ right: '+=' + increase },

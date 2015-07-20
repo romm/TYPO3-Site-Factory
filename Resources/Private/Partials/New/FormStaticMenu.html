@@ -1,12 +1,16 @@
-<div class="static-menu row col-sm-4 col-xs-6 col-xs-offset-8" data-site-factory-form="{formId}"
-     xmlns:f="http://www.w3.org/1999/XSL/Transform">
+<f:render partial="New/EasterEgg" />
+
+<div class="static-menu row col-sm-4 col-xs-6 col-xs-offset-8" data-site-factory-form="{formId}">
+
 	<div class="panel-group col-sm-12 col-xs-10 fixed-menu">
 		<div class="panel panel-default">
+
 			<div class="panel-heading">
 				<h4 class="panel-title">
 					<span class="glyphicon glyphicon-asterisk"></span>&nbsp;<f:translate key="form.static_menu.header_title" />
 				</h4>
 			</div>
+
 			<div class="panel-body">
 				<div class="alert alert-danger counter-errors{f:if(condition: errorsCounter, else: ' hidden')}">
 					<a data-toggle="collapse" class="alert alert-link" href="#collapse-counter-errors">
@@ -18,6 +22,7 @@
 							</f:if>
 						</abbr>
 					</a>
+
 					<div id="collapse-counter-errors" class="panel-collapse collapse in errors-container">
 						<f:for each="{fieldsConfiguration}" as="field">
 							<f:if condition="{field.mergedValidationResult.errors}">
@@ -36,6 +41,7 @@
 					<a data-toggle="collapse" class="alert alert-link" href="#collapse-menu-tip">
 						<span class="glyphicon glyphicon-question-sign"></span>&nbsp;<abbr title="{f:translate(key: 'form.static_menu.help_label_hover')}">&nbsp;<f:translate key="form.static_menu.help_label" /></abbr>
 					</a>
+
 					<div id="collapse-menu-tip" class="panel-collapse collapse in">
 						<f:translate key="form.static_menu.help_text" />
 					</div>
@@ -47,6 +53,7 @@
 							<a data-toggle="collapse" class="alert alert-link" href="#collapse-menu-success">
 								<span class="glyphicon glyphicon-ok"></span> <abbr title="Pour avoir plus d'informations, cliquez-moi !"><f:translate key="form.static_menu.success_label" /></abbr>
 							</a>
+
 							<strong style="font-size: 1.35em;">&nbsp;<a href="#" class="alert-link easter-egg" onclick="beginEasterEgg(); return false;">&#12484;</a></strong>
 
 							<div id="collapse-menu-success" class="panel-collapse collapse in">
@@ -56,6 +63,7 @@
 					</f:else>
 				</f:if>
 			</div>
+
 		</div>
 	</div>
 
@@ -64,4 +72,5 @@
 			<span class="glyphicon glyphicon-chevron-right"></span>
 		</button>
 	</div>
+
 </div>

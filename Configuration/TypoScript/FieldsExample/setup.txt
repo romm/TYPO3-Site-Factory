@@ -81,34 +81,28 @@ module.tx_sitefactory {
 					page = homePage
 				}
 
+				itemLimit = 1
+				# sizeLimit: 400 kB = 400 * 1024 bytes
+				sizeLimit = 409600
 				allowedExtensions {
 					0 = jpg
 					1 = jepg
 					2 = png
 					3 = gif
 				}
-				itemLimit = 1
-				# sizeLimit: 400 kB = 400 * 1024 bytes
-				sizeLimit = 409600
 			}
 		}
 
 		# The header (image) of the site.
 		banner {
 			type = image_upload
-			label = Bannière d'entête
-			hint = Bannière d'entête
-			moveToFileMount = 1
+			label = form.field.label.banner
+			hint = form.field.hint.banner
+
 			settings {
-				allowedExtensions {
-					0 = jpg
-				}
+				# The file will be moved to the file mount created during the duplication.
+				moveToFileMount = 1
 			}
-			uploadOptions {
-				width = 150c
-				#				height = 150c
-			}
-			#newPath = images/monNouveauLogo
 		}
 	}
 }

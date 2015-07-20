@@ -43,7 +43,7 @@ class ImageUploadPickerField extends AbstractField {
 	/** @var array Array containing the JavaScript files which will be imported. */
 	protected $cssFilesNewAction = array(
 		'EXT:site_factory/Resources/Public/Contrib/fine-uploader/fine-uploader-new.min.css',
-		'EXT:site_factory/Resources/Public/Css/site-factory-fine-uploader.css'
+		'EXT:site_factory/Resources/Public/StyleSheets/site-factory-fine-uploader.css'
 	);
 
 	/** @var array Array containing the properties that must be filled for the field. */

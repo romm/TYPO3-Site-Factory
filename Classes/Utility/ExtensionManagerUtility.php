@@ -23,6 +23,7 @@ namespace Romm\SiteFactory\Utility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Romm\SiteFactory\Core\Core;
 
@@ -46,7 +47,7 @@ class ExtensionManagerUtility {
 				'be_groups',
 				'1=1'
 			)
-		);;
+		);
 
 		foreach($backendUserGroups as $group) {
 			$selected = ($group['uid'] == $options['fieldValue']) ? ' selected="selected"' : '';

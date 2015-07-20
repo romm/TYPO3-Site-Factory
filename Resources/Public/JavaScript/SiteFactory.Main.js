@@ -1,18 +1,12 @@
-// Declaring namespace.
+// Declaring SiteFactory namespace.
 window.SiteFactory = {};
 
-if (!Object.keys) {
-	Object.keys = function (obj) {
-		var keys = [],
-			k;
-		for (k in obj) {
-			if (Object.prototype.hasOwnProperty.call(obj, k)) {
-				keys.push(k);
-			}
-		}
-		return keys;
-	};
-}
+// Instantiating tooltips.
+jQuery(document).ready(function() {
+	jQuery('.factory-tooltip').tooltip({
+		container: 'body'
+	});
+});
 
 /**
  * Converts an integer timer to a human-readable string.
@@ -37,9 +31,27 @@ String.prototype.toHHMMSS = function () {
 	return time;
 };
 
-jQuery(document).ready(function() {
-	// Instantiating tooltips.
-	jQuery('.factory-tooltip').tooltip({
-		container: 'body'
-	});
-});
+/**
+ * Conflict between jQuery and prototype: we need to overload the following
+ * function to get the Bootstrap's tooltip plugin work fine.
+ */
+jQuery.fn.tooltip.Constructor.prototype.hide = function () {
+	var that = this;
+	var jQuerytip = this.tip();
+	var e = jQuery.Event('hide.bs.' + this.type);
+	this.$element.removeAttr('aria-describedby');
+	function complete() {
+		if (that.hoverState != 'in') jQuerytip.detach();
+		that.$element.trigger('hidden.bs.' + that.type);
+	}
+	this.$element.triggerHandler(e); // Here's the modification: "triggerHandler" instead of "trigger"
+	if (e.isDefaultPrevented()) return;
+	jQuerytip.removeClass('in');
+	jQuery.support.transition && this.$tip.hasClass('fade') ?
+		jQuerytip
+			.one('bsTransitionEnd', complete)
+			.emulateTransitionEnd(150) :
+		complete();
+	this.hoverState = null;
+	return this;
+};

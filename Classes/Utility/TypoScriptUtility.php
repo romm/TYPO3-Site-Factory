@@ -28,7 +28,6 @@ use Romm\SiteFactory\Core\CacheManager;
 use Romm\SiteFactory\Core\Core;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Handles the TypoScript configuration's construction of the extension.
@@ -113,7 +112,7 @@ class TypoScriptUtility {
 		if (!array_key_exists($pageUid, self::$pageTypoScriptConfiguration)) {
 			$configuration = self::generateConfiguration($pageUid);
 
-			/** @var $typoScriptService \TYPO3\CMS\Extbase\Service\TypoScriptService */
+			/** @var \TYPO3\CMS\Extbase\Service\TypoScriptService $typoScriptService */
 			$typoScriptService = Core::getObjectManager()->get('TYPO3\\CMS\\Extbase\\Service\\TypoScriptService');
 			self::$pageTypoScriptConfiguration[$pageUid] = $typoScriptService->convertTypoScriptArrayToPlainArray($configuration->setup);
 		}
@@ -130,7 +129,7 @@ class TypoScriptUtility {
 	public static function getTypoScriptConstants($pageUid = null) {
 		if (!array_key_exists($pageUid, self::$pageTypoScriptConstants)) {
 			$configuration = self::generateConfiguration($pageUid);
-			/** @var $typoScriptService \TYPO3\CMS\Extbase\Service\TypoScriptService */
+			/** @var \TYPO3\CMS\Extbase\Service\TypoScriptService $typoScriptService */
 			$typoScriptService = Core::getObjectManager()->get('TYPO3\\CMS\\Extbase\\Service\\TypoScriptService');
 			self::$pageTypoScriptConstants[$pageUid] = $typoScriptService->convertTypoScriptArrayToPlainArray($configuration->setup_constants);
 		}
@@ -150,17 +149,17 @@ class TypoScriptUtility {
 
 			$rootLine = null;
 			if ($pageUid && MathUtility::canBeInterpretedAsInteger($pageUid) && $pageUid > 0) {
-				/** @var $pageRepository \TYPO3\CMS\Frontend\Page\PageRepository */
+				/** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
 				$pageRepository = $objectManager->get('TYPO3\\CMS\\Frontend\\Page\\PageRepository');
 				$rootLine = $pageRepository->getRootLine($pageUid);
 			}
 
-			/** @var $templateService \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService */
+			/** @var \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService $templateService */
 			$templateService = $objectManager->get('TYPO3\\CMS\\Core\\TypoScript\\ExtendedTemplateService');
 
 			$templateService->tt_track = 0;
 			$templateService->init();
-			if ($rootLine != null) {
+			if ($rootLine !== null) {
 				$templateService->runThroughTemplates($rootLine);
 			}
 			$templateService->generateConfig();

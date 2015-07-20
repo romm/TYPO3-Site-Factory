@@ -16,14 +16,14 @@ jQuery(document).ready(function() {
 					function(event) {
 						var field = event.data.field;
 						var input = field.input;
-						if ($(input).val() == input.lastVal) return;
+						if (jQuery(input).val() == input.lastVal) return;
 
-						clearInterval($(input).data('evalTimer'));
+						clearInterval(jQuery(input).data('evalTimer'));
 
-						$(input).data('evalTimer', setInterval(
+						jQuery(input).data('evalTimer', setInterval(
 							function() {
-								clearInterval($(input).data('evalTimer'));
-								input.lastVal = $(input).val();
+								clearInterval(jQuery(input).data('evalTimer'));
+								input.lastVal = jQuery(input).val();
 
 								field.validate();
 							},

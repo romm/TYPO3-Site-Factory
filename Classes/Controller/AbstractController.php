@@ -1,5 +1,5 @@
 <?php
-namespace Romm\SiteFactory\Form;
+namespace Romm\SiteFactory\Controller;
 
 /***************************************************************
  *  Copyright notice
@@ -24,35 +24,26 @@ namespace Romm\SiteFactory\Form;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Romm\SiteFactory\Core\Core;
+use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 
 /**
- * Class containing common evaluation functions for form fields' values.
- *
- * Example: "field is empty", "field is an email address", etc.
+ * Controller managing the duplication of sites.
  */
-class FieldEvaluationPresets {
+class AbstractController extends ActionController {
 
-	// @todo ?
-	public function backendUserNameDoesNotExist(&$params, &$pObj) {
-		$database = Core::getDatabase();
-
-		$userName = Core::getCleanedValueFromTCA('be_users', 'username', $params['fieldValue'], 0, false);
-		$userNames = $database->exec_SELECTgetRows(
-			'username',
-			'be_users',
-			'username="' . $userName . '"'
-		);
-
-		if (!empty($userNames)) {
-			return false;
-		}
-
-		return true;
+	/**
+	 * Is called before any action.
+	 */
+	public function initializeAction() {
+		Core::loadJquery();
 	}
 
-
+	/**
+	 * @param ViewInterface $view
+	 */
+	protected function initializeView(ViewInterface $view) {
+		$this->view->assign('pathSite', $_SERVER['SERVER_NAME']);
+	}
 }

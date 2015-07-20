@@ -25,8 +25,6 @@ namespace Romm\SiteFactory\Core;
  ***************************************************************/
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Extbase\Error;
@@ -42,20 +40,11 @@ class Core {
 	/**
 	 * The path to the folder where the extension will be able to manipulate
 	 * temporary files.
-	 *
-	 * @var string
 	 */
-	private static $processedFolderPath = 'uploads/tx_sitefactory/_processed_/';
+	const PROCESSED_FOLDER_PATH = 'uploads/tx_sitefactory/_processed_/';
 
 	/** @var \TYPO3\CMS\Extbase\Object\ObjectManager */
 	private static $objectManager;
-
-	/**
-	 * Used in function getPageConfiguration.
-	 *
-	 * @var array
-	 */
-	private static $typoScriptConfiguration = array();
 
 	/**
 	 * Translation handler.
@@ -70,43 +59,6 @@ class Core {
 			$result = $index;
 		return $result;
 	}
-
-//	/**
-//	 * Common translate function for this extension only. Will check every
-//	 * defined locallang file and try to translate the sent string.
-//	 *
-//	 * @param $index		string	The locallang key index.
-//	 * @param $arguments	array	Arguments.
-//	 * @return string|null
-//	 */
-//	public static function translate($index, $arguments = null) {
-//		if (!self::$languageService) {
-//			self::$languageService = GeneralUtility::makeInstance('TYPO3\\CMS\\Lang\\LanguageService');
-//			foreach(self::$localLangFiles as $file) {
-//				self::$languageService->includeLLFile($file);
-//			}
-//		}
-//
-//		$value = LocalizationUtility::translate($index, self::EXTENSION_KEY);
-//
-//		if ($value === null) {
-//			$result = $index;
-//		}
-//		else {
-//			if (is_array($arguments)) {
-//				$result = vsprintf($value, $arguments);
-//			} else {
-//				$result = $value;
-//			}
-//		}
-//
-////		$result = self::$languageService->getLL($index);
-////		if (!$result) {
-////			$result = self::$languageService->sL($index);
-////		}
-//
-//		return $result;
-//	}
 
 	/**
 	 * Will remove accents from a string.
@@ -129,49 +81,6 @@ class Core {
 	}
 
 	/**
-	 * Returns the TypoScript configuration of a given page as an array.
-	 *
-	 * @param int $uid	The uid of the page you want the TypoScript configuration from. If none given, the full configuration is used.
-	 * @return array
-	 */
-	public static function getPageConfiguration($uid = NULL) {
-		if ($uid !== NULL && isset(self::$typoScriptConfiguration[$uid])) return self::$typoScriptConfiguration[$uid];
-
-		$objectManager = self::getObjectManager();
-
-		/** @var $typoScriptService \TYPO3\CMS\Extbase\Service\TypoScriptService */
-		$typoScriptService = $objectManager->get('TYPO3\\CMS\\Extbase\\Service\\TypoScriptService');
-
-		if ($uid && MathUtility::canBeInterpretedAsInteger($uid) && $uid > 0) {
-			/** @var $pageRepository \TYPO3\CMS\Frontend\Page\PageRepository */
-			$pageRepository = $objectManager->get('TYPO3\\CMS\\Frontend\\Page\\PageRepository');
-			$rootLine = $pageRepository->getRootLine($uid);
-
-			/** @var $templateService \TYPO3\CMS\Core\TypoScript\TemplateService */
-			$templateService = $objectManager->get('TYPO3\\CMS\\Core\\TypoScript\\TemplateService');
-			$templateService->tt_track = 0;
-			$templateService->init();
-			$templateService->runThroughTemplates($rootLine);
-			$templateService->generateConfig();
-
-			$fullConfiguration = $typoScriptService->convertTypoScriptArrayToPlainArray($templateService->setup);
-			self::$typoScriptConfiguration[$uid] = $fullConfiguration;
-		}
-		else {
-			/** @var $configurationManager \TYPO3\CMS\Extbase\Configuration\ConfigurationManager */
-			$configurationManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager');
-
-			$fullConfiguration = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
-
-			if (is_array($fullConfiguration) && !empty($fullConfiguration)) {
-				$fullConfiguration = $typoScriptService->convertTypoScriptArrayToPlainArray($fullConfiguration);
-			}
-		}
-
-		return $fullConfiguration;
-	}
-
-	/**
 	 * Converts an object based validation result to an array (can be used to
 	 * be converted for JSON usage).
 	 *
@@ -188,7 +97,7 @@ class Core {
 			$validationResultArray[$validationName] = array();
 			if (!is_array($validationResult)) $validationResult = array($validationResult);
 			foreach($validationResult as $validatorResult) {
-				/** @var $values \TYPO3\CMS\Extbase\Error\Message[] */
+				/** @var \TYPO3\CMS\Extbase\Error\Message[] $values */
 				$values = ObjectAccess::getProperty($validatorResult, $validationName);
 				foreach($values as $value) {
 					$validationResultArray[$validationName][] = $value->render();
@@ -344,7 +253,7 @@ class Core {
 	public static function checkUidIsSavedSite($uid) {
 		$objectManager = self::getObjectManager();
 
-		/** @var $saveRepository \Romm\SiteFactory\Domain\Repository\SaveRepository */
+		/** @var \Romm\SiteFactory\Domain\Repository\SaveRepository $saveRepository */
 		$saveRepository = $objectManager->get('Romm\\SiteFactory\\Domain\\Repository\\SaveRepository');
 		$save = $saveRepository->findLastByRootPageUid($uid);
 
@@ -365,7 +274,7 @@ class Core {
 	 * @return string	The cleaned value.
 	 */
 	public static function getCleanedValueFromTCA($table, $field, $value, $pid, $checkUnique = true) {
-		/** @var $dataHandler \TYPO3\CMS\Core\DataHandling\DataHandler */
+		/** @var \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler */
 		$dataHandler = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\DataHandling\\DataHandler');
 
 		$res = array('value' => NULL);
@@ -405,6 +314,35 @@ class Core {
 	}
 
 	/**
+	 * Get the current page renderer, and loads jQuery in the templates.
+	 */
+	public static function loadJquery() {
+		/** @var \TYPO3\CMS\Backend\Template\DocumentTemplate $documentTemplate */
+		$documentTemplate = self::getDocumentTemplate();
+		$pageRenderer = $documentTemplate->getPageRenderer();
+		$pageRenderer->loadJquery('1.11.0', 'local', $pageRenderer::JQUERY_NAMESPACE_DEFAULT_NOCONFLICT);
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController|\TYPO3\CMS\Backend\Template\DocumentTemplate
+	 */
+	public static function getDocumentTemplate() {
+		if (self::isEnvironmentInFrontendMode())
+			return $GLOBALS['TSFE'];
+		else
+			return $GLOBALS['TBE_TEMPLATE'];
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isEnvironmentInFrontendMode() {
+		/** @var \TYPO3\CMS\Extbase\Service\EnvironmentService $environmentService */
+		$environmentService = self::getObjectManager()->get('TYPO3\\CMS\\Extbase\\Service\\EnvironmentService');
+		return $environmentService->isEnvironmentInFrontendMode();
+	}
+
+	/**
 	 * @return	string	The extension key.
 	 */
 	public static function getExtensionKey() {
@@ -427,7 +365,7 @@ class Core {
 	 * @return string
 	 */
 	public static function getProcessedFolderPath() {
-		return self::$processedFolderPath;
+		return self::PROCESSED_FOLDER_PATH;
 	}
 
 	/**

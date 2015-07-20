@@ -1,0 +1,12 @@
+module.tx_sitefactory {
+	config {
+		siteTitle = My New Site
+		logo = EXT:site_factory/ext_icon.png
+		backgroundColor = #FF8700
+		facebook = https://www.facebook.com/MyNewSite
+		twitter = https://twitter.com/MyNewSite
+	}
+	pages {
+
+	}
+}

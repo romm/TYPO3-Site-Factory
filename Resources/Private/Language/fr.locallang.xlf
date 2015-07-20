@@ -245,6 +245,16 @@
 				<source>The image used as a logo for the site.</source>
 				<target>L'image qui servira de logo pour le site.</target>
 			</trans-unit>
+
+			<trans-unit id="form.field.label.banner">
+				<source>Header banner</source>
+				<target>Bannière d'entête</target>
+			</trans-unit>
+			<trans-unit id="form.field.hint.banner">
+				<source>The image used as a banned for the site.</source>
+				<target>L'image qui servira de bannière pour le site.</target>
+			</trans-unit>
+
 			<trans-unit id="form.field.select_file">
 				<source>Select a file</source>
 				<target>Sélectionner un fichier</target>

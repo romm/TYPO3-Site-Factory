@@ -1,0 +1,21 @@
+<p><f:translate key="index.available_model_sites_list" /></p>
+
+<div class="model-sites">
+
+	<div class="fadeout-container" id="model-sites-list" data-height="100">
+		<ul class="fadeout-content">
+			<f:for each="{modelSitesList}" as="model">
+				<li>
+					<a href="#" title="Créer un site avec ce modèle"><span class="glyphicon glyphicon-plus-sign"></span></a>&nbsp;&#8211;&nbsp;{model}
+				</li>
+			</f:for>
+		</ul>
+	</div>
+
+	<div class="fadeout-area">
+		<a href="#model-sites-list" class="fadeout-toggle" data-hide-label="{f:translate(key: 'misc.hide')}">
+			<span class="glyphicon glyphicon-plus fadeout-toggle-icon"></span>&nbsp;<span class="fadeout-toggle-label"><f:translate key="misc.show_more" /></span>
+		</a>
+		<div class="fadeout-background"></div>
+	</div>
+</div>

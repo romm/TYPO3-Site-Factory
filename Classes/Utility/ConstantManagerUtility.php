@@ -26,7 +26,6 @@ namespace Romm\SiteFactory\Utility;
 
 use Romm\SiteFactory\Core\Core;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Class containing main functions to get/set a page's constants that match this
@@ -115,6 +114,7 @@ class ConstantManagerUtility {
 		if (!is_array($pagesPaths)) {} // @todo: exception
 		else {
 			$constants = TypoScriptUtility::getTypoScriptConstants($pageUid);
+
 			foreach ($pagesPaths as $path)
 				foreach ($fieldValues as $key => $value) {
 					$fullPath = $path . '.' . $key;
@@ -158,8 +158,7 @@ class ConstantManagerUtility {
 	}
 
 	/**
-	 * If no template marked with "site_factory_template" exists for the given
-	 * page, a new one is created.
+	 * If no template exists for the given page, a new one is created.
 	 *
 	 * @param	int	$pageUid	The page uid.
 	 */
@@ -170,10 +169,8 @@ class ConstantManagerUtility {
 				array(
 					'pid'					=> intval($pageUid),
 					'title'					=> 'Site Factory Template',
-//					'site_factory_template'	=> 1,
 					'tstamp'				=> time(),
 					'crdate'				=> time(),
-//					'sorting'				=> 1999999999
 				)
 			);
 	}
@@ -186,14 +183,9 @@ class ConstantManagerUtility {
 	 * @return	array|false				Array of result, false if no template was found.
 	 */
 	private static function getPageTemplate($pageUid) {
-		/** @var $templateService \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService */
+		/** @var \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService $templateService */
 		$templateService = Core::getObjectManager()->get('TYPO3\\CMS\\Core\\TypoScript\\ExtendedTemplateService');
 		$template = $templateService->ext_getFirstTemplate($pageUid);
-//		$template = Core::getDatabase()->exec_SELECTgetSingleRow(
-//			'*',
-//			'sys_template',
-//			'pid=' . intval($pageUid)
-//		);
 
 		return $template;
 	}

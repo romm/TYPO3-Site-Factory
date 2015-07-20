@@ -28,6 +28,7 @@ use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
 
 /**
  * Class containing functions called when a site is being duplicated.
+ * See function "run" for more information.
  */
 class TreeUidAssociationProcess extends AbstractDuplicationProcess {
 	/**
