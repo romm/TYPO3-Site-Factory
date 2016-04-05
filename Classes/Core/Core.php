@@ -1,6 +1,4 @@
 <?php
-namespace Romm\SiteFactory\Core;
-
 /*
  * 2016 Romain CANON <romain.hydrocanon@gmail.com>
  *
@@ -12,6 +10,8 @@ namespace Romm\SiteFactory\Core;
  * For the full copyright and license information, see:
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
+
+namespace Romm\SiteFactory\Core;
 
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

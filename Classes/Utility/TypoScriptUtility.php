@@ -1,6 +1,4 @@
 <?php
-namespace Romm\SiteFactory\Utility;
-
 /*
  * 2016 Romain CANON <romain.hydrocanon@gmail.com>
  *
@@ -12,6 +10,8 @@ namespace Romm\SiteFactory\Utility;
  * For the full copyright and license information, see:
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
+
+namespace Romm\SiteFactory\Utility;
 
 use Romm\SiteFactory\Core\CacheManager;
 use Romm\SiteFactory\Core\Core;

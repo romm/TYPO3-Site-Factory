@@ -1,6 +1,4 @@
 <?php
-namespace Romm\SiteFactory\Controller;
-
 /*
  * 2016 Romain CANON <romain.hydrocanon@gmail.com>
  *
@@ -12,6 +10,8 @@ namespace Romm\SiteFactory\Controller;
  * For the full copyright and license information, see:
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
+
+namespace Romm\SiteFactory\Controller;
 
 use Romm\SiteFactory\Domain\Model\Save;
 use Romm\SiteFactory\Form\Fields\AbstractField;
