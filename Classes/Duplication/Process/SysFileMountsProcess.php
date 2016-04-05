@@ -22,89 +22,92 @@ use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
  * See function "run" for more information.
  *
  * Available duplication settings:
- *  - path:	Path of the folder created on the server.
- * 			If none given, "user_upload" is used.
- *  - createdRecordName:	Will save the new "sys_filemounts" record's uid at this index.
- * 							It can then be used later (e.g. link this record to a backend user group).
- * 							If none is given, "fileMountUid" is used.
+ *  - path:    Path of the folder created on the server.
+ *            If none given, "user_upload" is used.
+ *  - createdRecordName:    Will save the new "sys_filemounts" record's uid at this index.
+ *                            It can then be used later (e.g. link this record to a backend user group).
+ *                            If none is given, "fileMountUid" is used.
  */
-class SysFileMountsProcess extends AbstractDuplicationProcess {
-	/**
-	 * Default path used to create the folder for the file mount. Can be
-	 * overwritten with "settings.path" in the duplication TypoScript
-	 * configuration.
-	 *
-	 * @var string
-	 */
-	private static $defaultPath = 'user_upload';
+class SysFileMountsProcess extends AbstractDuplicationProcess
+{
 
-	/**
-	 * Default name of the index used to store the uid of the created
-	 * "sys_filemounts" record.
-	 *
-	 * @var string
-	 */
-	private static $defaultCreatedRecordName = 'fileMountUid';
+    /**
+     * Default path used to create the folder for the file mount. Can be
+     * overwritten with "settings.path" in the duplication TypoScript
+     * configuration.
+     *
+     * @var string
+     */
+    private static $defaultPath = 'user_upload';
 
-	/**
-	 * Will create a file mount on the duplicated page. A directory will also be
-	 * created in fileadmin. The site's name will be used for both the file
-	 * mount's name and the directory created in fileadmin.
-	 */
-	public function run() {
-		$siteTitle = $this->getField('siteTitle');
-		if ($siteTitle) {
-			$fileMountUid = $this->manageSysFileMounts($siteTitle->getValue());
+    /**
+     * Default name of the index used to store the uid of the created
+     * "sys_filemounts" record.
+     *
+     * @var string
+     */
+    private static $defaultCreatedRecordName = 'fileMountUid';
 
-			if ($fileMountUid !== false) {
-				// Checking if "settings.createdRecordName" can be used, use self::$defaultCreatedRecordName otherwise.
-				$createdRecordName = $this->getProcessSettings('createdRecordName');
-				$createdRecordName = (!empty($createdRecordName))
-					? $createdRecordName
-					: self::$defaultCreatedRecordName;
+    /**
+     * Will create a file mount on the duplicated page. A directory will also be
+     * created in fileadmin. The site's name will be used for both the file
+     * mount's name and the directory created in fileadmin.
+     */
+    public function run()
+    {
+        $siteTitle = $this->getField('siteTitle');
+        if ($siteTitle) {
+            $fileMountUid = $this->manageSysFileMounts($siteTitle->getValue());
 
-				$this->setDuplicationDataValue($createdRecordName, $fileMountUid);
-			}
-			else {
-				$this->addError('duplication_process.mount_point_creation.error.error_creation', 1431426127);
-			}
-		}
-	}
+            if ($fileMountUid !== false) {
+                // Checking if "settings.createdRecordName" can be used, use self::$defaultCreatedRecordName otherwise.
+                $createdRecordName = $this->getProcessSettings('createdRecordName');
+                $createdRecordName = (!empty($createdRecordName))
+                    ? $createdRecordName
+                    : self::$defaultCreatedRecordName;
 
-	/**
-	 * @param	string		$siteTitle	The name of the new site, will be used for both the file mount's name and the directory created in fileadmin.
-	 * @return	null|int	Returns null if the file mount could not be created, or the uid of the last inserted "sys_filemounts" record.
-	 */
-	private function manageSysFileMounts($siteTitle) {
-		$pathFirstPart = ($this->getProcessSettings('path'))
-			? $this->getProcessSettings('path')
-			: self::$defaultPath;
-		$pathFirstPart = (substr($pathFirstPart, -1, 1) == '/')
-			? $pathFirstPart
-			: $pathFirstPart . '/';
+                $this->setDuplicationDataValue($createdRecordName, $fileMountUid);
+            } else {
+                $this->addError('duplication_process.mount_point_creation.error.error_creation', 1431426127);
+            }
+        }
+    }
 
-		$folderPath = $pathFirstPart . GeneralUtility::strtolower($siteTitle);
-		$folderPath = Core::formatAccentsInString($folderPath);
-		$folderPath = preg_replace('/\s+/', ' ', $folderPath);
-		$folderPath = preg_replace('/\s/', '_', $folderPath);
-		$folderPath = '/' . $folderPath . '/';
+    /**
+     * @param    string $siteTitle The name of the new site, will be used for both the file mount's name and the directory created in fileadmin.
+     * @return    null|int    Returns null if the file mount could not be created, or the uid of the last inserted "sys_filemounts" record.
+     */
+    private function manageSysFileMounts($siteTitle)
+    {
+        $pathFirstPart = ($this->getProcessSettings('path'))
+            ? $this->getProcessSettings('path')
+            : self::$defaultPath;
+        $pathFirstPart = (substr($pathFirstPart, -1, 1) == '/')
+            ? $pathFirstPart
+            : $pathFirstPart . '/';
 
-		// @todo: manage warning when overriding a folder?
-		GeneralUtility::mkdir_deep(PATH_site . 'fileadmin' . $folderPath);
+        $folderPath = $pathFirstPart . GeneralUtility::strtolower($siteTitle);
+        $folderPath = Core::formatAccentsInString($folderPath);
+        $folderPath = preg_replace('/\s+/', ' ', $folderPath);
+        $folderPath = preg_replace('/\s/', '_', $folderPath);
+        $folderPath = '/' . $folderPath . '/';
 
-		/** @var \TYPO3\CMS\Extbase\Domain\Model\FileMount $fileMount */
-		$fileMount = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Domain\\Model\\FileMount');
-		$fileMount->setPath($folderPath);
-		$fileMount->setTitle($siteTitle);
-		$fileMount->setIsAbsolutePath(true);
-		// @todo: seems it must be on pid=0, check?
-		$fileMount->setPid(0);
+        // @todo: manage warning when overriding a folder?
+        GeneralUtility::mkdir_deep(PATH_site . 'fileadmin' . $folderPath);
 
-		/** @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager $persistenceManager */
-		$persistenceManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager');
-		$persistenceManager->add($fileMount);
-		$persistenceManager->persistAll();
+        /** @var \TYPO3\CMS\Extbase\Domain\Model\FileMount $fileMount */
+        $fileMount = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Domain\\Model\\FileMount');
+        $fileMount->setPath($folderPath);
+        $fileMount->setTitle($siteTitle);
+        $fileMount->setIsAbsolutePath(true);
+        // @todo: seems it must be on pid=0, check?
+        $fileMount->setPid(0);
 
-		return $fileMount->getUid();
-	}
+        /** @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager $persistenceManager */
+        $persistenceManager = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\PersistenceManager');
+        $persistenceManager->add($fileMount);
+        $persistenceManager->persistAll();
+
+        return $fileMount->getUid();
+    }
 }

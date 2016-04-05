@@ -18,22 +18,24 @@ use Romm\SiteFactory\Core\Core;
 /**
  * Custom validator for the Site Factory.
  */
-class DomainNameValidator extends AbstractValidator {
+class DomainNameValidator extends AbstractValidator
+{
 
-	/**
-	 * Checks if the field value matches a domain name value.
-	 *
-	 * @param	\Romm\SiteFactory\Form\Fields\AbstractField	$field	The field.
-	 */
-	protected function isValid($field) {
-		if (!preg_match('/^[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}$/', $field->getValue())) {
-			$this->addError(
-				$this->translateErrorMessage(
-					'fields.validation.domain_name_value',
-					Core::getExtensionKey()
-				),
-				1431104484
-			);
-		}
-	}
+    /**
+     * Checks if the field value matches a domain name value.
+     *
+     * @param    \Romm\SiteFactory\Form\Fields\AbstractField $field The field.
+     */
+    protected function isValid($field)
+    {
+        if (!preg_match('/^[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}$/', $field->getValue())) {
+            $this->addError(
+                $this->translateErrorMessage(
+                    'fields.validation.domain_name_value',
+                    Core::getExtensionKey()
+                ),
+                1431104484
+            );
+        }
+    }
 }

@@ -19,42 +19,45 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 /**
  * ViewHelper to include CSS or JavaScript assets.
  */
-class ImportAssetViewHelper extends AbstractBackendViewHelper {
+class ImportAssetViewHelper extends AbstractBackendViewHelper
+{
 
-	/**
-	 * Includes the given CSS or JavaScript files.
-	 *
-	 * @param	array	$cssFiles	CSS files.
-	 * @param	array	$jsFiles	JavaScript files.
-	 */
-	public function render($cssFiles = array(), $jsFiles = array()) {
-		$doc = $this->getDocInstance();
-		$pageRenderer = $doc->getPageRenderer();
+    /**
+     * Includes the given CSS or JavaScript files.
+     *
+     * @param    array $cssFiles CSS files.
+     * @param    array $jsFiles  JavaScript files.
+     */
+    public function render($cssFiles = [], $jsFiles = [])
+    {
+        $doc = $this->getDocInstance();
+        $pageRenderer = $doc->getPageRenderer();
 
-		foreach ($cssFiles as $value) {
-			$path = $this->getFileRealPath($value);
-			$pageRenderer->addCssFile($path);
-		}
+        foreach ($cssFiles as $value) {
+            $path = $this->getFileRealPath($value);
+            $pageRenderer->addCssFile($path);
+        }
 
-		foreach ($jsFiles as $value) {
-			$path = $this->getFileRealPath($value);
-			$pageRenderer->addJsLibrary($path, $path);
-		}
-	}
+        foreach ($jsFiles as $value) {
+            $path = $this->getFileRealPath($value);
+            $pageRenderer->addJsLibrary($path, $path);
+        }
+    }
 
-	/**
-	 * Returns a file path correct value by finding the 'EXT:xxx' values.
-	 *
-	 * @param	string	$path	The path to the file.
-	 * @return	string			The correct path;
-	 */
-	private function getFileRealPath($path) {
-		if (preg_match('/^EXT:([^\/]*)\/(.*)$/', $path, $res)) {
-			$extRelPath = ExtensionManagementUtility::extRelPath($res[1]);
-			$path = str_replace('EXT:' . $res[1] . '/', $extRelPath, $path);
-		}
+    /**
+     * Returns a file path correct value by finding the 'EXT:xxx' values.
+     *
+     * @param    string $path The path to the file.
+     * @return    string            The correct path;
+     */
+    private function getFileRealPath($path)
+    {
+        if (preg_match('/^EXT:([^\/]*)\/(.*)$/', $path, $res)) {
+            $extRelPath = ExtensionManagementUtility::extRelPath($res[1]);
+            $path = str_replace('EXT:' . $res[1] . '/', $extRelPath, $path);
+        }
 
-		return $path;
-	}
+        return $path;
+    }
 
 }

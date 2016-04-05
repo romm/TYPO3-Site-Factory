@@ -19,67 +19,75 @@ use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
  * Class containing functions called when a site is being duplicated.
  * See function "run" for more information.
  */
-class TreeUidAssociationProcess extends AbstractDuplicationProcess {
-	/**
-	 * After a node duplication, by knowing the source node's uid, and the
-	 * duplicated node's uid, this function will be able to associate every old
-	 * page of the node's tree with the new duplicated node's uid.
-	 */
-	public function run() {
-		$modelPageUid = $this->getModelPageUid();
-		if (!$modelPageUid) return;
-		$duplicatedPageUid = $this->getDuplicatedPageUid();
-		if (!$duplicatedPageUid) return;
+class TreeUidAssociationProcess extends AbstractDuplicationProcess
+{
 
-		// Processing the pages uid association.
-		$treeUidAssociation = $this->getTreeUidAssociationRecursive($modelPageUid, $duplicatedPageUid);
+    /**
+     * After a node duplication, by knowing the source node's uid, and the
+     * duplicated node's uid, this function will be able to associate every old
+     * page of the node's tree with the new duplicated node's uid.
+     */
+    public function run()
+    {
+        $modelPageUid = $this->getModelPageUid();
+        if (!$modelPageUid) {
+            return;
+        }
+        $duplicatedPageUid = $this->getDuplicatedPageUid();
+        if (!$duplicatedPageUid) {
+            return;
+        }
 
-		$this->addNotice(
-			'duplication_process.pages_association.notice.amount_pages',
-			1431985778,
-			array('d' => count($treeUidAssociation))
-		);
+        // Processing the pages uid association.
+        $treeUidAssociation = $this->getTreeUidAssociationRecursive($modelPageUid, $duplicatedPageUid);
 
-		$this->setDuplicationDataValue('pagesUidAssociation', $treeUidAssociation);
-	}
+        $this->addNotice(
+            'duplication_process.pages_association.notice.amount_pages',
+            1431985778,
+            ['d' => count($treeUidAssociation)]
+        );
 
-	/**
-	 * Recursive function for processing the function "getTreeUidAssociation".
-	 * Will check the sub pages of the old and new page.
-	 *
-	 * @param	integer	$oldUid	The uid of the model page.
-	 * @param	integer	$newUid	The uid of the duplicated page.
-	 * @return	array	An array containing association between the pages.
-	 */
-	private function getTreeUidAssociationRecursive($oldUid, $newUid) {
-		$uidAssociation = array($oldUid => $newUid);
+        $this->setDuplicationDataValue('pagesUidAssociation', $treeUidAssociation);
+    }
 
-		$oldChildren = $this->database->exec_SELECTgetRows(
-			'uid',
-			'pages',
-			'deleted=0 AND pid=' . $oldUid,
-			'',
-			'sorting ASC'
-		);
+    /**
+     * Recursive function for processing the function "getTreeUidAssociation".
+     * Will check the sub pages of the old and new page.
+     *
+     * @param    integer $oldUid The uid of the model page.
+     * @param    integer $newUid The uid of the duplicated page.
+     * @return    array    An array containing association between the pages.
+     */
+    private function getTreeUidAssociationRecursive($oldUid, $newUid)
+    {
+        $uidAssociation = [$oldUid => $newUid];
 
-		$newChildren = $this->database->exec_SELECTgetRows(
-			'uid',
-			'pages',
-			'deleted=0 AND pid=' . $newUid,
-			'',
-			'sorting ASC'
-		);
+        $oldChildren = $this->database->exec_SELECTgetRows(
+            'uid',
+            'pages',
+            'deleted=0 AND pid=' . $oldUid,
+            '',
+            'sorting ASC'
+        );
 
-		if (array_keys($oldChildren) == array_keys($newChildren)) {
-			foreach($oldChildren as $key => $oldChildUid) {
-				$childrenAssociation = $this->getTreeUidAssociationRecursive($oldChildUid['uid'], $newChildren[$key]['uid']);
+        $newChildren = $this->database->exec_SELECTgetRows(
+            'uid',
+            'pages',
+            'deleted=0 AND pid=' . $newUid,
+            '',
+            'sorting ASC'
+        );
 
-				foreach($childrenAssociation as $childrenAssociationOldUid => $childrenAssociationNewUid) {
-					$uidAssociation[$childrenAssociationOldUid] = $childrenAssociationNewUid;
-				}
-			}
-		}
+        if (array_keys($oldChildren) == array_keys($newChildren)) {
+            foreach ($oldChildren as $key => $oldChildUid) {
+                $childrenAssociation = $this->getTreeUidAssociationRecursive($oldChildUid['uid'], $newChildren[$key]['uid']);
 
-		return $uidAssociation;
-	}
+                foreach ($childrenAssociation as $childrenAssociationOldUid => $childrenAssociationNewUid) {
+                    $uidAssociation[$childrenAssociationOldUid] = $childrenAssociationNewUid;
+                }
+            }
+        }
+
+        return $uidAssociation;
+    }
 }

@@ -18,68 +18,79 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 /**
  * Model for the database "pages" table.
  */
-class Pages extends AbstractEntity {
-	/**
-	 * The title of the page.
-	 *
-	 * @var string
-	 */
-	protected $title = '';
+class Pages extends AbstractEntity
+{
 
-	/**
-	 * The hidden flag of the page.
-	 *
-	 * @var int
-	 */
-	protected $hidden = 0;
+    /**
+     * The title of the page.
+     *
+     * @var string
+     */
+    protected $title = '';
 
-	/**
-	 * The deleted flag of the page.
-	 *
-	 * @var int
-	 */
-	protected $deleted = 0;
+    /**
+     * The hidden flag of the page.
+     *
+     * @var int
+     */
+    protected $hidden = 0;
 
-	/*********************
-	 * SETTERS & GETTERS *
-	 *********************/
-	/**
-	 * @return	string
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
-	/**
-	 * @param	string
-	 */
-	public function setTitle($title) {
-		$this->title = $title;
-	}
+    /**
+     * The deleted flag of the page.
+     *
+     * @var int
+     */
+    protected $deleted = 0;
 
-	/**
-	 * @return	int
-	 */
-	public function getHidden() {
-		return $this->hidden;
-	}
-	/**
-	 * @param	int
-	 */
-	public function setHidden($hidden) {
-		$this->hidden = $hidden;
-	}
+    /*********************
+     * SETTERS & GETTERS *
+     *********************/
+    /**
+     * @return    string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-	/**
-	 * @return	int
-	 */
-	public function getDeleted() {
-		return $this->deleted;
-	}
-	/**
-	 * @param	int
-	 */
-	public function setDeleted($deleted) {
-		$this->deleted = $deleted;
-	}
+    /**
+     * @param    string
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return    int
+     */
+    public function getHidden()
+    {
+        return $this->hidden;
+    }
+
+    /**
+     * @param    int
+     */
+    public function setHidden($hidden)
+    {
+        $this->hidden = $hidden;
+    }
+
+    /**
+     * @return    int
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * @param    int
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+    }
 
 }

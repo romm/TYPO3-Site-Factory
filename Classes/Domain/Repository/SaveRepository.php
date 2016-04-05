@@ -25,90 +25,96 @@ use Romm\SiteFactory\Domain\Model\Save;
  *
  * @method Save|null findOneByRootPageUid(int $pageUid)
  */
-class SaveRepository extends Repository {
+class SaveRepository extends Repository
+{
 
-	/**
-	 * Returns the last record for a given root page uid.
-	 *
-	 * @param	int	$rootPageUid	The root page uid.
-	 * @return array|QueryResultInterface
-	 */
-	public function findLastByRootPageUid($rootPageUid) {
-		/** @var \TYPO3\CMS\Extbase\Persistence\Generic\Query $query */
-		$query = $this->createQuery();
+    /**
+     * Returns the last record for a given root page uid.
+     *
+     * @param    int $rootPageUid The root page uid.
+     * @return array|QueryResultInterface
+     */
+    public function findLastByRootPageUid($rootPageUid)
+    {
+        /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Query $query */
+        $query = $this->createQuery();
 
-		$query->matching(
-				$query->logicalAnd(
-					$query->equals('rootPageUid', intval($rootPageUid))
-				)
-			)
-			->setOrderings(array('date' => QueryInterface::ORDER_DESCENDING))
-			->setLimit(1);
+        $query->matching(
+            $query->logicalAnd(
+                $query->equals('rootPageUid', intval($rootPageUid))
+            )
+        )
+            ->setOrderings(['date' => QueryInterface::ORDER_DESCENDING])
+            ->setLimit(1);
 
-		$result = $query->execute();
-		$result = ($result) ?
-			$result[0] :
-			NULL;
+        $result = $query->execute();
+        $result = ($result) ?
+            $result[0] :
+            null;
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * Returns all records grouped by "root_page_uid".
-	 *
-	 * @return array|QueryResultInterface
-	 */
-	public function findAllByDistinctRootPageUid() {
-		/** @var \TYPO3\CMS\Extbase\Persistence\Generic\Query $query */
-		$query = $this->createQuery();
+    /**
+     * Returns all records grouped by "root_page_uid".
+     *
+     * @return array|QueryResultInterface
+     */
+    public function findAllByDistinctRootPageUid()
+    {
+        /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Query $query */
+        $query = $this->createQuery();
 
-		return $query
-			->statement('SELECT * '
-				. 'FROM (SELECT * FROM tx_sitefactory_domain_model_save ORDER BY tx_sitefactory_domain_model_save.date ' . QueryInterface::ORDER_DESCENDING . ') AS save '
-				. 'JOIN pages ON pages.uid=save.root_page_uid '
-				. 'WHERE pages.deleted=0 '
-				. 'GROUP BY root_page_uid '
-			)
-			->execute();
-	}
+        return $query
+            ->statement('SELECT * '
+                . 'FROM (SELECT * FROM tx_sitefactory_domain_model_save ORDER BY tx_sitefactory_domain_model_save.date ' . QueryInterface::ORDER_DESCENDING . ') AS save '
+                . 'JOIN pages ON pages.uid=save.root_page_uid '
+                . 'WHERE pages.deleted=0 '
+                . 'GROUP BY root_page_uid '
+            )
+            ->execute();
+    }
 
-	/**
-	 * Creates a new "Save" record and add it to current persistence.
-	 *
-	 * @param	Save	$save	The save instance.
-	 */
-	public function createSave(Save $save) {
-		$this->add($save);
-		$this->persistenceManager->persistAll();
-	}
+    /**
+     * Creates a new "Save" record and add it to current persistence.
+     *
+     * @param    Save $save The save instance.
+     */
+    public function createSave(Save $save)
+    {
+        $this->add($save);
+        $this->persistenceManager->persistAll();
+    }
 
-	/**
-	 * Will set the page linked to the "Save" records (based on their attribute
-	 * "rootPageUid").
-	 *
-	 * @param	array|Save	$records	An array containing "Save" models, or a single "Save" model.
-	 * @return	array|null				Returns the array sent with modified "page" attribute, or null if the parameter was empty.
-	 */
-	public function attachPage($records) {
-		if (!$records) return NULL;
+    /**
+     * Will set the page linked to the "Save" records (based on their attribute
+     * "rootPageUid").
+     *
+     * @param    array|Save $records An array containing "Save" models, or a single "Save" model.
+     * @return    array|null                Returns the array sent with modified "page" attribute, or null if the parameter was empty.
+     */
+    public function attachPage($records)
+    {
+        if (!$records) {
+            return null;
+        }
 
-		$objectManager = Core::getObjectManager();
-		/** @var \Romm\SiteFactory\Domain\Repository\PagesRepository $pagesRepository */
-		$pagesRepository = $objectManager->get('Romm\\SiteFactory\\Domain\\Repository\\PagesRepository');
+        $objectManager = Core::getObjectManager();
+        /** @var \Romm\SiteFactory\Domain\Repository\PagesRepository $pagesRepository */
+        $pagesRepository = $objectManager->get('Romm\\SiteFactory\\Domain\\Repository\\PagesRepository');
 
-		if (is_array($records) || $records instanceof QueryResult) {
-			/** @var \Romm\SiteFactory\Domain\Model\Save[] $records */
-			foreach($records as $key => $record) {
-				$page = $pagesRepository->findByUidWithoutCondition($record->getRootPageUid());
-				$records[$key]->setPage($page[0]);
-			}
-		}
-		elseif($records instanceof Save) {
-			/** @var \Romm\SiteFactory\Domain\Model\Pages $page */
-			$page = $pagesRepository->findByUidWithoutCondition($records->getRootPageUid());
-			$records->setPage($page[0]);
-		}
+        if (is_array($records) || $records instanceof QueryResult) {
+            /** @var \Romm\SiteFactory\Domain\Model\Save[] $records */
+            foreach ($records as $key => $record) {
+                $page = $pagesRepository->findByUidWithoutCondition($record->getRootPageUid());
+                $records[$key]->setPage($page[0]);
+            }
+        } elseif ($records instanceof Save) {
+            /** @var \Romm\SiteFactory\Domain\Model\Pages $page */
+            $page = $pagesRepository->findByUidWithoutCondition($records->getRootPageUid());
+            $records->setPage($page[0]);
+        }
 
-		return $records;
-	}
+        return $records;
+    }
 }

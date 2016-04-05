@@ -18,27 +18,31 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 /**
  * ViewHelper to escape a string.
  */
-class AddSlashesViewHelper extends AbstractTagBasedViewHelper {
+class AddSlashesViewHelper extends AbstractTagBasedViewHelper
+{
 
-	/**
-	 * Escapes a string.
-	 *
-	 * @param	string	$value				String to format.
-	 * @param	bool	$onlyDoubleQuotes	If only the double quotes should be escaped.
-	 * @return	string						The altered string.
-	 */
-	public function render($value = NULL, $onlyDoubleQuotes = false) {
-		if ($value === NULL) {
-			$value = $this->renderChildren();
-		}
-		if (!is_string($value)) {
-			return $value;
-		}
+    /**
+     * Escapes a string.
+     *
+     * @param    string $value            String to format.
+     * @param    bool   $onlyDoubleQuotes If only the double quotes should be escaped.
+     * @return    string                        The altered string.
+     */
+    public function render($value = null, $onlyDoubleQuotes = false)
+    {
+        if ($value === null) {
+            $value = $this->renderChildren();
+        }
+        if (!is_string($value)) {
+            return $value;
+        }
 
-		if ($onlyDoubleQuotes)
-			$return = addcslashes($value, '\"');
-		else
-			$return = addslashes($value);
-		return $return;
-	}
+        if ($onlyDoubleQuotes) {
+            $return = addcslashes($value, '\"');
+        } else {
+            $return = addslashes($value);
+        }
+
+        return $return;
+    }
 }

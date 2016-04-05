@@ -18,23 +18,25 @@ use Romm\SiteFactory\Core\Core;
 /**
  * Custom validator for the Site Factory.
  */
-class HexadecimalValidator extends AbstractValidator {
+class HexadecimalValidator extends AbstractValidator
+{
 
-	/**
-	 * Checks if the field value matches a hexadecimal value.
-	 *
-	 * @param	\Romm\SiteFactory\Form\Fields\AbstractField	$field	The field.
-	 */
-	protected function isValid($field) {
-		if (!preg_match('/^#[0123456789ABCDEF]{6}$/', strtoupper($field->getValue()))) {
-			$this->addError(
-				$this->translateErrorMessage(
-					'fields.validation.wrong_hexadecimal_value',
-					Core::getExtensionKey(),
-					array('s' => $field->getValue())
-				),
-				1430127326
-			);
-		}
-	}
+    /**
+     * Checks if the field value matches a hexadecimal value.
+     *
+     * @param    \Romm\SiteFactory\Form\Fields\AbstractField $field The field.
+     */
+    protected function isValid($field)
+    {
+        if (!preg_match('/^#[0123456789ABCDEF]{6}$/', strtoupper($field->getValue()))) {
+            $this->addError(
+                $this->translateErrorMessage(
+                    'fields.validation.wrong_hexadecimal_value',
+                    Core::getExtensionKey(),
+                    ['s' => $field->getValue()]
+                ),
+                1430127326
+            );
+        }
+    }
 }

@@ -18,27 +18,29 @@ use Romm\SiteFactory\Core\Core;
 /**
  * Custom validator for the Site Factory.
  */
-class NotEmptyValidator extends AbstractValidator {
+class NotEmptyValidator extends AbstractValidator
+{
 
-	/**
-	 * Checks if the field value is not empty.
-	 *
-	 * @param	\Romm\SiteFactory\Form\Fields\AbstractField	$field	The field.
-	 */
-	protected function isValid($field) {
-		$value = $field->getValue();
-		if (
-			$value === NULL ||
-			$value === '' ||
-			(is_array($value) && empty($value))
-		) {
-			$this->addError(
-				$this->translateErrorMessage(
-					'fields.validation.empty_value',
-					Core::getExtensionKey()
-				),
-				1431103424
-			);
-		}
-	}
+    /**
+     * Checks if the field value is not empty.
+     *
+     * @param    \Romm\SiteFactory\Form\Fields\AbstractField $field The field.
+     */
+    protected function isValid($field)
+    {
+        $value = $field->getValue();
+        if (
+            $value === null ||
+            $value === '' ||
+            (is_array($value) && empty($value))
+        ) {
+            $this->addError(
+                $this->translateErrorMessage(
+                    'fields.validation.empty_value',
+                    Core::getExtensionKey()
+                ),
+                1431103424
+            );
+        }
+    }
 }

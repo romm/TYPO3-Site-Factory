@@ -23,67 +23,73 @@ use TYPO3\CMS\Core\Utility\PathUtility;
  *
  * @todo make me become a service
  */
-class FileUtility {
-	const FILE_KEY	= 'qqfile';
+class FileUtility
+{
 
-	/**
-	 * Processing files handling.
-	 */
-	public function ajaxMoveUploadedFileToSiteFactoryFolder() {
-		$file = (isset($_FILES[self::FILE_KEY])) ?
-			$_FILES[self::FILE_KEY] :
-			null;
-		if ($file) {
-			$fileExtension = strtolower(substr(strrchr($file['name'], '.'), 1));
-			$tmpFileName = md5(uniqid(rand(), true)) . '.' . $fileExtension;
-			$tmpFilePath = PATH_site . Core::getProcessedFolderPath() . $tmpFileName;
+    const FILE_KEY = 'qqfile';
 
-			move_uploaded_file($file['tmp_name'], $tmpFilePath);
+    /**
+     * Processing files handling.
+     */
+    public function ajaxMoveUploadedFileToSiteFactoryFolder()
+    {
+        $file = (isset($_FILES[self::FILE_KEY])) ?
+            $_FILES[self::FILE_KEY] :
+            null;
+        if ($file) {
+            $fileExtension = strtolower(substr(strrchr($file['name'], '.'), 1));
+            $tmpFileName = md5(uniqid(rand(), true)) . '.' . $fileExtension;
+            $tmpFilePath = PATH_site . Core::getProcessedFolderPath() . $tmpFileName;
 
-			echo json_encode(array(
-				'tmpFilePath' 	=> $tmpFilePath,
-				'newUuid'		=> $tmpFileName,
-				'success'		=> true
-			));
-		}
-	}
+            move_uploaded_file($file['tmp_name'], $tmpFilePath);
 
-	/**
-	 * Deletes a specific file from the processing folder.
-	 */
-	public function deleteFile() {
-		$fileName = GeneralUtility::_GP('fileName');
-		$filePath = PATH_site . Core::getProcessedFolderPath() . $fileName;
-		if (file_exists($filePath)) {
-			unlink($filePath);
-		}
-	}
+            echo json_encode([
+                'tmpFilePath' => $tmpFilePath,
+                'newUuid'     => $tmpFileName,
+                'success'     => true
+            ]);
+        }
+    }
 
-	/**
-	 * Handles the existing files of a Fine Uploader form.
-	 * The values are stored in the GET/POST var at the index "fieldValue".
-	 *
-	 * @return string
-	 */
-	public function getExistingFiles() {
-		$files = array();
+    /**
+     * Deletes a specific file from the processing folder.
+     */
+    public function deleteFile()
+    {
+        $fileName = GeneralUtility::_GP('fileName');
+        $filePath = PATH_site . Core::getProcessedFolderPath() . $fileName;
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
+    }
 
-		$fieldValue = GeneralUtility::_GP('fieldValue');
-		if ($fieldValue != '') {
-			$imagePath = GeneralUtility::getFileAbsFileName($fieldValue);
-			$imageName = PathUtility::basename($imagePath);
-			$imageDirectoryPath = PathUtility::dirname($imagePath);
-			$imageDirectoryPath = PathUtility::getRelativePath(PATH_site, $imageDirectoryPath);
-			$imageUrl = GeneralUtility::locationHeaderUrl('/' . $imageDirectoryPath . $imageName);
+    /**
+     * Handles the existing files of a Fine Uploader form.
+     * The values are stored in the GET/POST var at the index "fieldValue".
+     *
+     * @return string
+     */
+    public function getExistingFiles()
+    {
+        $files = [];
 
-			if (file_exists($imagePath))
-				$files[] = array(
-					'name'			=> $imageName,
-					'uuid'			=> $imageUrl,
-					'thumbnailUrl'	=> $imageUrl
-				);
-		}
+        $fieldValue = GeneralUtility::_GP('fieldValue');
+        if ($fieldValue != '') {
+            $imagePath = GeneralUtility::getFileAbsFileName($fieldValue);
+            $imageName = PathUtility::basename($imagePath);
+            $imageDirectoryPath = PathUtility::dirname($imagePath);
+            $imageDirectoryPath = PathUtility::getRelativePath(PATH_site, $imageDirectoryPath);
+            $imageUrl = GeneralUtility::locationHeaderUrl('/' . $imageDirectoryPath . $imageName);
 
-		return json_encode($files);
-	}
+            if (file_exists($imagePath)) {
+                $files[] = [
+                    'name'         => $imageName,
+                    'uuid'         => $imageUrl,
+                    'thumbnailUrl' => $imageUrl
+                ];
+            }
+        }
+
+        return json_encode($files);
+    }
 }

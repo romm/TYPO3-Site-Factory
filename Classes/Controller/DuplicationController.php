@@ -23,105 +23,109 @@ use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
 /**
  * Controller managing the duplication of sites.
  */
-class DuplicationController extends AbstractController {
+class DuplicationController extends AbstractController
+{
 
-	/**
-	 * Ajax implementation of the function "processDuplication". Will display
-	 * the result in JSON.
-	 *
-	 * See "processDuplication" function for more details.
-	 *
-	 * @return bool
-	 */
-	public function ajaxProcessDuplicationAction() {
-		// @todo: check if token is valid
-		$cacheToken = $this->request->getArgument('duplicationToken');
+    /**
+     * Ajax implementation of the function "processDuplication". Will display
+     * the result in JSON.
+     *
+     * See "processDuplication" function for more details.
+     *
+     * @return bool
+     */
+    public function ajaxProcessDuplicationAction()
+    {
+        // @todo: check if token is valid
+        $cacheToken = $this->request->getArgument('duplicationToken');
 
-		// @todo: check if index is valid
-		$index = $this->request->getArgument('index');
+        // @todo: check if index is valid
+        $index = $this->request->getArgument('index');
 
-		$result = $this->processDuplication($cacheToken, $index, true);
+        $result = $this->processDuplication($cacheToken, $index, true);
 
-		// Printing result for JavaScript.
-		echo json_encode($result);
-		return true;
-	}
+        // Printing result for JavaScript.
+        echo json_encode($result);
 
-	/**
-	 * @todo: rewrite function doc
-	 * @param	$cacheToken	string	The token of the cache file to get the current state of the duplication.
-	 * @param	$index		string	The index of the process which will be executed (e.g. "pagesDuplication" or "treeUidAssociation").
-	 * @param	$checkAjax	bool	If true, will call the function "checkAjaxCall" of the current process class.
-	 * @return	array				The result of the function, may contain these keys :
-	 * 								 - "success":		"False" if error(s) occurred, "true" otherwise.
-	 *								 - "result":		The result of the execution function. Contains useful data for further duplication process steps.
-	 *								 - "errorMessage":	If error(s) occurred, will contain an error message. If the current user is admin, it will get a detailed message.
-	 */
-	private function processDuplication($cacheToken, $index, $checkAjax = false) {
-		// Getting configuration in cache file.
-		$cache = CacheManager::getCacheInstance(CacheManager::CACHE_PROCESSED);
-		$cacheData = $cache->get($cacheToken);
-		$cacheData = json_decode($cacheData, true);
+        return true;
+    }
 
-		/** @var \TYPO3\CMS\Extbase\Error\Result $result */
-		$result = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Error\\Result');
+    /**
+     * @todo: rewrite function doc
+     * @param    $cacheToken           string    The token of the cache file to get the current state of the duplication.
+     * @param    $index                string    The index of the process which will be executed (e.g. "pagesDuplication" or "treeUidAssociation").
+     * @param    $checkAjax            bool    If true, will call the function "checkAjaxCall" of the current process class.
+     * @return    array                The result of the function, may contain these keys :
+     *                                 - "success":        "False" if error(s) occurred, "true" otherwise.
+     *                                 - "result":        The result of the execution function. Contains useful data for further duplication process steps.
+     *                                 - "errorMessage":    If error(s) occurred, will contain an error message. If the current user is admin, it will get a detailed message.
+     */
+    private function processDuplication($cacheToken, $index, $checkAjax = false)
+    {
+        // Getting configuration in cache file.
+        $cache = CacheManager::getCacheInstance(CacheManager::CACHE_PROCESSED);
+        $cacheData = $cache->get($cacheToken);
+        $cacheData = json_decode($cacheData, true);
 
-		try {
-			if (isset($cacheData['duplicationData']['modelPageUid']) && MathUtility::canBeInterpretedAsInteger($cacheData['duplicationData']['modelPageUid']) && $cacheData['duplicationData']['modelPageUid'] > 0) {
-				$duplicationConfiguration = AbstractDuplicationProcess::getCleanedDuplicationConfiguration($cacheData['duplicationData']['modelPageUid']);
+        /** @var \TYPO3\CMS\Extbase\Error\Result $result */
+        $result = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Error\\Result');
 
-				if (isset($duplicationConfiguration[$index])) {
-					if (isset($duplicationConfiguration[$index]['class'])) {
-						$class = $duplicationConfiguration[$index]['class'];
-						$settings = (array_key_exists('settings', $duplicationConfiguration[$index]))
-							? (is_array($duplicationConfiguration[$index]['settings']))
-								? $duplicationConfiguration[$index]['settings']
-								: array()
-							: array();
+        try {
+            if (isset($cacheData['duplicationData']['modelPageUid']) && MathUtility::canBeInterpretedAsInteger($cacheData['duplicationData']['modelPageUid']) && $cacheData['duplicationData']['modelPageUid'] > 0) {
+                $duplicationConfiguration = AbstractDuplicationProcess::getCleanedDuplicationConfiguration($cacheData['duplicationData']['modelPageUid']);
 
-						// Calling the function of the current process step.
-						/** @var AbstractDuplicationProcess $class */
-						$class = GeneralUtility::makeInstance($class, $cacheData['duplicationData'], $settings, $cacheData['fieldsValues']);
-						if ($class instanceof AbstractDuplicationProcess) {
-							// @todo : else
-							if (!$checkAjax || ($checkAjax && $class->checkAjaxCall())) {
-								$class->run();
-								$fieldsValues = $class->getFieldsValues();
-								$result->merge($class->getResult());
+                if (isset($duplicationConfiguration[$index])) {
+                    if (isset($duplicationConfiguration[$index]['class'])) {
+                        $class = $duplicationConfiguration[$index]['class'];
+                        $settings = (array_key_exists('settings', $duplicationConfiguration[$index]))
+                            ? (is_array($duplicationConfiguration[$index]['settings']))
+                                ? $duplicationConfiguration[$index]['settings']
+                                : []
+                            : [];
 
-								// Saving modified data in cache.
-								$configuration = array(
-									'duplicationData'	=> $class->getDuplicationData(),
-									'fieldsValues'		=> $fieldsValues
-								);
-								$cache->set($cacheToken, json_encode($configuration));
-							}
-						}
-						else
-							throw new \Exception('The class "' . $class . '" must extend "\Romm\SiteFactory\Duplication\AbstractDuplicationProcess".', 1422887215);
-					}
-					else
-						throw new \Exception('The class is not set for the duplication configuration named "' . $index . '".', 1422885526);
-				}
-				else
-					throw new \Exception('Trying to get the duplication configuration named "' . $index . '" but it does not exist.', 1422885438);
-			}
-			else
-				throw new \Exception('The duplication data must contain a valid index for "modelPageUid".', 1422885697);
-		}
-		catch(\Exception $exception) {
-			/** @var \TYPO3\CMS\Core\Authentication\BackendUserAuthentication $backendUser */
-			$backendUser = $GLOBALS['BE_USER'];
+                        // Calling the function of the current process step.
+                        /** @var AbstractDuplicationProcess $class */
+                        $class = GeneralUtility::makeInstance($class, $cacheData['duplicationData'], $settings, $cacheData['fieldsValues']);
+                        if ($class instanceof AbstractDuplicationProcess) {
+                            // @todo : else
+                            if (!$checkAjax || ($checkAjax && $class->checkAjaxCall())) {
+                                $class->run();
+                                $fieldsValues = $class->getFieldsValues();
+                                $result->merge($class->getResult());
 
-			// Setting up error message. If the user is admin, it gets a detailed message.
-			if ($backendUser->isAdmin())
-				$errorMessage = Core::translate('duplication_process.process_error_detailed') . ' ' . $exception->getMessage();
-			else
-				$errorMessage = Core::translate('duplication_process.process_error_single');
+                                // Saving modified data in cache.
+                                $configuration = [
+                                    'duplicationData' => $class->getDuplicationData(),
+                                    'fieldsValues'    => $fieldsValues
+                                ];
+                                $cache->set($cacheToken, json_encode($configuration));
+                            }
+                        } else {
+                            throw new \Exception('The class "' . $class . '" must extend "\Romm\SiteFactory\Duplication\AbstractDuplicationProcess".', 1422887215);
+                        }
+                    } else {
+                        throw new \Exception('The class is not set for the duplication configuration named "' . $index . '".', 1422885526);
+                    }
+                } else {
+                    throw new \Exception('Trying to get the duplication configuration named "' . $index . '" but it does not exist.', 1422885438);
+                }
+            } else {
+                throw new \Exception('The duplication data must contain a valid index for "modelPageUid".', 1422885697);
+            }
+        } catch (\Exception $exception) {
+            /** @var \TYPO3\CMS\Core\Authentication\BackendUserAuthentication $backendUser */
+            $backendUser = $GLOBALS['BE_USER'];
 
-			$result->addError(new Error($errorMessage, 1431985617));
-		}
+            // Setting up error message. If the user is admin, it gets a detailed message.
+            if ($backendUser->isAdmin()) {
+                $errorMessage = Core::translate('duplication_process.process_error_detailed') . ' ' . $exception->getMessage();
+            } else {
+                $errorMessage = Core::translate('duplication_process.process_error_single');
+            }
 
-		return Core::convertValidationResultToArray($result);
-	}
+            $result->addError(new Error($errorMessage, 1431985617));
+        }
+
+        return Core::convertValidationResultToArray($result);
+    }
 }

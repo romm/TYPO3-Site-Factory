@@ -26,292 +26,310 @@ use Romm\SiteFactory\Utility\ConstantManagerUtility;
  * Administration controller. Manages the following actions :
  *
  * - Index:
- * 		The homepage of the module, introducing the extension and giving some
- * 		information about it.
+ *        The homepage of the module, introducing the extension and giving some
+ *        information about it.
  * - New:
- * 		The page containing a form which allows someone to create a new site.
+ *        The page containing a form which allows someone to create a new site.
  * - processCopy:
- * 		The page where you go after submitting the "New" form. It will manage
- * 		all the duplication processes (pages duplication, constants assignation,
- * 		etc.).
+ *        The page where you go after submitting the "New" form. It will manage
+ *        all the duplication processes (pages duplication, constants assignation,
+ *        etc.).
  * - saveSiteConfiguration:
- * 		When a site is created/modified, the information of the form is encoded
- * 		and stored in database for future usage.
+ *        When a site is created/modified, the information of the form is encoded
+ *        and stored in database for future usage.
  */
-class AdministrationController extends AbstractController {
-	/**
-	 * @var \Romm\SiteFactory\Domain\Repository\SaveRepository
-	 * @inject
-	 */
-	protected $saveRepository = NULL;
+class AdministrationController extends AbstractController
+{
 
-	/**
-	 * @var \Romm\SiteFactory\Domain\Repository\PagesRepository
-	 * @inject
-	 */
-	protected $pageRepository = NULL;
+    /**
+     * @var \Romm\SiteFactory\Domain\Repository\SaveRepository
+     * @inject
+     */
+    protected $saveRepository = null;
 
-	/** @var array $fieldsConfiguration */
-	public $fieldsConfiguration = NULL;
+    /**
+     * @var \Romm\SiteFactory\Domain\Repository\PagesRepository
+     * @inject
+     */
+    protected $pageRepository = null;
 
-	/**
-	 * Homepage of the module.
-	 *
-	 * Displays a list of the model sites which can be duplicated, and a list of
-	 * the already duplicated sites with their custom values.
-	 */
-	public function indexAction() {
-		// Models sites which can be duplicated.
-		$this->view->assign('modelSitesList', FieldsConfigurationPresets::getModelSitesList());
+    /** @var array $fieldsConfiguration */
+    public $fieldsConfiguration = null;
 
-		// Managing the already duplicated sites list.
-		/** @var \Romm\SiteFactory\Domain\Model\Save[] $savedSites */
-		$savedSites = $this->saveRepository->findAll();
+    /**
+     * Homepage of the module.
+     *
+     * Displays a list of the model sites which can be duplicated, and a list of
+     * the already duplicated sites with their custom values.
+     */
+    public function indexAction()
+    {
+        // Models sites which can be duplicated.
+        $this->view->assign('modelSitesList', FieldsConfigurationPresets::getModelSitesList());
 
-		$finalSavedSites = array();
-		foreach($savedSites as $key => $site) {
-			// Adding root page of the site in the configuration.
-			/** @var \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface $defaultQuerySettings */
-			$defaultQuerySettings = Core::getObjectManager()->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\QuerySettingsInterface');
-			$defaultQuerySettings->setRespectStoragePage(false);
-			$defaultQuerySettings->setIgnoreEnableFields(true);
-			$this->pageRepository->setDefaultQuerySettings($defaultQuerySettings);
+        // Managing the already duplicated sites list.
+        /** @var \Romm\SiteFactory\Domain\Model\Save[] $savedSites */
+        $savedSites = $this->saveRepository->findAll();
 
-			/** @var \Romm\SiteFactory\Domain\Model\Pages $page */
-			$page = $this->pageRepository->findByUid($site->getRootPageUid());
+        $finalSavedSites = [];
+        foreach ($savedSites as $key => $site) {
+            // Adding root page of the site in the configuration.
+            /** @var \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface $defaultQuerySettings */
+            $defaultQuerySettings = Core::getObjectManager()->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\QuerySettingsInterface');
+            $defaultQuerySettings->setRespectStoragePage(false);
+            $defaultQuerySettings->setIgnoreEnableFields(true);
+            $this->pageRepository->setDefaultQuerySettings($defaultQuerySettings);
 
-			// The page may have been deleted.
-			if (!$page)
-				continue;
+            /** @var \Romm\SiteFactory\Domain\Model\Pages $page */
+            $page = $this->pageRepository->findByUid($site->getRootPageUid());
 
-			$siteConfiguration['page'] = $page;
-			$siteConfiguration['fields'] = $this->fillFieldsValuesFromSavedSite($site);
+            // The page may have been deleted.
+            if (!$page) {
+                continue;
+            }
 
-			$site->setConfiguration($siteConfiguration);
-			$finalSavedSites[] = $site;
-		}
+            $siteConfiguration['page'] = $page;
+            $siteConfiguration['fields'] = $this->fillFieldsValuesFromSavedSite($site);
 
-		$this->view->assign('savedSites', $finalSavedSites);
-	}
+            $site->setConfiguration($siteConfiguration);
+            $finalSavedSites[] = $site;
+        }
 
-	/**
-	 * Get the values of a site that has already been duplicated.
-	 * Useful when you want to list a already duplicated  site's properties, or
-	 * when you are editing a site.
-	 *
-	 * @param	Save	$site					The saved site.
-	 * @param	bool	$onlyModificationFields	True if you want only the fields that are accessible when editing, false otherwise.
-	 * @return	\Romm\SiteFactory\Form\Fields\AbstractField[]
-	 */
-	private function fillFieldsValuesFromSavedSite(Save $site, $onlyModificationFields = true) {
-		$siteConfiguration = $site->getConfiguration();
+        $this->view->assign('savedSites', $finalSavedSites);
+    }
 
-		// Settings fields configuration for the site.
-		$fields = Field::getFields($site->getRootPageUid(), $onlyModificationFields);
+    /**
+     * Get the values of a site that has already been duplicated.
+     * Useful when you want to list a already duplicated  site's properties, or
+     * when you are editing a site.
+     *
+     * @param    Save $site                   The saved site.
+     * @param    bool $onlyModificationFields True if you want only the fields that are accessible when editing, false otherwise.
+     * @return    \Romm\SiteFactory\Form\Fields\AbstractField[]
+     */
+    private function fillFieldsValuesFromSavedSite(Save $site, $onlyModificationFields = true)
+    {
+        $siteConfiguration = $site->getConfiguration();
 
-		if (isset($siteConfiguration['fieldsValues']) && is_array($siteConfiguration['fieldsValues']))
-			foreach ($siteConfiguration['fieldsValues'] as $fieldName => $fieldValue)
-				if (array_key_exists($fieldName, $fields))
-					$fields[$fieldName]->setValue($fieldValue);
+        // Settings fields configuration for the site.
+        $fields = Field::getFields($site->getRootPageUid(), $onlyModificationFields);
 
-		$constantsValues = ConstantManagerUtility::getTemplateConstantsValues($site->getRootPageUid(), array_keys($fields));
-		foreach ($constantsValues as $fieldName => $fieldValue)
-			$fields[$fieldName]->setValue($fieldValue);
+        if (isset($siteConfiguration['fieldsValues']) && is_array($siteConfiguration['fieldsValues'])) {
+            foreach ($siteConfiguration['fieldsValues'] as $fieldName => $fieldValue) {
+                if (array_key_exists($fieldName, $fields)) {
+                    $fields[$fieldName]->setValue($fieldValue);
+                }
+            }
+        }
 
-		return $fields;
-	}
+        $constantsValues = ConstantManagerUtility::getTemplateConstantsValues($site->getRootPageUid(), array_keys($fields));
+        foreach ($constantsValues as $fieldName => $fieldValue) {
+            $fields[$fieldName]->setValue($fieldValue);
+        }
 
-	/**
-	 * Contains the main form for the creation of a new site.
-	 *
-	 * If the form has been submitted, fields' values will be checked so they
-	 * must match their rules declared in the main configuration. If no error
-	 * occurs, the site duplication process will start.
-	 *
-	 * If the argument "modifySite" is sent, the site has already been
-	 * duplicated and saved, and the form will be filled with the already saved
-	 * configuration of this site.
-	 *
-	 * @throws \Exception
-	 */
-	public function newAction() {
-		// Models sites which can be duplicated.
-		$modelSites = FieldsConfigurationPresets::getModelSitesList();
-		if (empty($modelSites))
-			$this->view->assign('noModelSite', true);
-		else {
-			// Getting the selected model site. If none has been submitted, the default one (first one in the list) is used.
-			$selectedModelSite = ($this->request->hasArgument('fields') && isset($this->request->getArgument('fields')['modelSite'])) ?
-				$this->request->getArgument('fields')['modelSite'] :
-				key($modelSites);
+        return $fields;
+    }
 
-			if (!$selectedModelSite)
-				throw new \Exception('Fatal error: the module should have a model site value.', 1423830741);
+    /**
+     * Contains the main form for the creation of a new site.
+     *
+     * If the form has been submitted, fields' values will be checked so they
+     * must match their rules declared in the main configuration. If no error
+     * occurs, the site duplication process will start.
+     *
+     * If the argument "modifySite" is sent, the site has already been
+     * duplicated and saved, and the form will be filled with the already saved
+     * configuration of this site.
+     *
+     * @throws \Exception
+     */
+    public function newAction()
+    {
+        // Models sites which can be duplicated.
+        $modelSites = FieldsConfigurationPresets::getModelSitesList();
+        if (empty($modelSites)) {
+            $this->view->assign('noModelSite', true);
+        } else {
+            // Getting the selected model site. If none has been submitted, the default one (first one in the list) is used.
+            $selectedModelSite = ($this->request->hasArgument('fields') && isset($this->request->getArgument('fields')['modelSite'])) ?
+                $this->request->getArgument('fields')['modelSite'] :
+                key($modelSites);
 
-			if (!Core::checkUidIsModelSite($selectedModelSite))
-				throw new \Exception('Fatal error: the model site "' . $selectedModelSite . '" is not a correct value.', 1423830834);
+            if (!$selectedModelSite) {
+                throw new \Exception('Fatal error: the module should have a model site value.', 1423830741);
+            }
 
-			$checkHideInSiteModification = false;
+            if (!Core::checkUidIsModelSite($selectedModelSite)) {
+                throw new \Exception('Fatal error: the model site "' . $selectedModelSite . '" is not a correct value.', 1423830834);
+            }
 
-			// Checking if a site is being edited, and if the uid of this site is correct.
-			$modifySite = null;
-			if($this->request->hasArgument('modifySite')) {
-				$modifySite = intval($this->request->getArgument('modifySite'));
-				Core::checkUidIsSavedSite($modifySite);
-				$checkHideInSiteModification = true;
-			}
+            $checkHideInSiteModification = false;
 
-			if($modifySite !== null) {
-				$pageUid = $this->request->getArgument('modifySite');
-				$this->view->assign('modifySite', $pageUid);
+            // Checking if a site is being edited, and if the uid of this site is correct.
+            $modifySite = null;
+            if ($this->request->hasArgument('modifySite')) {
+                $modifySite = intval($this->request->getArgument('modifySite'));
+                Core::checkUidIsSavedSite($modifySite);
+                $checkHideInSiteModification = true;
+            }
 
-				/** @var \Romm\SiteFactory\Domain\Model\Save $savedSite */
-				$savedSite = $this->saveRepository->findOneByRootPageUid($pageUid);
-				$fields = $this->fillFieldsValuesFromSavedSite($savedSite, false);
-			}
-			else
-				// Getting the fields for the selected model site.
-				$fields = Field::getFields($selectedModelSite, $checkHideInSiteModification);
+            if ($modifySite !== null) {
+                $pageUid = $this->request->getArgument('modifySite');
+                $this->view->assign('modifySite', $pageUid);
 
-			// The form has been submitted, the site might be duplicated.
-			if ($this->request->hasArgument('submitted'))
-				$this->processFormSubmit($fields);
-			else {
-				$this->view->assign('refreshForm', true);
+                /** @var \Romm\SiteFactory\Domain\Model\Save $savedSite */
+                $savedSite = $this->saveRepository->findOneByRootPageUid($pageUid);
+                $fields = $this->fillFieldsValuesFromSavedSite($savedSite, false);
+            } else // Getting the fields for the selected model site.
+            {
+                $fields = Field::getFields($selectedModelSite, $checkHideInSiteModification);
+            }
 
-				if($modifySite === null) {
-					$constantsValues = ConstantManagerUtility::getTemplateConstantsValues($selectedModelSite, array_keys($fields));
-					foreach ($constantsValues as $fieldName => $fieldValue)
-						$fields[$fieldName]->setValue($fieldValue);
-				}
-			}
+            // The form has been submitted, the site might be duplicated.
+            if ($this->request->hasArgument('submitted')) {
+                $this->processFormSubmit($fields);
+            } else {
+                $this->view->assign('refreshForm', true);
 
-			// Creating a unique id for the generated form.
-			$this->view->assign('formId', 'SiteFactoryForm_' . md5(serialize($this)));
+                if ($modifySite === null) {
+                    $constantsValues = ConstantManagerUtility::getTemplateConstantsValues($selectedModelSite, array_keys($fields));
+                    foreach ($constantsValues as $fieldName => $fieldValue) {
+                        $fields[$fieldName]->setValue($fieldValue);
+                    }
+                }
+            }
 
-			$this->view->assign('fieldsConfiguration', $fields);
-		}
-	}
+            // Creating a unique id for the generated form.
+            $this->view->assign('formId', 'SiteFactoryForm_' . md5(serialize($this)));
 
-	/**
-	 * Process fields checks.
-	 *
-	 * If errors occur, information will be assigned to the view. If all fields
-	 * are correctly filled, a redirection is sent to "processCopyAction".
-	 *
-	 * @param	AbstractField[]	$fields	The fields configuration.
-	 */
-	public function processFormSubmit($fields) {
-		$errorsCounter = 0;
-		$requestFields = $this->request->getArgument('fields');
+            $this->view->assign('fieldsConfiguration', $fields);
+        }
+    }
 
-		foreach($fields as $fieldName => $field) {
-			// Check if a field has been submitted.
-			if (array_key_exists($fieldName, $requestFields)) {
-				$field->setValue($requestFields[$fieldName]);
+    /**
+     * Process fields checks.
+     *
+     * If errors occur, information will be assigned to the view. If all fields
+     * are correctly filled, a redirection is sent to "processCopyAction".
+     *
+     * @param    AbstractField[] $fields The fields configuration.
+     */
+    public function processFormSubmit($fields)
+    {
+        $errorsCounter = 0;
+        $requestFields = $this->request->getArgument('fields');
 
-				// Validating the field.
-				$validationResult = $field->validate()->getMergedValidationResult();
+        foreach ($fields as $fieldName => $field) {
+            // Check if a field has been submitted.
+            if (array_key_exists($fieldName, $requestFields)) {
+                $field->setValue($requestFields[$fieldName]);
 
-				if (!empty($validationResult))
-					if ($validationResult->hasErrors())
-						$errorsCounter += count($validationResult->getErrors());
-			}
-		}
+                // Validating the field.
+                $validationResult = $field->validate()->getMergedValidationResult();
 
-		$changeModelSiteId = false;
-		if ($this->request->hasArgument('changeModelSiteId'))
-			$changeModelSiteId = (bool)$this->request->getArgument('changeModelSiteId');
+                if (!empty($validationResult)) {
+                    if ($validationResult->hasErrors()) {
+                        $errorsCounter += count($validationResult->getErrors());
+                    }
+                }
+            }
+        }
 
-		// No error occurred: the site duplication can start.
-		if ($errorsCounter == 0 && !$changeModelSiteId) {
-			$redirectParameters = array();
-			$duplicationData = array();
+        $changeModelSiteId = false;
+        if ($this->request->hasArgument('changeModelSiteId')) {
+            $changeModelSiteId = (bool)$this->request->getArgument('changeModelSiteId');
+        }
 
-			if ($this->request->hasArgument('modifySite')) {
-				if (Core::checkUidIsSavedSite($this->request->getArgument('modifySite'))) {
-					$redirectParameters['modifySite'] = $this->request->getArgument('modifySite');
+        // No error occurred: the site duplication can start.
+        if ($errorsCounter == 0 && !$changeModelSiteId) {
+            $redirectParameters = [];
+            $duplicationData = [];
 
-					// We get back the last saved configuration. It prevents missing values as some fields may not be in the modification form (e.g. the "model site").
-					/** @var \Romm\SiteFactory\Domain\Model\Save $savedSite */
-					$savedSite = $this->saveRepository->findOneByRootPageUid($redirectParameters['modifySite']);
-					$duplicationData = $savedSite->getConfiguration();
-				}
-			}
+            if ($this->request->hasArgument('modifySite')) {
+                if (Core::checkUidIsSavedSite($this->request->getArgument('modifySite'))) {
+                    $redirectParameters['modifySite'] = $this->request->getArgument('modifySite');
 
-			// Saving configuration in a cache file.
-			$fieldsValues = array();
-			foreach($fields as $field)
-				$fieldsValues[$field->getName()] = $field->getValue();
+                    // We get back the last saved configuration. It prevents missing values as some fields may not be in the modification form (e.g. the "model site").
+                    /** @var \Romm\SiteFactory\Domain\Model\Save $savedSite */
+                    $savedSite = $this->saveRepository->findOneByRootPageUid($redirectParameters['modifySite']);
+                    $duplicationData = $savedSite->getConfiguration();
+                }
+            }
 
-			$dataFileCacheToken = md5(uniqid(rand(), true));
-			$dataFileValue = json_encode(array(
-				'fieldsValues'		=> $fieldsValues,
-				'duplicationData'	=> $duplicationData
-			));
+            // Saving configuration in a cache file.
+            $fieldsValues = [];
+            foreach ($fields as $field) {
+                $fieldsValues[$field->getName()] = $field->getValue();
+            }
 
-			$cache = CacheManager::getCacheInstance(CacheManager::CACHE_PROCESSED);
-			$cache->set(
-				$dataFileCacheToken,
-				$dataFileValue,
-				array(),
-				60 * 60 * 24 // 1 day.
-			);
-			$redirectParameters['duplicationToken'] = $dataFileCacheToken;
+            $dataFileCacheToken = md5(uniqid(rand(), true));
+            $dataFileValue = json_encode([
+                'fieldsValues'    => $fieldsValues,
+                'duplicationData' => $duplicationData
+            ]);
 
-			$this->redirect('processCopy', NULL, NULL, $redirectParameters);
-		}
-		else
-			$this->view->assign('errorsCounter', $errorsCounter);
-	}
+            $cache = CacheManager::getCacheInstance(CacheManager::CACHE_PROCESSED);
+            $cache->set(
+                $dataFileCacheToken,
+                $dataFileValue,
+                [],
+                60 * 60 * 24 // 1 day.
+            );
+            $redirectParameters['duplicationToken'] = $dataFileCacheToken;
 
-	/**
-	 * This action is called when a form has been submitted to create a new
-	 * site.
-	 *
-	 * It will get all the information needed to duplicate the model site, and
-	 * further: management of uploaded files, constants management, etc.
-	 */
-	public function processCopyAction() {
-		$cacheToken = $this->request->getArgument('duplicationToken');
+            $this->redirect('processCopy', null, null, $redirectParameters);
+        } else {
+            $this->view->assign('errorsCounter', $errorsCounter);
+        }
+    }
 
-		$cache = CacheManager::getCacheInstance(CacheManager::CACHE_PROCESSED);
-		$cacheData = $cache->get($cacheToken);
-		// @todo: manage wrong token or wrong cacheData
-		$cacheData = json_decode($cacheData, true);
+    /**
+     * This action is called when a form has been submitted to create a new
+     * site.
+     *
+     * It will get all the information needed to duplicate the model site, and
+     * further: management of uploaded files, constants management, etc.
+     */
+    public function processCopyAction()
+    {
+        $cacheToken = $this->request->getArgument('duplicationToken');
 
-		// Check if the process is a modification of an already duplicated site.
-		$modifySite = null;
-		if ($this->request->hasArgument('modifySite') && Core::checkUidIsSavedSite($this->request->getArgument('modifySite'))) {
-			$modifySite = $this->request->getArgument('modifySite');
+        $cache = CacheManager::getCacheInstance(CacheManager::CACHE_PROCESSED);
+        $cacheData = $cache->get($cacheToken);
+        // @todo: manage wrong token or wrong cacheData
+        $cacheData = json_decode($cacheData, true);
 
-			$cacheData['duplicationData']['modelPageUid'] = $cacheData['fieldsValues']['modelSite'];
-			$cacheData['duplicationData']['modifySite'] = $modifySite;
-			$cacheData['duplicationData']['duplicatedPageUid'] = $modifySite;
+        // Check if the process is a modification of an already duplicated site.
+        $modifySite = null;
+        if ($this->request->hasArgument('modifySite') && Core::checkUidIsSavedSite($this->request->getArgument('modifySite'))) {
+            $modifySite = $this->request->getArgument('modifySite');
 
-			/** @var \Romm\SiteFactory\Domain\Model\Save $savedSite */
-			$savedSite = $this->saveRepository->findLastByRootPageUid($modifySite);
-			$cacheData['savedSite'] = $savedSite->getConfiguration();
-		}
-		else {
-			$cacheData['duplicationData']['modelPageUid'] = $cacheData['fieldsValues']['modelSite'];
-			$cacheData['duplicationData']['copyDestination'] = Core::getExtensionConfiguration('copyDestination');
-		}
+            $cacheData['duplicationData']['modelPageUid'] = $cacheData['fieldsValues']['modelSite'];
+            $cacheData['duplicationData']['modifySite'] = $modifySite;
+            $cacheData['duplicationData']['duplicatedPageUid'] = $modifySite;
 
-		// Saving modified data in cache.
-		$cache->set($cacheToken, json_encode($cacheData));
+            /** @var \Romm\SiteFactory\Domain\Model\Save $savedSite */
+            $savedSite = $this->saveRepository->findLastByRootPageUid($modifySite);
+            $cacheData['savedSite'] = $savedSite->getConfiguration();
+        } else {
+            $cacheData['duplicationData']['modelPageUid'] = $cacheData['fieldsValues']['modelSite'];
+            $cacheData['duplicationData']['copyDestination'] = Core::getExtensionConfiguration('copyDestination');
+        }
 
-		$this->view->assign('duplicationToken', $cacheToken);
+        // Saving modified data in cache.
+        $cache->set($cacheToken, json_encode($cacheData));
 
-		$siteModificationToken = ($modifySite) ? true : false;
-		$duplicationConfiguration = AbstractDuplicationProcess::getCleanedDuplicationConfiguration($cacheData['duplicationData']['modelPageUid'], $siteModificationToken);
-		$this->view->assign('duplicationConfiguration', $duplicationConfiguration);
+        $this->view->assign('duplicationToken', $cacheToken);
 
-		$this->view->assign('duplicationConfigurationJSON', addslashes(json_encode(array_keys($duplicationConfiguration))));
-	}
+        $siteModificationToken = ($modifySite) ? true : false;
+        $duplicationConfiguration = AbstractDuplicationProcess::getCleanedDuplicationConfiguration($cacheData['duplicationData']['modelPageUid'], $siteModificationToken);
+        $this->view->assign('duplicationConfiguration', $duplicationConfiguration);
 
-	public function helpAction() {
+        $this->view->assign('duplicationConfigurationJSON', addslashes(json_encode(array_keys($duplicationConfiguration))));
+    }
 
-	}
+    public function helpAction()
+    {
+    }
 
 }

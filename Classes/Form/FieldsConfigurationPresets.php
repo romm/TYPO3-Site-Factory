@@ -20,53 +20,57 @@ use Romm\SiteFactory\Core\Core;
 /**
  * Class containing custom user functions for fields' TypoScript configuration.
  */
-class FieldsConfigurationPresets {
+class FieldsConfigurationPresets
+{
 
-	/**
-	 * Gets an ordered list of the pages with the "Model site" flag set.
-	 *
-	 * @return	array	The model sites in an array. Empty array if no model was found.
-	 */
-	public static function getModelSitesList() {
-		$modelSitesPid = Core::getExtensionConfiguration('modelSitesPid');
+    /**
+     * Gets an ordered list of the pages with the "Model site" flag set.
+     *
+     * @return    array    The model sites in an array. Empty array if no model was found.
+     */
+    public static function getModelSitesList()
+    {
+        $modelSitesPid = Core::getExtensionConfiguration('modelSitesPid');
 
-		$aModelSites = BackendUtility::getRecordsByField('pages', 'pid', $modelSitesPid);
-		$orderedModelSites = array();
+        $aModelSites = BackendUtility::getRecordsByField('pages', 'pid', $modelSitesPid);
+        $orderedModelSites = [];
 
-		if (is_array($aModelSites)) {
-			foreach($aModelSites as $modelSite) {
-				$orderedModelSites[$modelSite['uid']] = $modelSite['title'] . ' (' . $modelSite['uid'] . ')';
-			}
-		}
-		return $orderedModelSites;
-	}
+        if (is_array($aModelSites)) {
+            foreach ($aModelSites as $modelSite) {
+                $orderedModelSites[$modelSite['uid']] = $modelSite['title'] . ' (' . $modelSite['uid'] . ')';
+            }
+        }
 
-	/**
-	 * Gets an ordered list of the backend layouts.
-	 *
-	 * @return	array	The backend layouts in an array. Empty array if none was found.
-	 */
-	public static function getBackendLayoutsList() {
-		/** @var \TYPO3\CMS\Backend\View\BackendLayoutView $backendLayoutView */
-		$backendLayoutView = GeneralUtility::makeInstance('TYPO3\\CMS\\Backend\\View\\BackendLayoutView');
+        return $orderedModelSites;
+    }
 
-		$items = array();
-		$params = array(
-			'table'		=> 'pages',
-			'field'		=> 'backend_layout',
-			'row'		=> BackendUtility::getRecord('pages', 1, '*'), // @todo: manage "page" uid!
-			'items'		=> &$items
-		);
-		$backendLayoutView->addBackendLayoutItems($params);
+    /**
+     * Gets an ordered list of the backend layouts.
+     *
+     * @return    array    The backend layouts in an array. Empty array if none was found.
+     */
+    public static function getBackendLayoutsList()
+    {
+        /** @var \TYPO3\CMS\Backend\View\BackendLayoutView $backendLayoutView */
+        $backendLayoutView = GeneralUtility::makeInstance('TYPO3\\CMS\\Backend\\View\\BackendLayoutView');
 
-		$result = array();
-		foreach($GLOBALS['TCA']['pages']['columns']['backend_layout']['config']['items'] as $item) {
-			$result[$item[1]] = Core::translate($item[0]);
-		}
-		foreach($params['items'] as $item) {
-			$result[$item[1]] = $item[0];
-		}
+        $items = [];
+        $params = [
+            'table' => 'pages',
+            'field' => 'backend_layout',
+            'row'   => BackendUtility::getRecord('pages', 1, '*'), // @todo: manage "page" uid!
+            'items' => &$items
+        ];
+        $backendLayoutView->addBackendLayoutItems($params);
 
-		return $result;
-	}
+        $result = [];
+        foreach ($GLOBALS['TCA']['pages']['columns']['backend_layout']['config']['items'] as $item) {
+            $result[$item[1]] = Core::translate($item[0]);
+        }
+        foreach ($params['items'] as $item) {
+            $result[$item[1]] = $item[0];
+        }
+
+        return $result;
+    }
 }

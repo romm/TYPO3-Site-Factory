@@ -18,22 +18,24 @@ use Romm\SiteFactory\Core\Core;
 /**
  * Custom validator for the Site Factory.
  */
-class FacebookUrlValidator extends AbstractValidator {
+class FacebookUrlValidator extends AbstractValidator
+{
 
-	/**
-	 * Checks if the field value matches a Facebook URL.
-	 *
-	 * @param	\Romm\SiteFactory\Form\Fields\AbstractField	$field	The field.
-	 */
-	protected function isValid($field) {
-		if (!preg_match('/^$|^(https:\/\/)?(www.)?facebook.com\/.+$/', $field->getValue())) {
-			$this->addError(
-				$this->translateErrorMessage(
-					'fields.validation.facebook_url_value',
-					Core::getExtensionKey()
-				),
-				1431104928
-			);
-		}
-	}
+    /**
+     * Checks if the field value matches a Facebook URL.
+     *
+     * @param    \Romm\SiteFactory\Form\Fields\AbstractField $field The field.
+     */
+    protected function isValid($field)
+    {
+        if (!preg_match('/^$|^(https:\/\/)?(www.)?facebook.com\/.+$/', $field->getValue())) {
+            $this->addError(
+                $this->translateErrorMessage(
+                    'fields.validation.facebook_url_value',
+                    Core::getExtensionKey()
+                ),
+                1431104928
+            );
+        }
+    }
 }

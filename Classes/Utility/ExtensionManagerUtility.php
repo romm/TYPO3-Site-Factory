@@ -19,65 +19,69 @@ use Romm\SiteFactory\Core\Core;
 /**
  * Set of functions for the extension's configuration in the extension manager.
  */
-class ExtensionManagerUtility {
-	/**
-	 * Returns a select containing all the Backend user groups.
-	 *
-	 * @param	array	$options	Current options of the field.
-	 * @return	string				The HTML code containing the <select> tag with filled options.
-	 */
-	public function getBackendUserGroupsSelect($options) {
-		$html = '<select name="' . $options['fieldName'] . '">';
+class ExtensionManagerUtility
+{
 
-		$backendUserGroups = GeneralUtility::array_merge(
-			array(0 => array('uid' => -1, 'title' => '')),
-			Core::getDatabase()->exec_SELECTgetRows(
-				'uid, title',
-				'be_groups',
-				'1=1'
-			)
-		);
+    /**
+     * Returns a select containing all the Backend user groups.
+     *
+     * @param    array $options Current options of the field.
+     * @return    string                The HTML code containing the <select> tag with filled options.
+     */
+    public function getBackendUserGroupsSelect($options)
+    {
+        $html = '<select name="' . $options['fieldName'] . '">';
 
-		foreach($backendUserGroups as $group) {
-			$selected = ($group['uid'] == $options['fieldValue']) ? ' selected="selected"' : '';
-			$uidLabel = ($group['uid'] != -1) ? ' [' . $group['uid'] . ']' : '';
+        $backendUserGroups = GeneralUtility::array_merge(
+            [0 => ['uid' => -1, 'title' => '']],
+            Core::getDatabase()->exec_SELECTgetRows(
+                'uid, title',
+                'be_groups',
+                '1=1'
+            )
+        );
 
-			$html .= '<option value="' . $group['uid'] . '"' . $selected . '>' . $group['title'] . $uidLabel . '</option>';
-		}
+        foreach ($backendUserGroups as $group) {
+            $selected = ($group['uid'] == $options['fieldValue']) ? ' selected="selected"' : '';
+            $uidLabel = ($group['uid'] != -1) ? ' [' . $group['uid'] . ']' : '';
 
-		$html .= '</select>';
+            $html .= '<option value="' . $group['uid'] . '"' . $selected . '>' . $group['title'] . $uidLabel . '</option>';
+        }
 
-		return $html;
-	}
+        $html .= '</select>';
 
-	/**
-	 * Returns a select containing all the Backend users.
-	 *
-	 * @param	array	$options	Current options of the field.
-	 * @return	string				The HTML code containing the <select> tag with filled options.
-	 */
-	public function getBackendUsersSelect($options) {
-		$html = '<select name="' . $options['fieldName'] . '">';
+        return $html;
+    }
 
-		$backendUserGroups = GeneralUtility::array_merge(
-			array(0 => array('uid' => -1, 'title' => '')),
-			Core::getDatabase()->exec_SELECTgetRows(
-				'uid, username',
-				'be_users',
-				'1=1'
-			)
-		);
+    /**
+     * Returns a select containing all the Backend users.
+     *
+     * @param    array $options Current options of the field.
+     * @return    string                The HTML code containing the <select> tag with filled options.
+     */
+    public function getBackendUsersSelect($options)
+    {
+        $html = '<select name="' . $options['fieldName'] . '">';
 
-		foreach($backendUserGroups as $group) {
-			$selected = ($group['uid'] == $options['fieldValue']) ? ' selected="selected"' : '';
-			$uidLabel = ($group['uid'] != -1) ? ' [' . $group['uid'] . ']' : '';
+        $backendUserGroups = GeneralUtility::array_merge(
+            [0 => ['uid' => -1, 'title' => '']],
+            Core::getDatabase()->exec_SELECTgetRows(
+                'uid, username',
+                'be_users',
+                '1=1'
+            )
+        );
 
-			$html .= '<option value="' . $group['uid'] . '"' . $selected . '>' . $group['username'] . $uidLabel . '</option>';
-		}
+        foreach ($backendUserGroups as $group) {
+            $selected = ($group['uid'] == $options['fieldValue']) ? ' selected="selected"' : '';
+            $uidLabel = ($group['uid'] != -1) ? ' [' . $group['uid'] . ']' : '';
 
-		$html .= '</select>';
+            $html .= '<option value="' . $group['uid'] . '"' . $selected . '>' . $group['username'] . $uidLabel . '</option>';
+        }
 
-		return $html;
-	}
+        $html .= '</select>';
+
+        return $html;
+    }
 
 }

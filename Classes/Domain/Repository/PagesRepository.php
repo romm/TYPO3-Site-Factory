@@ -19,25 +19,27 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 /**
  * The repository for the "Pages" model.
  */
-class PagesRepository extends Repository {
+class PagesRepository extends Repository
+{
 
-	/**
-	 * Finds a page without taking care of the deleted/hidden flags and the
-	 * storage page.
-	 *
-	 * @param	int	$uid	The uid of the page you want to find.
-	 * @return	array|QueryResultInterface
-	 */
-	public function findByUidWithoutCondition($uid) {
-		$query = $this->createQuery();
-		$query->getQuerySettings()->setRespectStoragePage(false);
-		$query->getQuerySettings()->setIgnoreEnableFields(true);
+    /**
+     * Finds a page without taking care of the deleted/hidden flags and the
+     * storage page.
+     *
+     * @param    int $uid The uid of the page you want to find.
+     * @return    array|QueryResultInterface
+     */
+    public function findByUidWithoutCondition($uid)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->getQuerySettings()->setIgnoreEnableFields(true);
 
-		$query->matching(
-			$query->equals('uid', $uid)
-		);
+        $query->matching(
+            $query->equals('uid', $uid)
+        );
 
-		return $query->execute();
-	}
+        return $query->execute();
+    }
 
 }

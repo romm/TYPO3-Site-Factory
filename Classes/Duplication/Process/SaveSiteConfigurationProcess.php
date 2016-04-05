@@ -22,37 +22,41 @@ use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
  * Class containing functions called when a site is being duplicated.
  * See function "run" for more information.
  */
-class SaveSiteConfigurationProcess extends AbstractDuplicationProcess {
-	/**
-	 * When a site is being saved, this function will save all the fields values
-	 * in the DataBase, for further usage.
-	 */
-	public function run() {
-		$objectManager = Core::getObjectManager();
+class SaveSiteConfigurationProcess extends AbstractDuplicationProcess
+{
 
-		/** @var \Romm\SiteFactory\Domain\Repository\SaveRepository $saveRepository */
-		$saveRepository = $objectManager->get('Romm\\SiteFactory\\Domain\\Repository\\SaveRepository');
+    /**
+     * When a site is being saved, this function will save all the fields values
+     * in the DataBase, for further usage.
+     */
+    public function run()
+    {
+        $objectManager = Core::getObjectManager();
 
-		$saveObject = $saveRepository->findOneByRootPageUid($this->getDuplicatedPageUid());
+        /** @var \Romm\SiteFactory\Domain\Repository\SaveRepository $saveRepository */
+        $saveRepository = $objectManager->get('Romm\\SiteFactory\\Domain\\Repository\\SaveRepository');
 
-		$newObject = false;
-		if (empty($saveObject)) {
-			$newObject = true;
-			/** @var \Romm\SiteFactory\Domain\Model\Save $saveObject */
-			$saveObject = GeneralUtility::makeInstance('Romm\\SiteFactory\\Domain\\Model\\Save');
-			$saveObject->setRootPageUid($this->getDuplicatedPageUid());
-		}
+        $saveObject = $saveRepository->findOneByRootPageUid($this->getDuplicatedPageUid());
 
-		$configuration = $this->getDuplicationData();
-		ArrayUtility::mergeRecursiveWithOverrule(
-			$configuration,
-			array('fieldsValues' => $this->getFieldsValues())
-		);
-		$saveObject->setConfiguration(json_encode($configuration));
+        $newObject = false;
+        if (empty($saveObject)) {
+            $newObject = true;
+            /** @var \Romm\SiteFactory\Domain\Model\Save $saveObject */
+            $saveObject = GeneralUtility::makeInstance('Romm\\SiteFactory\\Domain\\Model\\Save');
+            $saveObject->setRootPageUid($this->getDuplicatedPageUid());
+        }
 
-		if ($newObject)
-			$saveRepository->add($saveObject);
-		else
-			$saveRepository->update($saveObject);
-	}
+        $configuration = $this->getDuplicationData();
+        ArrayUtility::mergeRecursiveWithOverrule(
+            $configuration,
+            ['fieldsValues' => $this->getFieldsValues()]
+        );
+        $saveObject->setConfiguration(json_encode($configuration));
+
+        if ($newObject) {
+            $saveRepository->add($saveObject);
+        } else {
+            $saveRepository->update($saveObject);
+        }
+    }
 }

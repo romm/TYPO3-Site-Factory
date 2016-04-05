@@ -13,6 +13,7 @@ namespace Romm\SiteFactory\Form\Validation;
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-abstract class AbstractValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator {
+abstract class AbstractValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator
+{
 
 }

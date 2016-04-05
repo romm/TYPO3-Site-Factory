@@ -18,24 +18,26 @@ use Romm\SiteFactory\Core\Core;
 /**
  * Custom validator for the Site Factory.
  */
-class SelectOptionsValidator extends AbstractValidator {
+class SelectOptionsValidator extends AbstractValidator
+{
 
-	/**
-	 * Checks if the select field current value is in its available options. If
-	 * not, an error is thrown.
-	 *
-	 * @param	\Romm\SiteFactory\Form\Fields\SelectField	$field	The select field.
-	 */
-	protected function isValid($field) {
-		if (!array_key_exists($field->getValue(), $field->getOptions())) {
-			$this->addError(
-				$this->translateErrorMessage(
-					'fields.validation.select.wrong_option_value',
-					Core::getExtensionKey(),
-					array('s' => $field->getValue())
-				),
-				1430127401
-			);
-		}
-	}
+    /**
+     * Checks if the select field current value is in its available options. If
+     * not, an error is thrown.
+     *
+     * @param    \Romm\SiteFactory\Form\Fields\SelectField $field The select field.
+     */
+    protected function isValid($field)
+    {
+        if (!array_key_exists($field->getValue(), $field->getOptions())) {
+            $this->addError(
+                $this->translateErrorMessage(
+                    'fields.validation.select.wrong_option_value',
+                    Core::getExtensionKey(),
+                    ['s' => $field->getValue()]
+                ),
+                1430127401
+            );
+        }
+    }
 }

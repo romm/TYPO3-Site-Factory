@@ -18,22 +18,24 @@ use Romm\SiteFactory\Core\Core;
 /**
  * Custom validator for the Site Factory.
  */
-class IntegerValidator extends AbstractValidator {
+class IntegerValidator extends AbstractValidator
+{
 
-	/**
-	 * Checks if the field value matches a domain name value.
-	 *
-	 * @param	\Romm\SiteFactory\Form\Fields\AbstractField	$field	The field.
-	 */
-	protected function isValid($field) {
-		if (filter_var($field->getValue(), FILTER_VALIDATE_INT) === FALSE) {
-			$this->addError(
-				$this->translateErrorMessage(
-					'fields.validation.integer_value',
-					Core::getExtensionKey()
-				),
-				1431105694
-			);
-		}
-	}
+    /**
+     * Checks if the field value matches a domain name value.
+     *
+     * @param    \Romm\SiteFactory\Form\Fields\AbstractField $field The field.
+     */
+    protected function isValid($field)
+    {
+        if (filter_var($field->getValue(), FILTER_VALIDATE_INT) === false) {
+            $this->addError(
+                $this->translateErrorMessage(
+                    'fields.validation.integer_value',
+                    Core::getExtensionKey()
+                ),
+                1431105694
+            );
+        }
+    }
 }

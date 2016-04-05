@@ -19,20 +19,22 @@ use TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper;
  * ViewHelper to convert an array containing error messages into a human
  * readable string.
  */
-class ErrorMessageViewHelper extends AbstractBackendViewHelper {
+class ErrorMessageViewHelper extends AbstractBackendViewHelper
+{
 
-	/**
-	 * @param	array	$errors	Error messages.
-	 * @return	string
-	 */
-	public function render($errors = array()) {
-		$result = '';
+    /**
+     * @param    array $errors Error messages.
+     * @return    string
+     */
+    public function render($errors = [])
+    {
+        $result = '';
 
-		if (is_array($errors)) {
-			$result = implode("\n\r", $errors);
-		}
+        if (is_array($errors)) {
+            $result = implode("\n\r", $errors);
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
 }

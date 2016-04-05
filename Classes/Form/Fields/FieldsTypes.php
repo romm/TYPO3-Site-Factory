@@ -18,45 +18,49 @@ use Romm\SiteFactory\Utility\TypoScriptUtility;
 /**
  * @todo
  */
-class FieldsTypes {
-	/** @var array Cache for the fields types configuration for various pages. */
-	private static $fieldsTypes = array();
+class FieldsTypes
+{
 
-	/**
-	 * Returns an array containing the fields types configuration, based on the
-	 * TypoScript configuration of a given page.
-	 *
-	 * @param $pageUid	int	The id of the page you want the configuration of.
-	 * @return array	The fields types configuration as an array : key is the name and value is the configuration.
-	 * @throws \Exception
-	 */
-	public static function getFieldsTypesConfiguration($pageUid) {
-		if (!isset(self::$fieldsTypes[$pageUid])) {
-			$fieldsTypesConfiguration = TypoScriptUtility::getExtensionConfigurationFromPath('fieldsTypes', $pageUid);
-			self::$fieldsTypes[$pageUid] = array();
+    /** @var array Cache for the fields types configuration for various pages. */
+    private static $fieldsTypes = [];
 
-			foreach($fieldsTypesConfiguration as $fieldTypeName => $fieldTypeConfiguration) {
-				if (!isset($fieldTypeConfiguration['class'])) {
-					throw new \Exception('The field type "' . $fieldTypeName . '" should have a value for "class"', 1423770370);
-				}
+    /**
+     * Returns an array containing the fields types configuration, based on the
+     * TypoScript configuration of a given page.
+     *
+     * @param $pageUid    int    The id of the page you want the configuration of.
+     * @return array    The fields types configuration as an array : key is the name and value is the configuration.
+     * @throws \Exception
+     */
+    public static function getFieldsTypesConfiguration($pageUid)
+    {
+        if (!isset(self::$fieldsTypes[$pageUid])) {
+            $fieldsTypesConfiguration = TypoScriptUtility::getExtensionConfigurationFromPath('fieldsTypes', $pageUid);
+            self::$fieldsTypes[$pageUid] = [];
 
-				self::$fieldsTypes[$pageUid][$fieldTypeName] = $fieldTypeConfiguration;
-			}
-		}
+            foreach ($fieldsTypesConfiguration as $fieldTypeName => $fieldTypeConfiguration) {
+                if (!isset($fieldTypeConfiguration['class'])) {
+                    throw new \Exception('The field type "' . $fieldTypeName . '" should have a value for "class"', 1423770370);
+                }
 
-		return self::$fieldsTypes[$pageUid];
-	}
+                self::$fieldsTypes[$pageUid][$fieldTypeName] = $fieldTypeConfiguration;
+            }
+        }
 
-	/**
-	 * Returns the different fields types names, based on the TypoScript
-	 * configuration of a given page.
-	 *
-	 * @param $pageUid	int	The id of the page you want the fields types of.
-	 * @return array	The fields types names.
-	 */
-	public static function getFieldsTypes($pageUid) {
-		$fieldsTypesConfiguration = self::getFieldsTypesConfiguration($pageUid);
+        return self::$fieldsTypes[$pageUid];
+    }
 
-		return array_keys($fieldsTypesConfiguration);
-	}
+    /**
+     * Returns the different fields types names, based on the TypoScript
+     * configuration of a given page.
+     *
+     * @param $pageUid    int    The id of the page you want the fields types of.
+     * @return array    The fields types names.
+     */
+    public static function getFieldsTypes($pageUid)
+    {
+        $fieldsTypesConfiguration = self::getFieldsTypesConfiguration($pageUid);
+
+        return array_keys($fieldsTypesConfiguration);
+    }
 }

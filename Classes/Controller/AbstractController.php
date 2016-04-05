@@ -20,19 +20,22 @@ use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 /**
  * Controller managing the duplication of sites.
  */
-class AbstractController extends ActionController {
+class AbstractController extends ActionController
+{
 
-	/**
-	 * Is called before any action.
-	 */
-	public function initializeAction() {
-		Core::loadJquery();
-	}
+    /**
+     * Is called before any action.
+     */
+    public function initializeAction()
+    {
+        Core::loadJquery();
+    }
 
-	/**
-	 * @param ViewInterface $view
-	 */
-	protected function initializeView(ViewInterface $view) {
-		$this->view->assign('pathSite', $_SERVER['SERVER_NAME']);
-	}
+    /**
+     * @param ViewInterface $view
+     */
+    protected function initializeView(ViewInterface $view)
+    {
+        $this->view->assign('pathSite', $_SERVER['SERVER_NAME']);
+    }
 }

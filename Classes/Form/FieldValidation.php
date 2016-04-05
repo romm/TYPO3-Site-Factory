@@ -23,48 +23,54 @@ use Romm\SiteFactory\Core\Core;
  * - \Romm\SiteFactory\Core\Configuration\Configuration
  * - \Romm\SiteFactory\Core\Configuration\FieldsConfiguration
  */
-class FieldValidation {
-	/**
-	 * Checks if a given field is correctly filled.
-	 *
-	 * @param	Fields\AbstractField	$field	The field.
-	 * @return	array							An array with 2 indexes:
-	 * 											 - fieldLabel:			The translated label of the field.
-	 * 											 - validationResult:	List of TYPO3\CMS\Extbase\Error\Result
-	 */
-	public function validateField(Fields\AbstractField $field) {
-		$fieldValidation = array('fieldLabel' => Core::translate($field->getLabel()));
+class FieldValidation
+{
 
-		$validationResult = $field->validate()->getValidationResult();
-		$fieldValidation['validationResult'] = $validationResult;
+    /**
+     * Checks if a given field is correctly filled.
+     *
+     * @param    Fields\AbstractField $field       The field.
+     * @return    array                            An array with 2 indexes:
+     *                                             - fieldLabel:            The translated label of the field.
+     *                                             - validationResult:    List of TYPO3\CMS\Extbase\Error\Result
+     */
+    public function validateField(Fields\AbstractField $field)
+    {
+        $fieldValidation = ['fieldLabel' => Core::translate($field->getLabel())];
 
-		return $fieldValidation;
-	}
+        $validationResult = $field->validate()->getValidationResult();
+        $fieldValidation['validationResult'] = $validationResult;
 
-	/**
-	 * Ajax implementation of the function "validateField". Will display the
-	 * result encoded in JSON.
-	 *
-	 * @param	string	$content	Not used.
-	 * @param	array	$params		Parameters.
-	 * @return	string	JSON encoded result.
-	 */
-	public function ajaxValidateField($content, $params) {
-		$arguments = $params['arguments'];
+        return $fieldValidation;
+    }
 
-		// @todo : Exception ?
-		if (!isset($arguments['fieldName']) || !isset($arguments['value']) || !isset($arguments['pageUid'])) return '';
+    /**
+     * Ajax implementation of the function "validateField". Will display the
+     * result encoded in JSON.
+     *
+     * @param    string $content Not used.
+     * @param    array  $params  Parameters.
+     * @return    string    JSON encoded result.
+     */
+    public function ajaxValidateField($content, $params)
+    {
+        $arguments = $params['arguments'];
 
-		// @todo : check pageUid
-		$field = Fields\Field::getField($arguments['fieldName'], $arguments['pageUid']);
-		$field->setValue($arguments['value']);
+        // @todo : Exception ?
+        if (!isset($arguments['fieldName']) || !isset($arguments['value']) || !isset($arguments['pageUid'])) {
+            return '';
+        }
 
-		$validation = $this->validateField($field);
+        // @todo : check pageUid
+        $field = Fields\Field::getField($arguments['fieldName'], $arguments['pageUid']);
+        $field->setValue($arguments['value']);
 
-		$validationResult = Core::convertValidationResultToArray($validation['validationResult']);
+        $validation = $this->validateField($field);
 
-		$validation['validationResult'] = $validationResult;
+        $validationResult = Core::convertValidationResultToArray($validation['validationResult']);
 
-		return json_encode($validation);
-	}
+        $validation['validationResult'] = $validationResult;
+
+        return json_encode($validation);
+    }
 }

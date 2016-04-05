@@ -21,52 +21,59 @@ use Romm\SiteFactory\Core\Core;
  * See $allowedFieldTypes, $requiredFieldsConfiguration and $translatedFields
  * for further information.
  */
-class TextField extends AbstractField {
-	/** @var mixed The field type of the field : text, checkbox, select, etc.. */
-	protected $fieldType = AbstractField::FIELD_TYPE_TEXT;
+class TextField extends AbstractField
+{
 
-	/** @var array Array containing the JavaScript files which will be imported. */
-	protected $javaScriptFilesNewAction = array(
-		'EXT:site_factory/Resources/Public/JavaScript/Fields/SiteFactory.Field.Text.js'
-	);
+    /** @var mixed The field type of the field : text, checkbox, select, etc.. */
+    protected $fieldType = AbstractField::FIELD_TYPE_TEXT;
 
-	/** @var array Array containing the properties that must be filled for the field. */
-	protected $requiredFieldsConfiguration = array();
+    /** @var array Array containing the JavaScript files which will be imported. */
+    protected $javaScriptFilesNewAction = [
+        'EXT:site_factory/Resources/Public/JavaScript/Fields/SiteFactory.Field.Text.js'
+    ];
 
-	/**
-	 * The placeholder of the field, mainly useful for the form.
-	 *
-	 * @var string
-	 * @fill
-	 */
-	protected $placeholder = '';
+    /** @var array Array containing the properties that must be filled for the field. */
+    protected $requiredFieldsConfiguration = [];
 
-	/**
-	 * Sets the default value of the field.
-	 *
-	 * @param string $defaultValue
-	 * @return $this
-	 */
-	public function setDefaultValue($defaultValue) {
-		$this->defaultValue = Core::translate((string)$defaultValue);
-		return $this;
-	}
+    /**
+     * The placeholder of the field, mainly useful for the form.
+     *
+     * @var string
+     * @fill
+     */
+    protected $placeholder = '';
 
-	/**
-	 * Sets the placeholder of the field.
-	 *
-	 * @param string $placeholder
-	 * @return $this
-	 */
-	public function setPlaceholder($placeholder) {
-		$this->placeholder = Core::translate((string)$placeholder);
-		return $this;
-	}
+    /**
+     * Sets the default value of the field.
+     *
+     * @param string $defaultValue
+     * @return $this
+     */
+    public function setDefaultValue($defaultValue)
+    {
+        $this->defaultValue = Core::translate((string)$defaultValue);
 
-	/**
-	 * @return string	The placeholder of the field.
-	 */
-	public function getPlaceholder() {
-		return $this->placeholder;
-	}
+        return $this;
+    }
+
+    /**
+     * Sets the placeholder of the field.
+     *
+     * @param string $placeholder
+     * @return $this
+     */
+    public function setPlaceholder($placeholder)
+    {
+        $this->placeholder = Core::translate((string)$placeholder);
+
+        return $this;
+    }
+
+    /**
+     * @return string    The placeholder of the field.
+     */
+    public function getPlaceholder()
+    {
+        return $this->placeholder;
+    }
 }
