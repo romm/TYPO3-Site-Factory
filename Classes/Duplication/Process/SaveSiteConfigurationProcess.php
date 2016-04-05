@@ -14,6 +14,8 @@
 namespace Romm\SiteFactory\Duplication\Process;
 
 use Romm\SiteFactory\Core\Core;
+use Romm\SiteFactory\Domain\Model\Save;
+use Romm\SiteFactory\Domain\Repository\SaveRepository;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
@@ -33,16 +35,16 @@ class SaveSiteConfigurationProcess extends AbstractDuplicationProcess
     {
         $objectManager = Core::getObjectManager();
 
-        /** @var \Romm\SiteFactory\Domain\Repository\SaveRepository $saveRepository */
-        $saveRepository = $objectManager->get('Romm\\SiteFactory\\Domain\\Repository\\SaveRepository');
+        /** @var SaveRepository $saveRepository */
+        $saveRepository = $objectManager->get(SaveRepository::class);
 
         $saveObject = $saveRepository->findOneByRootPageUid($this->getDuplicatedPageUid());
 
         $newObject = false;
         if (empty($saveObject)) {
             $newObject = true;
-            /** @var \Romm\SiteFactory\Domain\Model\Save $saveObject */
-            $saveObject = GeneralUtility::makeInstance('Romm\\SiteFactory\\Domain\\Model\\Save');
+            /** @var Save $saveObject */
+            $saveObject = GeneralUtility::makeInstance(Save::class);
             $saveObject->setRootPageUid($this->getDuplicatedPageUid());
         }
 

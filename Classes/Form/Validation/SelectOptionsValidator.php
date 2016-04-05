@@ -14,6 +14,7 @@
 namespace Romm\SiteFactory\Form\Validation;
 
 use Romm\SiteFactory\Core\Core;
+use Romm\SiteFactory\Form\Fields\SelectField;
 
 /**
  * Custom validator for the Site Factory.
@@ -25,7 +26,7 @@ class SelectOptionsValidator extends AbstractValidator
      * Checks if the select field current value is in its available options. If
      * not, an error is thrown.
      *
-     * @param    \Romm\SiteFactory\Form\Fields\SelectField $field The select field.
+     * @param SelectField $field The select field.
      */
     protected function isValid($field)
     {

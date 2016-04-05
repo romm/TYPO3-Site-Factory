@@ -13,6 +13,9 @@
 
 namespace Romm\SiteFactory\Core;
 
+use \TYPO3\CMS\Core\Cache\CacheManager as TYPO3CacheManager;
+use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
+
 /**
  * Class managing the cache instances for the extension.
  */
@@ -22,19 +25,21 @@ class CacheManager
     const CACHE_MAIN = 'cache_site_factory_main';
     const CACHE_PROCESSED = 'cache_site_factory_processed';
 
-    /** @var \TYPO3\CMS\Core\Cache\CacheManager */
+    /**
+     * @var TYPO3CacheManager
+     */
     protected static $cacheManager;
 
     /**
      * Returns a cache instance.
      *
-     * @param    string $name Name of the cache. Must be one of the class' constants.
-     * @return    \TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
+     * @param   string $name Name of the cache. Must be one of the class' constants.
+     * @return  FrontendInterface
      */
     public static function getCacheInstance($name)
     {
         if (!self::$cacheManager) {
-            self::$cacheManager = Core::getObjectManager()->get('TYPO3\\CMS\\Core\\Cache\\CacheManager');
+            self::$cacheManager = Core::getObjectManager()->get(TYPO3CacheManager::class);
         }
 
         $cacheInstance = null;

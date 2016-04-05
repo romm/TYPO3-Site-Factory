@@ -13,6 +13,9 @@
 
 namespace Romm\SiteFactory\Domain\Repository;
 
+use Romm\SiteFactory\Domain\Model\Pages;
+use Romm\SiteFactory\Domain\Repository\PagesRepository;
+use TYPO3\CMS\Extbase\Persistence\Generic\Query;
 use TYPO3\CMS\Extbase\Persistence\Generic\QueryResult;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
@@ -36,7 +39,7 @@ class SaveRepository extends Repository
      */
     public function findLastByRootPageUid($rootPageUid)
     {
-        /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Query $query */
+        /** @var Query $query */
         $query = $this->createQuery();
 
         $query->matching(
@@ -62,7 +65,7 @@ class SaveRepository extends Repository
      */
     public function findAllByDistinctRootPageUid()
     {
-        /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Query $query */
+        /** @var Query $query */
         $query = $this->createQuery();
 
         return $query
@@ -100,17 +103,17 @@ class SaveRepository extends Repository
         }
 
         $objectManager = Core::getObjectManager();
-        /** @var \Romm\SiteFactory\Domain\Repository\PagesRepository $pagesRepository */
-        $pagesRepository = $objectManager->get('Romm\\SiteFactory\\Domain\\Repository\\PagesRepository');
+        /** @var PagesRepository $pagesRepository */
+        $pagesRepository = $objectManager->get(PagesRepository::class);
 
         if (is_array($records) || $records instanceof QueryResult) {
-            /** @var \Romm\SiteFactory\Domain\Model\Save[] $records */
+            /** @var Save[] $records */
             foreach ($records as $key => $record) {
                 $page = $pagesRepository->findByUidWithoutCondition($record->getRootPageUid());
                 $records[$key]->setPage($page[0]);
             }
         } elseif ($records instanceof Save) {
-            /** @var \Romm\SiteFactory\Domain\Model\Pages $page */
+            /** @var Pages $page */
             $page = $pagesRepository->findByUidWithoutCondition($records->getRootPageUid());
             $records->setPage($page[0]);
         }

@@ -14,11 +14,20 @@
 namespace Romm\SiteFactory\Utility;
 
 use TYPO3\CMS\Core\Core\Bootstrap;
+use TYPO3\CMS\Core\TimeTracker\TimeTracker;
+use TYPO3\CMS\Core\TypoScript\TemplateService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Service\TypoScriptService;
+use TYPO3\CMS\Frontend\ContentObject\AbstractContentObject;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use TYPO3\CMS\Frontend\Page\PageRepository;
 use TYPO3\CMS\Frontend\Utility\EidUtility;
 
 // TODO: explain arguments: serialized: true
@@ -98,7 +107,7 @@ use TYPO3\CMS\Frontend\Utility\EidUtility;
 class AjaxDispatcherUtility
 {
 
-    /** @var \TYPO3\CMS\Extbase\Object\ObjectManager */
+    /** @var ObjectManager */
     private $objectManager;
 
     /**
@@ -117,7 +126,7 @@ class AjaxDispatcherUtility
     {
         $content = null;
 
-        $this->objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 
         // Bootstrap initialization.
         Bootstrap::getInstance()
@@ -140,7 +149,7 @@ class AjaxDispatcherUtility
         // Initializing TypoScript Frontend Controller.
         if (TYPO3_MODE == 'FE') {
             // Creating global time tracker.
-            $GLOBALS['TT'] = $this->objectManager->get('TYPO3\\CMS\\Core\\TimeTracker\\TimeTracker');
+            $GLOBALS['TT'] = $this->objectManager->get(TimeTracker::class);
 
             $this->initializeTSFE($id);
         } else {
@@ -216,8 +225,8 @@ class AjaxDispatcherUtility
         $this->addRequestArgumentsToGlobal([$pluginKey => $arguments['arguments']]);
 
         // Calling the controller by running an Extbase Bootstrap with the correct configuration.
-        /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $bootstrap */
-        $bootstrap = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Core\\Bootstrap');
+        /** @var Bootstrap $bootstrap */
+        $bootstrap = $this->objectManager->get(Bootstrap::class);
         $result = $bootstrap->run('', $bootstrapConfiguration);
 
         return $result;
@@ -274,9 +283,9 @@ class AjaxDispatcherUtility
      */
     private function callContentObject($configuration, $arguments = [])
     {
-        /** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $contentObjectRenderer */
-        $contentObjectRenderer = $this->objectManager->get('TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer');
-        /** @var \TYPO3\CMS\Frontend\ContentObject\AbstractContentObject $contentObject */
+        /** @var ContentObjectRenderer $contentObjectRenderer */
+        $contentObjectRenderer = $this->objectManager->get(ContentObjectRenderer::class);
+        /** @var AbstractContentObject $contentObject */
         $contentObject = $contentObjectRenderer->getContentObject($configuration['_typoScriptNodeValue']);
 
         // Add the arguments to the PHP global $_GET var.
@@ -317,13 +326,13 @@ class AjaxDispatcherUtility
 
     /**
      * @param    int $id The id of the rootPage from which you want the controller to be based on.
-     * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
+     * @return TypoScriptFrontendController
      */
     private function getFrontendController($id = 0)
     {
         if (!$GLOBALS['TSFE']) {
             global $TYPO3_CONF_VARS;
-            $GLOBALS['TSFE'] = $this->objectManager->get('TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController', $TYPO3_CONF_VARS, $id, 0);
+            $GLOBALS['TSFE'] = $this->objectManager->get(TypoScriptFrontendController::class, $TYPO3_CONF_VARS, $id, 0);
         }
 
         return $GLOBALS['TSFE'];
@@ -347,19 +356,19 @@ class AjaxDispatcherUtility
      */
     public static function getPageConfiguration($uid = 0)
     {
-        /** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
-        $objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+        /** @var ObjectManager $objectManager */
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 
-        /** @var \TYPO3\CMS\Extbase\Service\TypoScriptService $typoScriptService */
-        $typoScriptService = $objectManager->get('TYPO3\\CMS\\Extbase\\Service\\TypoScriptService');
+        /** @var TypoScriptService $typoScriptService */
+        $typoScriptService = $objectManager->get(TypoScriptService::class);
 
         if ($uid && MathUtility::canBeInterpretedAsInteger($uid) && $uid > 0) {
-            /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
-            $pageRepository = $objectManager->get('TYPO3\\CMS\\Frontend\\Page\\PageRepository');
+            /** @var PageRepository $pageRepository */
+            $pageRepository = $objectManager->get(PageRepository::class);
             $rootLine = $pageRepository->getRootLine($uid);
 
-            /** @var \TYPO3\CMS\Core\TypoScript\TemplateService $templateService */
-            $templateService = $objectManager->get('TYPO3\\CMS\\Core\\TypoScript\\TemplateService');
+            /** @var TemplateService $templateService */
+            $templateService = $objectManager->get(TemplateService::class);
             $templateService->tt_track = 0;
             $templateService->init();
             $templateService->runThroughTemplates($rootLine);
@@ -367,8 +376,8 @@ class AjaxDispatcherUtility
 
             $fullConfiguration = $typoScriptService->convertTypoScriptArrayToPlainArray($templateService->setup);
         } else {
-            /** @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManager $configurationManager */
-            $configurationManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager');
+            /** @var ConfigurationManager $configurationManager */
+            $configurationManager = $objectManager->get(ConfigurationManager::class);
 
             $fullConfiguration = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
 

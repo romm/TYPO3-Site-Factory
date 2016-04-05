@@ -56,7 +56,7 @@ class Save extends AbstractEntity
     /**
      * Construction function.
      *
-     * @return \Romm\SiteFactory\Domain\Model\Save
+     * @return Save
      */
     public function __construct()
     {

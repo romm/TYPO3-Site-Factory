@@ -14,6 +14,7 @@
 namespace Romm\SiteFactory\Form;
 
 use Romm\SiteFactory\Core\Core;
+use Romm\SiteFactory\Form\Fields\AbstractField;
 
 /**
  * Class containing functions allowing to check if a field is correctly filled,
@@ -29,12 +30,12 @@ class FieldValidation
     /**
      * Checks if a given field is correctly filled.
      *
-     * @param    Fields\AbstractField $field       The field.
-     * @return    array                            An array with 2 indexes:
-     *                                             - fieldLabel:            The translated label of the field.
-     *                                             - validationResult:    List of TYPO3\CMS\Extbase\Error\Result
+     * @param    AbstractField $field       The field.
+     * @return    array  An array with 2 indexes:
+     *                   - fieldLabel:       The translated label of the field.
+     *                   - validationResult: List of TYPO3\CMS\Extbase\Error\Result
      */
-    public function validateField(Fields\AbstractField $field)
+    public function validateField(AbstractField $field)
     {
         $fieldValidation = ['fieldLabel' => Core::translate($field->getLabel())];
 

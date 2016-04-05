@@ -13,6 +13,7 @@
 
 namespace Romm\SiteFactory\Form\Fields;
 
+use Romm\SiteFactory\Form\Validation\SelectOptionsValidator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -35,7 +36,7 @@ class SelectField extends AbstractField
     /** @var array Array containing the default rules for the field. */
     protected $localValidation = [
         'options' => [
-            'validator' => 'Romm\\SiteFactory\\Form\\Validation\\SelectOptionsValidator',
+            'validator' => SelectOptionsValidator::class,
             'error'     => 'form.field.error.picker_color' // @todo
         ]
     ];

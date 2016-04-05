@@ -14,6 +14,7 @@
 namespace Romm\SiteFactory\Form\Validation;
 
 use Romm\SiteFactory\Core\Core;
+use Romm\SiteFactory\Form\Fields\AbstractField;
 
 /**
  * Custom validator for the Site Factory.
@@ -24,7 +25,7 @@ class FacebookUrlValidator extends AbstractValidator
     /**
      * Checks if the field value matches a Facebook URL.
      *
-     * @param    \Romm\SiteFactory\Form\Fields\AbstractField $field The field.
+     * @param AbstractField $field The field.
      */
     protected function isValid($field)
     {

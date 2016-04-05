@@ -96,7 +96,7 @@ class Field
             $fieldsTypesConfiguration = FieldsTypes::getFieldsTypesConfiguration($pageUid);
             $field = GeneralUtility::makeInstance($fieldsTypesConfiguration[$fieldType]['class'], $fieldName, $fieldConfiguration['type']);
             if (!$field instanceof AbstractField) {
-                throw new \Exception('The class ' . $fieldsTypesConfiguration[$fieldType]['class'] . ' must extend \Romm\SiteFactory\Form\Fields\AbstractField.', 1423771432);
+                throw new \Exception('The class ' . $fieldsTypesConfiguration[$fieldType]['class'] . ' must extend ' . AbstractField::class . '.', 1423771432);
             }
 
             $field->fillConfiguration($fieldConfiguration);

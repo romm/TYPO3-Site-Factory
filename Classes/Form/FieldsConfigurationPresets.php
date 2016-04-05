@@ -14,6 +14,7 @@
 namespace Romm\SiteFactory\Form;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Backend\View\BackendLayoutView;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Romm\SiteFactory\Core\Core;
 
@@ -51,8 +52,8 @@ class FieldsConfigurationPresets
      */
     public static function getBackendLayoutsList()
     {
-        /** @var \TYPO3\CMS\Backend\View\BackendLayoutView $backendLayoutView */
-        $backendLayoutView = GeneralUtility::makeInstance('TYPO3\\CMS\\Backend\\View\\BackendLayoutView');
+        /** @var BackendLayoutView $backendLayoutView */
+        $backendLayoutView = GeneralUtility::makeInstance(BackendLayoutView::class);
 
         $items = [];
         $params = [

@@ -13,12 +13,21 @@
 
 namespace Romm\SiteFactory\Core;
 
+use Romm\SiteFactory\Domain\Repository\SaveRepository;
+use TYPO3\CMS\Backend\Template\DocumentTemplate;
+use TYPO3\CMS\Core\Database\DatabaseConnection;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Error\Message;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
+use TYPO3\CMS\Extbase\Service\EnvironmentService;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Extbase\Error;
 use Romm\SiteFactory\Form\FieldsConfigurationPresets;
+use TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Core class of the extension, containing common functions that can be used
@@ -35,7 +44,7 @@ class Core
      */
     const PROCESSED_FOLDER_PATH = 'uploads/tx_sitefactory/_processed_/';
 
-    /** @var \TYPO3\CMS\Extbase\Object\ObjectManager */
+    /** @var ObjectManager */
     private static $objectManager;
 
     /**
@@ -97,7 +106,7 @@ class Core
                 $validationResult = [$validationResult];
             }
             foreach ($validationResult as $validatorResult) {
-                /** @var \TYPO3\CMS\Extbase\Error\Message[] $values */
+                /** @var Message[] $values */
                 $values = ObjectAccess::getProperty($validatorResult, $validationName);
                 foreach ($values as $value) {
                     $validationResultArray[$validationName][] = $value->render();
@@ -257,8 +266,8 @@ class Core
     {
         $objectManager = self::getObjectManager();
 
-        /** @var \Romm\SiteFactory\Domain\Repository\SaveRepository $saveRepository */
-        $saveRepository = $objectManager->get('Romm\\SiteFactory\\Domain\\Repository\\SaveRepository');
+        /** @var SaveRepository $saveRepository */
+        $saveRepository = $objectManager->get(SaveRepository::class);
         $save = $saveRepository->findLastByRootPageUid($uid);
 
         if (!$save) {
@@ -280,8 +289,8 @@ class Core
      */
     public static function getCleanedValueFromTCA($table, $field, $value, $pid, $checkUnique = true)
     {
-        /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler */
-        $dataHandler = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\DataHandling\\DataHandler');
+        /** @var DataHandler $dataHandler */
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
 
         $res = ['value' => null];
         $PP = [$table, $value, '', '', $pid, ''];
@@ -310,8 +319,8 @@ class Core
      */
     public static function getExtensionConfiguration($configurationName = null)
     {
-        /** @var \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility $configurationUtility */
-        $configurationUtility = self::getObjectManager()->get('TYPO3\\CMS\\Extensionmanager\\Utility\\ConfigurationUtility');
+        /** @var ConfigurationUtility $configurationUtility */
+        $configurationUtility = self::getObjectManager()->get(ConfigurationUtility::class);
         $configuration = $configurationUtility->getCurrentConfiguration(self::EXTENSION_KEY);
         $result = ($configurationName) ?
             $configuration[$configurationName]['value'] :
@@ -325,14 +334,14 @@ class Core
      */
     public static function loadJquery()
     {
-        /** @var \TYPO3\CMS\Backend\Template\DocumentTemplate $documentTemplate */
+        /** @var DocumentTemplate $documentTemplate */
         $documentTemplate = self::getDocumentTemplate();
         $pageRenderer = $documentTemplate->getPageRenderer();
         $pageRenderer->loadJquery(PageRenderer::JQUERY_VERSION_LATEST, 'local', $pageRenderer::JQUERY_NAMESPACE_DEFAULT_NOCONFLICT);
     }
 
     /**
-     * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController|\TYPO3\CMS\Backend\Template\DocumentTemplate
+     * @return TypoScriptFrontendController|DocumentTemplate
      */
     public static function getDocumentTemplate()
     {
@@ -348,8 +357,8 @@ class Core
      */
     public static function isEnvironmentInFrontendMode()
     {
-        /** @var \TYPO3\CMS\Extbase\Service\EnvironmentService $environmentService */
-        $environmentService = self::getObjectManager()->get('TYPO3\\CMS\\Extbase\\Service\\EnvironmentService');
+        /** @var EnvironmentService $environmentService */
+        $environmentService = self::getObjectManager()->get(EnvironmentService::class);
 
         return $environmentService->isEnvironmentInFrontendMode();
     }
@@ -363,12 +372,12 @@ class Core
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Object\ObjectManager
+     * @return ObjectManager
      */
     public static function getObjectManager()
     {
         if (!self::$objectManager) {
-            self::$objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+            self::$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         }
 
         return self::$objectManager;
@@ -386,7 +395,7 @@ class Core
     }
 
     /**
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @return DatabaseConnection
      */
     public static function getDatabase()
     {

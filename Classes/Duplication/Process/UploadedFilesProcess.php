@@ -14,6 +14,15 @@
 namespace Romm\SiteFactory\Duplication\Process;
 
 use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
+use Romm\SiteFactory\Form\Fields\AbstractField;
+use TYPO3\CMS\Core\Resource\Driver\LocalDriver;
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\Folder;
+use TYPO3\CMS\Core\Resource\ProcessedFile;
+use TYPO3\CMS\Core\Resource\ProcessedFileRepository;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Extbase\Domain\Model\FileMount;
+use TYPO3\CMS\Extbase\Domain\Repository\FileMountRepository;
 
 /**
  * Class containing functions called when a site is being duplicated.
@@ -28,7 +37,7 @@ class UploadedFilesProcess extends AbstractDuplicationProcess
      */
     public function run()
     {
-        /** @var \Romm\SiteFactory\Form\Fields\AbstractField[] $filesFields */
+        /** @var AbstractField[] $filesFields */
         $filesFields = [];
         foreach ($this->getFields() as $field) {
             if ($field->getSettings('moveToFileMount') && $field->getValue() != '') {
@@ -43,23 +52,23 @@ class UploadedFilesProcess extends AbstractDuplicationProcess
             $fileMountUid = $this->getDuplicationData('fileMountUid');
 
             if ($fileMountUid) {
-                /** @var \TYPO3\CMS\Extbase\Domain\Repository\FileMountRepository $fileMountRepository */
-                $fileMountRepository = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Repository\\FileMountRepository');
+                /** @var FileMountRepository $fileMountRepository */
+                $fileMountRepository = $this->objectManager->get(FileMountRepository::class);
 
-                /** @var \TYPO3\CMS\Extbase\Domain\Model\FileMount $fileMount */
+                /** @var FileMount $fileMount */
                 $fileMount = $fileMountRepository->findByUid($fileMountUid);
                 if ($fileMount) {
                     $filesMoved = [];
 
-                    /** @var \TYPO3\CMS\Core\Resource\ResourceFactory $resourceFactory */
-                    $resourceFactory = $this->objectManager->get('TYPO3\\CMS\\Core\\Resource\\ResourceFactory');
+                    /** @var ResourceFactory $resourceFactory */
+                    $resourceFactory = $this->objectManager->get(ResourceFactory::class);
                     $storage = $resourceFactory->getDefaultStorage();
 
-                    /** @var \TYPO3\CMS\Core\Resource\Folder $folder */
+                    /** @var Folder $folder */
                     $folderPath = substr($fileMount->getPath(), 1, strlen($fileMount->getPath()));
-                    $folder = $this->objectManager->get('TYPO3\\CMS\\Core\\Resource\\Folder', $storage, $folderPath, 'SiteFactory');
+                    $folder = $this->objectManager->get(Folder::class, $storage, $folderPath, 'SiteFactory');
 
-                    /** @var \TYPO3\CMS\Core\Resource\Driver\LocalDriver $driver */
+                    /** @var LocalDriver $driver */
                     $driver = $resourceFactory->getDriverObject($storage->getDriverType(), $storage->getConfiguration());
                     $driver->processConfiguration();
 
@@ -70,14 +79,14 @@ class UploadedFilesProcess extends AbstractDuplicationProcess
                         $identifier = $folderPath . $name . '.' . $fileExtension;
 
                         if (file_exists($path)) {
-                            /** @var \TYPO3\CMS\Core\Resource\File $file */
+                            /** @var File $file */
                             if ($driver->fileExists($identifier)) {
                                 $file = $storage->getFile($identifier);
                                 $storage->replaceFile($file, $path);
 
-                                /** @var \TYPO3\CMS\Core\Resource\ProcessedFileRepository $processedFileRepository */
-                                $processedFileRepository = $this->objectManager->get('TYPO3\\CMS\\Core\\Resource\\ProcessedFileRepository');
-                                /** @var \TYPO3\CMS\Core\Resource\ProcessedFile[] $processedFiles */
+                                /** @var ProcessedFileRepository $processedFileRepository */
+                                $processedFileRepository = $this->objectManager->get(ProcessedFileRepository::class);
+                                /** @var ProcessedFile[] $processedFiles */
                                 $processedFiles = $processedFileRepository->findAllByOriginalFile($file);
 
                                 foreach ($processedFiles as $processedFile) {

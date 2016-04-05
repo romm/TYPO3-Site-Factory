@@ -13,6 +13,7 @@
 
 namespace Romm\SiteFactory\Duplication\Process;
 
+use TYPO3\CMS\Backend\Tree\Pagetree\PagetreeNode;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\Tree\Pagetree\Commands;
 use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
@@ -80,12 +81,12 @@ class PagesDuplicationProcess extends AbstractDuplicationProcess
         $GLOBALS['BE_USER']->workspace = 0;
 
         $nodeData = new \stdClass();
-        $nodeData->serializeClassName = 'TYPO3\\CMS\\Backend\\Tree\\Pagetree\\PagetreeNode';
+        $nodeData->serializeClassName = PagetreeNode::class;
         $nodeData->id = $nodeUid;
         $nodeData->type = 'pages';
 
-        /** @var \TYPO3\CMS\Backend\Tree\Pagetree\PagetreeNode $node */
-        $node = GeneralUtility::makeInstance('TYPO3\\CMS\\Backend\\Tree\\Pagetree\\PagetreeNode', (array)$nodeData);
+        /** @var PagetreeNode $node */
+        $node = GeneralUtility::makeInstance(PagetreeNode::class, (array)$nodeData);
 
         $duplicatedPageUid = Commands::copyNode($node, $destinationUid);
 

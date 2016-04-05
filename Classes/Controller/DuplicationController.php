@@ -13,12 +13,14 @@
 
 namespace Romm\SiteFactory\Controller;
 
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Extbase\Error\Error;
 use Romm\SiteFactory\Core\CacheManager;
 use Romm\SiteFactory\Core\Core;
 use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
+use TYPO3\CMS\Extbase\Error\Result;
 
 /**
  * Controller managing the duplication of sites.
@@ -67,8 +69,8 @@ class DuplicationController extends AbstractController
         $cacheData = $cache->get($cacheToken);
         $cacheData = json_decode($cacheData, true);
 
-        /** @var \TYPO3\CMS\Extbase\Error\Result $result */
-        $result = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Error\\Result');
+        /** @var Result $result */
+        $result = $this->objectManager->get(Result::class);
 
         try {
             if (isset($cacheData['duplicationData']['modelPageUid']) && MathUtility::canBeInterpretedAsInteger($cacheData['duplicationData']['modelPageUid']) && $cacheData['duplicationData']['modelPageUid'] > 0) {
@@ -101,7 +103,7 @@ class DuplicationController extends AbstractController
                                 $cache->set($cacheToken, json_encode($configuration));
                             }
                         } else {
-                            throw new \Exception('The class "' . $class . '" must extend "\Romm\SiteFactory\Duplication\AbstractDuplicationProcess".', 1422887215);
+                            throw new \Exception('The class "' . $class . '" must extend "' . AbstractDuplicationProcess::class . '".', 1422887215);
                         }
                     } else {
                         throw new \Exception('The class is not set for the duplication configuration named "' . $index . '".', 1422885526);
@@ -113,7 +115,7 @@ class DuplicationController extends AbstractController
                 throw new \Exception('The duplication data must contain a valid index for "modelPageUid".', 1422885697);
             }
         } catch (\Exception $exception) {
-            /** @var \TYPO3\CMS\Core\Authentication\BackendUserAuthentication $backendUser */
+            /** @var BackendUserAuthentication $backendUser */
             $backendUser = $GLOBALS['BE_USER'];
 
             // Setting up error message. If the user is admin, it gets a detailed message.

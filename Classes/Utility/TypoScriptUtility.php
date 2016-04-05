@@ -15,8 +15,12 @@ namespace Romm\SiteFactory\Utility;
 
 use Romm\SiteFactory\Core\CacheManager;
 use Romm\SiteFactory\Core\Core;
+use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
+use TYPO3\CMS\Core\TypoScript\TemplateService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Extbase\Service\TypoScriptService;
+use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
  * Handles the TypoScript configuration's construction of the extension.
@@ -29,7 +33,7 @@ class TypoScriptUtility
     /**
      * Storage for the pages' configuration.
      *
-     * @var \TYPO3\CMS\Core\TypoScript\TemplateService[]
+     * @var TemplateService[]
      */
     private static $pageConfiguration = [];
 
@@ -106,8 +110,8 @@ class TypoScriptUtility
         if (!array_key_exists($pageUid, self::$pageTypoScriptConfiguration)) {
             $configuration = self::generateConfiguration($pageUid);
 
-            /** @var \TYPO3\CMS\Extbase\Service\TypoScriptService $typoScriptService */
-            $typoScriptService = Core::getObjectManager()->get('TYPO3\\CMS\\Extbase\\Service\\TypoScriptService');
+            /** @var TypoScriptService $typoScriptService */
+            $typoScriptService = Core::getObjectManager()->get(TypoScriptService::class);
             self::$pageTypoScriptConfiguration[$pageUid] = $typoScriptService->convertTypoScriptArrayToPlainArray($configuration->setup);
         }
 
@@ -124,8 +128,8 @@ class TypoScriptUtility
     {
         if (!array_key_exists($pageUid, self::$pageTypoScriptConstants)) {
             $configuration = self::generateConfiguration($pageUid);
-            /** @var \TYPO3\CMS\Extbase\Service\TypoScriptService $typoScriptService */
-            $typoScriptService = Core::getObjectManager()->get('TYPO3\\CMS\\Extbase\\Service\\TypoScriptService');
+            /** @var TypoScriptService $typoScriptService */
+            $typoScriptService = Core::getObjectManager()->get(TypoScriptService::class);
             self::$pageTypoScriptConstants[$pageUid] = $typoScriptService->convertTypoScriptArrayToPlainArray($configuration->setup_constants);
         }
 
@@ -137,7 +141,7 @@ class TypoScriptUtility
      * the pages root line.
      *
      * @param    int|null|bool $pageUid The uid of the page you want the TypoScript configuration from. If "null" is given, only the static configuration is returned.
-     * @return    \TYPO3\CMS\Core\TypoScript\TemplateService
+     * @return    TemplateService
      */
     private static function generateConfiguration($pageUid = null)
     {
@@ -146,13 +150,13 @@ class TypoScriptUtility
 
             $rootLine = null;
             if ($pageUid && MathUtility::canBeInterpretedAsInteger($pageUid) && $pageUid > 0) {
-                /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
-                $pageRepository = $objectManager->get('TYPO3\\CMS\\Frontend\\Page\\PageRepository');
+                /** @var PageRepository $pageRepository */
+                $pageRepository = $objectManager->get(PageRepository::class);
                 $rootLine = $pageRepository->getRootLine($pageUid);
             }
 
-            /** @var \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService $templateService */
-            $templateService = $objectManager->get('TYPO3\\CMS\\Core\\TypoScript\\ExtendedTemplateService');
+            /** @var ExtendedTemplateService $templateService */
+            $templateService = $objectManager->get(ExtendedTemplateService::class);
 
             $templateService->tt_track = 0;
             $templateService->init();

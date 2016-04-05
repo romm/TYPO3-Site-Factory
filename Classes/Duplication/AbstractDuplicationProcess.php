@@ -13,12 +13,16 @@
 
 namespace Romm\SiteFactory\Duplication;
 
+use Romm\SiteFactory\Form\Fields\AbstractField;
+use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Http\AjaxRequestHandler;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Romm\SiteFactory\Core\Core;
 use Romm\SiteFactory\Form\Fields\Field;
 use Romm\SiteFactory\Utility\TypoScriptUtility;
+use TYPO3\CMS\Extbase\Error\Result;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class containing functions called when a site is being duplicated.
@@ -29,10 +33,10 @@ abstract class AbstractDuplicationProcess implements DuplicationProcessInterface
     /** @var array */
     private static $duplicationConfiguration = [];
 
-    /** @var \TYPO3\CMS\Extbase\Object\ObjectManager */
+    /** @var ObjectManager */
     protected $objectManager;
 
-    /** @var \TYPO3\CMS\Core\Database\DatabaseConnection */
+    /** @var DatabaseConnection */
     protected $database;
 
     /**
@@ -53,11 +57,11 @@ abstract class AbstractDuplicationProcess implements DuplicationProcessInterface
     /** @var array */
     private $settings = [];
 
-    /** @var \Romm\SiteFactory\Form\Fields\AbstractField[] */
+    /** @var AbstractField[] */
     private $fields;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Error\Result
+     * @var Result
      */
     protected $result;
 
@@ -79,7 +83,7 @@ abstract class AbstractDuplicationProcess implements DuplicationProcessInterface
         $this->objectManager = Core::getObjectManager();
         $this->database = Core::getDatabase();
         $this->extensionConfiguration = Core::getExtensionConfiguration();
-        $this->result = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Error\\Result');
+        $this->result = $this->objectManager->get(Result::class);
 
         $this->setDuplicationData($duplicationData);
         $this->setDuplicationSettings($duplicationSettings);
@@ -128,7 +132,7 @@ abstract class AbstractDuplicationProcess implements DuplicationProcessInterface
     }
 
     /**
-     * @return \Romm\SiteFactory\Form\Fields\AbstractField[]
+     * @return AbstractField[]
      */
     protected function getFields()
     {
@@ -139,7 +143,7 @@ abstract class AbstractDuplicationProcess implements DuplicationProcessInterface
      * Returns an existing field, or null if it does not exist.
      *
      * @param    string $fieldName The field's name.
-     * @return    \Romm\SiteFactory\Form\Fields\AbstractField|null
+     * @return    AbstractField|null
      */
     protected function getField($fieldName)
     {
@@ -245,7 +249,7 @@ abstract class AbstractDuplicationProcess implements DuplicationProcessInterface
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Error\Result
+     * @return Result
      */
     public function getResult()
     {

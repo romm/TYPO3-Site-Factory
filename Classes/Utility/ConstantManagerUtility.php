@@ -14,6 +14,7 @@
 namespace Romm\SiteFactory\Utility;
 
 use Romm\SiteFactory\Core\Core;
+use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 /**
@@ -190,8 +191,8 @@ class ConstantManagerUtility
      */
     private static function getPageTemplate($pageUid)
     {
-        /** @var \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService $templateService */
-        $templateService = Core::getObjectManager()->get('TYPO3\\CMS\\Core\\TypoScript\\ExtendedTemplateService');
+        /** @var ExtendedTemplateService $templateService */
+        $templateService = Core::getObjectManager()->get(ExtendedTemplateService::class);
         $template = $templateService->ext_getFirstTemplate($pageUid);
 
         return $template;

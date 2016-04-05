@@ -15,6 +15,8 @@ namespace Romm\SiteFactory\Form\Fields;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Error\Result;
+use TYPO3\CMS\Extbase\Reflection\ClassReflection;
 use TYPO3\CMS\Extbase\Utility\ArrayUtility;
 use Romm\SiteFactory\Form\Validation\AbstractValidator;
 use Romm\SiteFactory\Core\Core;
@@ -135,7 +137,7 @@ abstract class AbstractField extends AbstractEntity implements FieldInterface
     /**
      * The results of the validation process.
      *
-     * @var \TYPO3\CMS\Extbase\Error\Result[]
+     * @var Result[]
      */
     protected $validationResult = [];
 
@@ -147,7 +149,7 @@ abstract class AbstractField extends AbstractEntity implements FieldInterface
      * This is made to increase performances when the function is called several
      * times.
      *
-     * @var \TYPO3\CMS\Extbase\Error\Result[]
+     * @var Result[]
      */
     protected $mergedValidationResult = [];
 
@@ -187,8 +189,8 @@ abstract class AbstractField extends AbstractEntity implements FieldInterface
      */
     public function fillConfiguration($configuration)
     {
-        /** @var \TYPO3\CMS\Extbase\Reflection\ClassReflection $propertyReflection */
-        $propertyReflection = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Reflection\\ClassReflection', get_class($this));
+        /** @var ClassReflection $propertyReflection */
+        $propertyReflection = GeneralUtility::makeInstance(ClassReflection::class, get_class($this));
 
         // Setting properties.
         foreach ($configuration as $configurationName => $configurationValue) {
@@ -225,7 +227,7 @@ abstract class AbstractField extends AbstractEntity implements FieldInterface
         $validation = $this->getValidation();
 
         foreach ($validation as $validatorName => $validatorConfiguration) {
-            /** @var \Romm\SiteFactory\Form\Validation\AbstractValidator $validator */
+            /** @var AbstractValidator $validator */
             $validator = $validatorConfiguration['validator'];
             $this->validationResult[$validatorName] = $validator->validate($this);
         }
@@ -509,7 +511,7 @@ abstract class AbstractField extends AbstractEntity implements FieldInterface
     /**
      * The validation result of the field.
      *
-     * @return    \TYPO3\CMS\Extbase\Error\Result[]    The validation result of the field.
+     * @return    Result[]    The validation result of the field.
      */
     public function getValidationResult()
     {
@@ -519,7 +521,7 @@ abstract class AbstractField extends AbstractEntity implements FieldInterface
     /**
      * Returns all the validation results merged in one result.
      *
-     * @return    \TYPO3\CMS\Extbase\Error\Result
+     * @return    Result
      */
     public function getMergedValidationResult()
     {
@@ -527,8 +529,8 @@ abstract class AbstractField extends AbstractEntity implements FieldInterface
         if (!array_key_exists($hash, $this->mergedValidationResult)) {
             unset($this->mergedValidationResult);
 
-            /** @var \TYPO3\CMS\Extbase\Error\Result $result */
-            $result = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Error\\Result');
+            /** @var Result $result */
+            $result = GeneralUtility::makeInstance(Result::class);
             foreach ($this->validationResult as $validationResult) {
                 $result->merge($validationResult);
             }
@@ -575,7 +577,7 @@ abstract class AbstractField extends AbstractEntity implements FieldInterface
 
         $validator = GeneralUtility::makeInstance($validatorConfiguration['validator']);
         if (!$validator instanceof AbstractValidator) {
-            throw new \Exception('The validator of the validation "' . $validatorName . '" for the field "' . $this->name . ' must extend \Romm\SiteFactory\Form\Validation\AbstractValidator ', 1429466899);
+            throw new \Exception('The validator of the validation "' . $validatorName . '" for the field "' . $this->name . ' must extend ' . AbstractValidator::class, 1429466899);
         }
 
         // Overwrite the validator name with the created class.

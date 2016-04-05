@@ -13,6 +13,8 @@
 
 namespace Romm\SiteFactory\Form\Fields;
 
+use Romm\SiteFactory\Form\Validation\HexadecimalValidator;
+
 /**
  * A class allowing to manage the fields configuration.
  *
@@ -33,7 +35,7 @@ class ColorPickerField extends TextField
     /** @var array Array containing the default rules for the field. */
     protected $localValidation = [
         'hexadecimal' => [
-            'validator' => 'Romm\\SiteFactory\\Form\\Validation\\HexadecimalValidator',
+            'validator' => HexadecimalValidator::class,
             'error'     => 'form.field.error.picker_color'
         ]
     ];

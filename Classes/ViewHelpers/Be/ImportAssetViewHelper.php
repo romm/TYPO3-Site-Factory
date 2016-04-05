@@ -30,17 +30,14 @@ class ImportAssetViewHelper extends AbstractBackendViewHelper
      */
     public function render($cssFiles = [], $jsFiles = [])
     {
-        $doc = $this->getDocInstance();
-        $pageRenderer = $doc->getPageRenderer();
-
         foreach ($cssFiles as $value) {
             $path = $this->getFileRealPath($value);
-            $pageRenderer->addCssFile($path);
+            $this->getPageRenderer()->addCssFile($path);
         }
 
         foreach ($jsFiles as $value) {
             $path = $this->getFileRealPath($value);
-            $pageRenderer->addJsLibrary($path, $path);
+            $this->getPageRenderer()->addJsLibrary($path, $path);
         }
     }
 

@@ -13,7 +13,10 @@
 
 namespace Romm\SiteFactory\Controller;
 
+use Romm\SiteFactory\Domain\Model\Pages;
 use Romm\SiteFactory\Domain\Model\Save;
+use Romm\SiteFactory\Domain\Repository\PagesRepository;
+use Romm\SiteFactory\Domain\Repository\SaveRepository;
 use Romm\SiteFactory\Form\Fields\AbstractField;
 use Romm\SiteFactory\Core\CacheManager;
 use Romm\SiteFactory\Core\Core;
@@ -21,6 +24,7 @@ use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
 use Romm\SiteFactory\Form\Fields\Field;
 use Romm\SiteFactory\Form\FieldsConfigurationPresets;
 use Romm\SiteFactory\Utility\ConstantManagerUtility;
+use TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface;
 
 /**
  * Administration controller. Manages the following actions :
@@ -42,13 +46,13 @@ class AdministrationController extends AbstractController
 {
 
     /**
-     * @var \Romm\SiteFactory\Domain\Repository\SaveRepository
+     * @var SaveRepository
      * @inject
      */
     protected $saveRepository = null;
 
     /**
-     * @var \Romm\SiteFactory\Domain\Repository\PagesRepository
+     * @var PagesRepository
      * @inject
      */
     protected $pageRepository = null;
@@ -68,19 +72,19 @@ class AdministrationController extends AbstractController
         $this->view->assign('modelSitesList', FieldsConfigurationPresets::getModelSitesList());
 
         // Managing the already duplicated sites list.
-        /** @var \Romm\SiteFactory\Domain\Model\Save[] $savedSites */
+        /** @var Save[] $savedSites */
         $savedSites = $this->saveRepository->findAll();
 
         $finalSavedSites = [];
         foreach ($savedSites as $key => $site) {
             // Adding root page of the site in the configuration.
-            /** @var \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface $defaultQuerySettings */
-            $defaultQuerySettings = Core::getObjectManager()->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\QuerySettingsInterface');
+            /** @var QuerySettingsInterface $defaultQuerySettings */
+            $defaultQuerySettings = Core::getObjectManager()->get(QuerySettingsInterface::class);
             $defaultQuerySettings->setRespectStoragePage(false);
             $defaultQuerySettings->setIgnoreEnableFields(true);
             $this->pageRepository->setDefaultQuerySettings($defaultQuerySettings);
 
-            /** @var \Romm\SiteFactory\Domain\Model\Pages $page */
+            /** @var Pages $page */
             $page = $this->pageRepository->findByUid($site->getRootPageUid());
 
             // The page may have been deleted.
@@ -105,7 +109,7 @@ class AdministrationController extends AbstractController
      *
      * @param    Save $site                   The saved site.
      * @param    bool $onlyModificationFields True if you want only the fields that are accessible when editing, false otherwise.
-     * @return    \Romm\SiteFactory\Form\Fields\AbstractField[]
+     * @return    AbstractField[]
      */
     private function fillFieldsValuesFromSavedSite(Save $site, $onlyModificationFields = true)
     {
@@ -177,7 +181,7 @@ class AdministrationController extends AbstractController
                 $pageUid = $this->request->getArgument('modifySite');
                 $this->view->assign('modifySite', $pageUid);
 
-                /** @var \Romm\SiteFactory\Domain\Model\Save $savedSite */
+                /** @var Save $savedSite */
                 $savedSite = $this->saveRepository->findOneByRootPageUid($pageUid);
                 $fields = $this->fillFieldsValuesFromSavedSite($savedSite, false);
             } else // Getting the fields for the selected model site.
@@ -250,7 +254,7 @@ class AdministrationController extends AbstractController
                     $redirectParameters['modifySite'] = $this->request->getArgument('modifySite');
 
                     // We get back the last saved configuration. It prevents missing values as some fields may not be in the modification form (e.g. the "model site").
-                    /** @var \Romm\SiteFactory\Domain\Model\Save $savedSite */
+                    /** @var Save $savedSite */
                     $savedSite = $this->saveRepository->findOneByRootPageUid($redirectParameters['modifySite']);
                     $duplicationData = $savedSite->getConfiguration();
                 }
@@ -308,7 +312,7 @@ class AdministrationController extends AbstractController
             $cacheData['duplicationData']['modifySite'] = $modifySite;
             $cacheData['duplicationData']['duplicatedPageUid'] = $modifySite;
 
-            /** @var \Romm\SiteFactory\Domain\Model\Save $savedSite */
+            /** @var Save $savedSite */
             $savedSite = $this->saveRepository->findLastByRootPageUid($modifySite);
             $cacheData['savedSite'] = $savedSite->getConfiguration();
         } else {
