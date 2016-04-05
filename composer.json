@@ -1,0 +1,27 @@
+{
+  "name": "romm/site-factory",
+  "type": "typo3-cms-extension",
+  "description": "Replicate and modify an existing website model very easily with a flexible and lean design. Read the code examples to understand and master all the TypoScript configuration, or extend the existing duplication processes. Based on freesite (created by Kasper Skårhøj) this project was originaly conceived by Cyril Wolfangel and is developped and maintained by Romain Canon. Join the project on https://github.com/romaincanon/TYPO3-Site-Factory",
+  "keywords": [
+    "typo3", "site", "factory"
+  ],
+  "license": "GPL-3.0+",
+  "authors": [
+    {
+      "name": "Romain Canon",
+      "email": "romain.hydrocanon@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.5"
+  },
+  "replace": {
+    "site_factory": "self.version",
+    "typo3-ter/site-factory": "self.version"
+  },
+  "autoload": {
+    "psr-4": {
+      "Romm\\SiteFactory\\": "Classes/"
+    }
+  }
+}
