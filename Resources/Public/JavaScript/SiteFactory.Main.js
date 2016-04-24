@@ -1,5 +1,7 @@
 // Declaring SiteFactory namespace.
-window.SiteFactory = {};
+window.SiteFactory = {
+	ajaxUrl: ''
+};
 
 // Instantiating tooltips.
 jQuery(document).ready(function() {

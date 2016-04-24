@@ -37,65 +37,65 @@
 // * Class containing functions called when a site is being duplicated.
 // */
 //class LinkToPageMediaProcess extends AbstractDuplicationProcess {
-//	public function ajaxRun(&$params) {
-//		/** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
-//		$objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-//		/** @var \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser $typoScriptParser */
-//		$typoScriptParser = $objectManager->get('TYPO3\\CMS\\Core\\TypoScript\\Parser\\TypoScriptParser');
+//    public function ajaxRun(&$params) {
+//        /** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
+//        $objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+//        /** @var \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser $typoScriptParser */
+//        $typoScriptParser = $objectManager->get('TYPO3\\CMS\\Core\\TypoScript\\Parser\\TypoScriptParser');
 //
-//		// Getting the constants of the duplicated page.
-//		$constantsSiteFactory = ConstantManagerUtility::getPageTemplateConstants($params['duplicationData']['duplicatedPageUid'], false);
+//        // Getting the constants of the duplicated page.
+//        $constantsSiteFactory = ConstantManagerUtility::getPageTemplateConstants($params['duplicationData']['duplicatedPageUid'], false);
 //
-//		$typoScriptParser->parse($constantsSiteFactory);
-//		$pagesAssociations = $typoScriptParser->getVal('siteFactory.pages', $typoScriptParser->setup);
+//        $typoScriptParser->parse($constantsSiteFactory);
+//        $pagesAssociations = $typoScriptParser->getVal('siteFactory.pages', $typoScriptParser->setup);
 //
-//		if (!empty($pagesAssociations)) {
-//			$pagesAssociations = $pagesAssociations[1];
-//			// TODO!
-//			foreach($params['fieldsValues'] as $fieldName => $fieldConfiguration) {
-//				$fieldCustomConfiguration = array();
-//				try {
-//					$fieldCustomConfiguration = ArrayUtility::getValueByPath($fieldConfiguration, 'config.linkToPageMedia');
-//				} catch(\Exception $e) {}
+//        if (!empty($pagesAssociations)) {
+//            $pagesAssociations = $pagesAssociations[1];
+//            // TODO!
+//            foreach($params['fieldsValues'] as $fieldName => $fieldConfiguration) {
+//                $fieldCustomConfiguration = array();
+//                try {
+//                    $fieldCustomConfiguration = ArrayUtility::getValueByPath($fieldConfiguration, 'config.linkToPageMedia');
+//                } catch(\Exception $e) {}
 //
-//				if (!empty($fieldCustomConfiguration)) {
-//					if(!isset($fieldCustomConfiguration['page'])) {
-//						throw new \Exception('The field "' . $fieldName . '" must contain the value "page" for the configuration "linkToPageMedia".', 1422616542);
-//					}
+//                if (!empty($fieldCustomConfiguration)) {
+//                    if(!isset($fieldCustomConfiguration['page'])) {
+//                        throw new \Exception('The field "' . $fieldName . '" must contain the value "page" for the configuration "linkToPageMedia".', 1422616542);
+//                    }
 //
-//					$targetedPage = null;
-//					if (isset($pagesAssociations[$fieldCustomConfiguration['page']])) {
-//						$targetedPage = $pagesAssociations[$fieldCustomConfiguration['page']];
-//					}
+//                    $targetedPage = null;
+//                    if (isset($pagesAssociations[$fieldCustomConfiguration['page']])) {
+//                        $targetedPage = $pagesAssociations[$fieldCustomConfiguration['page']];
+//                    }
 //
-//					if ($targetedPage) {
-//						$this->database->exec_DELETEquery(
-//							'sys_file_reference',
-//							'uid_foreign=' . $targetedPage .
-//							' AND tablenames="pages"' .
-//							' AND fieldname="media"' .
-//							' AND table_local="sys_file"'
-//						);
+//                    if ($targetedPage) {
+//                        $this->database->exec_DELETEquery(
+//                            'sys_file_reference',
+//                            'uid_foreign=' . $targetedPage .
+//                            ' AND tablenames="pages"' .
+//                            ' AND fieldname="media"' .
+//                            ' AND table_local="sys_file"'
+//                        );
 //
-//						$data = array(
-//							'pid'			=> $targetedPage,
-//							'tstamp'		=> time(),
-//							'crdate'		=> time(),
-//							'cruser_id'		=> '1', // @TODO !
-//							'uid_local'		=> $fieldConfiguration['value'],
-//							'uid_foreign'	=> $targetedPage,
-//							'tablenames'	=> 'pages',
-//							'fieldname'		=> 'media',
-//							'table_local'	=> 'sys_file'
-//						);
+//                        $data = array(
+//                            'pid'            => $targetedPage,
+//                            'tstamp'        => time(),
+//                            'crdate'        => time(),
+//                            'cruser_id'        => '1', // @TODO !
+//                            'uid_local'        => $fieldConfiguration['value'],
+//                            'uid_foreign'    => $targetedPage,
+//                            'tablenames'    => 'pages',
+//                            'fieldname'        => 'media',
+//                            'table_local'    => 'sys_file'
+//                        );
 //
-//						$this->database->exec_INSERTquery(
-//							'sys_file_reference',
-//							$data
-//						);
-//					}
-//				}
-//			}
-//		}
-//	}
+//                        $this->database->exec_INSERTquery(
+//                            'sys_file_reference',
+//                            $data
+//                        );
+//                    }
+//                }
+//            }
+//        }
+//    }
 //}

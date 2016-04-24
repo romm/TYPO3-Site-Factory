@@ -1,28 +1,17 @@
 <?php
-namespace Romm\SiteFactory\Domain\Model;
+/*
+ * 2016 Romain CANON <romain.hydrocanon@gmail.com>
+ *
+ * This file is part of the TYPO3 Site Factory project.
+ * It is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License, either
+ * version 3 of the License, or any later version.
+ *
+ * For the full copyright and license information, see:
+ * http://www.gnu.org/licenses/gpl-3.0.html
+ */
 
-/***************************************************************
- *  Copyright notice
- *
- *  (c) 2015 Romain CANON <romain.canon@exl-group.com>
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+namespace Romm\SiteFactory\Domain\Model;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
@@ -33,101 +22,117 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  * When a site is created/modified, the submitted form's data is saved in JSON
  * format in the property "configuration".
  */
-class Save extends AbstractEntity {
-	/**
-	 * The uid of the root page of the duplicated site.
-	 *
-	 * @var int
-	 */
-	protected $rootPageUid = 0;
+class Save extends AbstractEntity
+{
 
-	/**
-	 * Page
-	 *
-	 * @var Pages
-	 */
-	protected $page = NULL;
+    /**
+     * The uid of the root page of the duplicated site.
+     *
+     * @var int
+     */
+    protected $rootPageUid = 0;
 
-	/**
-	 * The date of the the creation/modification.
-	 *
-	 * @var int
-	 */
-	protected $date = 0;
+    /**
+     * Page
+     *
+     * @var Pages
+     */
+    protected $page = null;
 
-	/**
-	 * The submitted form's data in JSON format.
-	 *
-	 * @var string
-	 */
-	protected $configuration = '';
+    /**
+     * The date of the the creation/modification.
+     *
+     * @var int
+     */
+    protected $date = 0;
 
-	/**
-	 * Construction function.
-	 *
-	 * @return \Romm\SiteFactory\Domain\Model\Save
-	 */
-	public function __construct() {
-		// Setting date to actual time.
-		$this->setDate(time());
-	}
+    /**
+     * The submitted form's data in JSON format.
+     *
+     * @var string
+     */
+    protected $configuration = '';
 
-	/*********************
-	 * SETTERS & GETTERS *
-	 *********************/
-	/**
-	 * @param	int
-	 */
-	public function setRootPageUid($rootPageUid) {
-		$this->rootPageUid = $rootPageUid;
-	}
-	/**
-	 * @return	int
-	 */
-	public function getRootPageUid() {
-		return $this->rootPageUid;
-	}
+    /**
+     * Construction function.
+     *
+     * @return Save
+     */
+    public function __construct()
+    {
+        // Setting date to actual time.
+        $this->setDate(time());
+    }
 
-	/**
-	 * @param	Pages
-	 */
-	public function setPage(Pages $page) {
-		$this->page = $page;
-	}
-	/**
-	 * @return	Pages
-	 */
-	public function getPage() {
-		return $this->page;
-	}
+    /*********************
+     * SETTERS & GETTERS *
+     *********************/
+    /**
+     * @param    int
+     */
+    public function setRootPageUid($rootPageUid)
+    {
+        $this->rootPageUid = $rootPageUid;
+    }
 
-	/**
-	 * @param	int
-	 */
-	public function setDate($date) {
-		$this->date = $date;
-	}
-	/**
-	 * @return	int
-	 */
-	public function getDate() {
-		return $this->date;
-	}
+    /**
+     * @return    int
+     */
+    public function getRootPageUid()
+    {
+        return $this->rootPageUid;
+    }
 
-	/**
-	 * @param	string
-	 */
-	public function setConfiguration($configuration) {
-		$this->configuration = $configuration;
-	}
-	/**
-	 * @return	array
-	 */
-	public function getConfiguration() {
-		$configuration = (is_array($this->configuration))
-			? $this->configuration
-			: json_decode($this->configuration, true);
-		return $configuration;
-	}
+    /**
+     * @param    Pages
+     */
+    public function setPage(Pages $page)
+    {
+        $this->page = $page;
+    }
+
+    /**
+     * @return    Pages
+     */
+    public function getPage()
+    {
+        return $this->page;
+    }
+
+    /**
+     * @param    int
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+    }
+
+    /**
+     * @return    int
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param    string
+     */
+    public function setConfiguration($configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
+    /**
+     * @return    array
+     */
+    public function getConfiguration()
+    {
+        $configuration = (is_array($this->configuration))
+            ? $this->configuration
+            : json_decode($this->configuration, true);
+
+        return $configuration;
+    }
 
 }

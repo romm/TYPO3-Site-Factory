@@ -16,12 +16,15 @@ SiteFactory.Form = {
 	},
 
 	GetInstanceByName: function(name) {
-		var result = null;
-		this.repository.each(function(formInstance) {
-			if (formInstance.element == name)
-				result = formInstance;
-		});
-		return result;
+		for (var i = 0; i < this.repository.length; i++) {
+			var formInstance = this.repository[i];
+
+			if (formInstance.element === name) {
+				return formInstance;
+			}
+		}
+
+		return null;
 	},
 
 	Instance: function(element) {

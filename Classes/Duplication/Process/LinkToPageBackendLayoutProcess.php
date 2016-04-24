@@ -34,21 +34,21 @@
 // * Class containing functions called when a site is being duplicated.
 // */
 //class LinkToPageBackendLayoutProcess extends AbstractDuplicationProcess {
-//	public function ajaxRun(&$params) {
-//		$data = array();
-//		if (isset($params['fieldsValues']['pageBackendLayout'])) {
-//			$data['backend_layout']	= $params['fieldsValues']['pageBackendLayout'];
-//		}
-//		if (isset($params['fieldsValues']['subPagesBackendLayout'])) {
-//			$data['backend_layout_next_level']	= $params['fieldsValues']['subPagesBackendLayout'];
-//		}
+//    public function ajaxRun(&$params) {
+//        $data = array();
+//        if (isset($params['fieldsValues']['pageBackendLayout'])) {
+//            $data['backend_layout']    = $params['fieldsValues']['pageBackendLayout'];
+//        }
+//        if (isset($params['fieldsValues']['subPagesBackendLayout'])) {
+//            $data['backend_layout_next_level']    = $params['fieldsValues']['subPagesBackendLayout'];
+//        }
 //
-//		if (!empty($data)) {
-//			$this->database->exec_UPDATEquery(
-//				'pages',
-//				'uid=' . intval($params['duplicationData']['duplicatedPageUid']),
-//				$data
-//			);
-//		}
-//	}
+//        if (!empty($data)) {
+//            $this->database->exec_UPDATEquery(
+//                'pages',
+//                'uid=' . intval($params['duplicationData']['duplicatedPageUid']),
+//                $data
+//            );
+//        }
+//    }
 //}

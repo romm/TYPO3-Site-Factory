@@ -1,112 +1,115 @@
 <?php
+/*
+ * 2016 Romain CANON <romain.hydrocanon@gmail.com>
+ *
+ * This file is part of the TYPO3 Site Factory project.
+ * It is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License, either
+ * version 3 of the License, or any later version.
+ *
+ * For the full copyright and license information, see:
+ * http://www.gnu.org/licenses/gpl-3.0.html
+ */
+
 namespace Romm\SiteFactory\Duplication\Process;
 
-/***************************************************************
- *  Copyright notice
- *
- *  (c) 2015 Romain CANON <romain.canon@exl-group.com>
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
 use Romm\SiteFactory\Duplication\AbstractDuplicationProcess;
+use Romm\SiteFactory\Form\Fields\AbstractField;
+use TYPO3\CMS\Core\Resource\Driver\LocalDriver;
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\Folder;
+use TYPO3\CMS\Core\Resource\ProcessedFile;
+use TYPO3\CMS\Core\Resource\ProcessedFileRepository;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Extbase\Domain\Model\FileMount;
+use TYPO3\CMS\Extbase\Domain\Repository\FileMountRepository;
 
 /**
  * Class containing functions called when a site is being duplicated.
  * See function "run" for more information.
  */
-class UploadedFilesProcess extends AbstractDuplicationProcess {
-	/**
-	 * Gets all the fields which contains files, and upload them to the given
-	 * file mount.
-	 */
-	public function run() {
-		/** @var \Romm\SiteFactory\Form\Fields\AbstractField[] $filesFields */
-		$filesFields = array();
-		foreach ($this->getFields() as $field)
-			if ($field->getSettings('moveToFileMount') && $field->getValue() != '') {
-				if (substr($field->getValue(), 0, 4) == 'new:') {
-					$field->setValue(substr($field->getValue(), 4, strlen($field->getValue()) - 4));
-					$filesFields[] = $field;
-				}
-			}
+class UploadedFilesProcess extends AbstractDuplicationProcess
+{
 
-		if (!empty($filesFields)) {
-			$fileMountUid = $this->getDuplicationData('fileMountUid');
+    /**
+     * Gets all the fields which contains files, and upload them to the given
+     * file mount.
+     */
+    public function run()
+    {
+        /** @var AbstractField[] $filesFields */
+        $filesFields = [];
+        foreach ($this->getFields() as $field) {
+            if ($field->getSettings('moveToFileMount') && $field->getValue() != '') {
+                if (substr($field->getValue(), 0, 4) == 'new:') {
+                    $field->setValue(substr($field->getValue(), 4, strlen($field->getValue()) - 4));
+                    $filesFields[] = $field;
+                }
+            }
+        }
 
-			if ($fileMountUid) {
-				/** @var \TYPO3\CMS\Extbase\Domain\Repository\FileMountRepository $fileMountRepository */
-				$fileMountRepository = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Repository\\FileMountRepository');
+        if (!empty($filesFields)) {
+            $fileMountUid = $this->getDuplicationData('fileMountUid');
 
-				/** @var \TYPO3\CMS\Extbase\Domain\Model\FileMount $fileMount */
-				$fileMount = $fileMountRepository->findByUid($fileMountUid);
-				if ($fileMount) {
-					$filesMoved = array();
+            if ($fileMountUid) {
+                /** @var FileMountRepository $fileMountRepository */
+                $fileMountRepository = $this->objectManager->get(FileMountRepository::class);
 
-					/** @var \TYPO3\CMS\Core\Resource\ResourceFactory $resourceFactory */
-					$resourceFactory = $this->objectManager->get('TYPO3\\CMS\\Core\\Resource\\ResourceFactory');
-					$storage = $resourceFactory->getDefaultStorage();
+                /** @var FileMount $fileMount */
+                $fileMount = $fileMountRepository->findByUid($fileMountUid);
+                if ($fileMount) {
+                    $filesMoved = [];
 
-					/** @var \TYPO3\CMS\Core\Resource\Folder $folder */
-					$folderPath =  substr($fileMount->getPath(), 1, strlen($fileMount->getPath()));
-					$folder = $this->objectManager->get('TYPO3\\CMS\\Core\\Resource\\Folder', $storage, $folderPath, 'SiteFactory');
+                    /** @var ResourceFactory $resourceFactory */
+                    $resourceFactory = $this->objectManager->get(ResourceFactory::class);
+                    $storage = $resourceFactory->getDefaultStorage();
 
-					/** @var \TYPO3\CMS\Core\Resource\Driver\LocalDriver $driver */
-					$driver = $resourceFactory->getDriverObject($storage->getDriverType(), $storage->getConfiguration());
-					$driver->processConfiguration();
+                    /** @var Folder $folder */
+                    $folderPath = substr($fileMount->getPath(), 1, strlen($fileMount->getPath()));
+                    $folder = $this->objectManager->get(Folder::class, $storage, $folderPath, 'SiteFactory');
 
-					foreach ($filesFields as $field) {
-						$name = $field->getName();
-						$path = $field->getValue();
-						$fileExtension = substr(strrchr($path, '.'), 1);
-						$identifier = $folderPath . $name . '.' . $fileExtension;
+                    /** @var LocalDriver $driver */
+                    $driver = $resourceFactory->getDriverObject($storage->getDriverType(), $storage->getConfiguration());
+                    $driver->processConfiguration();
 
-						if (file_exists($path)) {
-							/** @var \TYPO3\CMS\Core\Resource\File $file */
-							if ($driver->fileExists($identifier)) {
-								$file = $storage->getFile($identifier);
-								$storage->replaceFile($file, $path);
+                    foreach ($filesFields as $field) {
+                        $name = $field->getName();
+                        $path = $field->getValue();
+                        $fileExtension = substr(strrchr($path, '.'), 1);
+                        $identifier = $folderPath . $name . '.' . $fileExtension;
 
-								/** @var \TYPO3\CMS\Core\Resource\ProcessedFileRepository $processedFileRepository */
-								$processedFileRepository = $this->objectManager->get('TYPO3\\CMS\\Core\\Resource\\ProcessedFileRepository');
-								/** @var \TYPO3\CMS\Core\Resource\ProcessedFile[] $processedFiles */
-								$processedFiles = $processedFileRepository->findAllByOriginalFile($file);
+                        if (file_exists($path)) {
+                            /** @var File $file */
+                            if ($driver->fileExists($identifier)) {
+                                $file = $storage->getFile($identifier);
+                                $storage->replaceFile($file, $path);
 
-								foreach($processedFiles as $processedFile)
-									$processedFile->delete();
-							}
-							else
-								$file = $storage->addFile($path, $folder, $name . '.' . $fileExtension, 'replace');
+                                /** @var ProcessedFileRepository $processedFileRepository */
+                                $processedFileRepository = $this->objectManager->get(ProcessedFileRepository::class);
+                                /** @var ProcessedFile[] $processedFiles */
+                                $processedFiles = $processedFileRepository->findAllByOriginalFile($file);
 
-							$this->getField($field->getName())->setValue($driver->getPublicUrl($identifier));
-							$filesMoved[$name] = $file->getName();
-						}
-					}
+                                foreach ($processedFiles as $processedFile) {
+                                    $processedFile->delete();
+                                }
+                            } else {
+                                $file = $storage->addFile($path, $folder, $name . '.' . $fileExtension, 'replace');
+                            }
 
-					if (!empty($filesMoved)) {
-						$this->addNotice(
-							'duplication_process.uploaded_files.notice.success',
-							1435421057,
-							array($folder->getPublicUrl(), '"' . implode('", ', $filesMoved) . '"')
-						);
-					}
-				}
-			}
-		}
-	}
+                            $this->getField($field->getName())->setValue($driver->getPublicUrl($identifier));
+                            $filesMoved[$name] = $file->getName();
+                        }
+                    }
+
+                    if (!empty($filesMoved)) {
+                        $this->addNotice(
+                            'duplication_process.uploaded_files.notice.success',
+                            1435421057,
+                            [$folder->getPublicUrl(), '"' . implode('", ', $filesMoved) . '"']
+                        );
+                    }
+                }
+            }
+        }
+    }
 }
