@@ -23,7 +23,7 @@ use TYPO3\CMS\Core\Utility\PathUtility;
  *
  * @todo make me become a service
  */
-class FileUtility
+class FileUtility implements AjaxInterface
 {
 
     const FILE_KEY = 'qqfile';
@@ -43,11 +43,11 @@ class FileUtility
 
             move_uploaded_file($file['tmp_name'], $tmpFilePath);
 
-            echo json_encode([
+            return [
                 'tmpFilePath' => $tmpFilePath,
                 'newUuid'     => $tmpFileName,
                 'success'     => true
-            ]);
+            ];
         }
     }
 
@@ -75,7 +75,8 @@ class FileUtility
 
         $fieldValue = GeneralUtility::_GP('fieldValue');
         if ($fieldValue != '') {
-            $imagePath = GeneralUtility::getFileAbsFileName($fieldValue);
+//            $imagePath = GeneralUtility::getFileAbsFileName($fieldValue);
+            $imagePath = str_replace('new:', '', $fieldValue);
             $imageName = PathUtility::basename($imagePath);
             $imageDirectoryPath = PathUtility::dirname($imagePath);
             $imageDirectoryPath = PathUtility::getRelativePath(PATH_site, $imageDirectoryPath);
@@ -90,6 +91,6 @@ class FileUtility
             }
         }
 
-        return json_encode($files);
+        return $files;
     }
 }

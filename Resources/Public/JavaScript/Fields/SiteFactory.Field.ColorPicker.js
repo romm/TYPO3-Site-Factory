@@ -4,7 +4,9 @@ jQuery(document).ready(function() {
 		previewElement.css('background-color', color);
 	}
 
-	SiteFactory.Form.GetAllInstances().each(function(formInstance) {
+	var instances = SiteFactory.Form.GetAllInstances();
+	for (var i = 0; i < instances.length; i++) {
+		var formInstance = instances[i];
 		var fields = formInstance.getFieldsByType('color_picker');
 
 		for(var index in fields) {
@@ -24,5 +26,5 @@ jQuery(document).ready(function() {
 				);
 			}
 		}
-	});
+	}
 });

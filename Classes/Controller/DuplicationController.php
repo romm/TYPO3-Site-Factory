@@ -46,21 +46,20 @@ class DuplicationController extends AbstractController
 
         $result = $this->processDuplication($cacheToken, $index, true);
 
-        // Printing result for JavaScript.
-        echo json_encode($result);
+        $this->view = null;
 
-        return true;
+        return json_encode($result);
     }
 
     /**
      * @todo: rewrite function doc
-     * @param    $cacheToken           string    The token of the cache file to get the current state of the duplication.
-     * @param    $index                string    The index of the process which will be executed (e.g. "pagesDuplication" or "treeUidAssociation").
-     * @param    $checkAjax            bool    If true, will call the function "checkAjaxCall" of the current process class.
-     * @return    array                The result of the function, may contain these keys :
-     *                                 - "success":        "False" if error(s) occurred, "true" otherwise.
-     *                                 - "result":        The result of the execution function. Contains useful data for further duplication process steps.
-     *                                 - "errorMessage":    If error(s) occurred, will contain an error message. If the current user is admin, it will get a detailed message.
+     * @param string $cacheToken The token of the cache file to get the current state of the duplication.
+     * @param string $index      The index of the process which will be executed (e.g. "pagesDuplication" or "treeUidAssociation").
+     * @param bool   $checkAjax  If true, will call the function "checkAjaxCall" of the current process class.
+     * @return    array The result of the function, may contain these keys :
+     *                           - "success":      "False" if error(s) occurred, "true" otherwise.
+     *                           - "result":       The result of the execution function. Contains useful data for further duplication process steps.
+     *                           - "errorMessage": If error(s) occurred, will contain an error message. If the current user is admin, it will get a detailed message.
      */
     private function processDuplication($cacheToken, $index, $checkAjax = false)
     {
@@ -90,7 +89,7 @@ class DuplicationController extends AbstractController
                         $class = GeneralUtility::makeInstance($class, $cacheData['duplicationData'], $settings, $cacheData['fieldsValues']);
                         if ($class instanceof AbstractDuplicationProcess) {
                             // @todo : else
-                            if (!$checkAjax || ($checkAjax && $class->checkAjaxCall())) {
+//                            if (!$checkAjax || ($checkAjax && $class->checkAjaxCall())) {
                                 $class->run();
                                 $fieldsValues = $class->getFieldsValues();
                                 $result->merge($class->getResult());
@@ -101,7 +100,7 @@ class DuplicationController extends AbstractController
                                     'fieldsValues'    => $fieldsValues
                                 ];
                                 $cache->set($cacheToken, json_encode($configuration));
-                            }
+//                            }
                         } else {
                             throw new \Exception('The class "' . $class . '" must extend "' . AbstractDuplicationProcess::class . '".', 1422887215);
                         }

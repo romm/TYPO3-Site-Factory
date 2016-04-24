@@ -258,8 +258,8 @@ class Core
     /**
      * Checks if an uid is the root page of a model site.
      *
-     * @param $uid    int    The uid.
-     * @return bool        True if the uid is the root page of a model site.
+     * @param int $uid The uid.
+     * @return bool True if the uid is the root page of a model site.
      * @throws \Exception
      */
     public static function checkUidIsSavedSite($uid)
@@ -280,12 +280,12 @@ class Core
     /**
      * Cleans a value depending on its TCA configuration.
      *
-     * @param $table          string    The table of the field.
-     * @param $field          string    The field.
-     * @param $value          string    The value that should be cleaned.
-     * @param $pid            int        The pid of the content.
-     * @param $checkUnique    bool    If set to true, will get a unique value.
-     * @return string    The cleaned value.
+     * @param string $table       The table of the field.
+     * @param string $field       The field.
+     * @param string $value       The value that should be cleaned.
+     * @param int    $pid         The pid of the content.
+     * @param bool   $checkUnique If set to true, will get a unique value.
+     * @return string The cleaned value.
      */
     public static function getCleanedValueFromTCA($table, $field, $value, $pid, $checkUnique = true)
     {
@@ -314,8 +314,8 @@ class Core
     /**
      * Return the extension configuration.
      *
-     * @param    string $configurationName If null, returns the whole configuration. Otherwise, returns the asked configuration.
-     * @return    array
+     * @param  string $configurationName If null, returns the whole configuration. Otherwise, returns the asked configuration.
+     * @return array
      */
     public static function getExtensionConfiguration($configurationName = null)
     {

@@ -14,7 +14,8 @@ call_user_func(
                 '',
                 [
                     'Administration' => 'index,new,submit,processCopy,help',
-                    'Duplication'    => 'ajaxProcessDuplication'
+                    'Duplication'    => 'ajaxProcessDuplication',
+                    'Ajax'           => 'dispatch'
                 ],
                 [
                     'access' => 'user,group',

@@ -66,7 +66,7 @@ SiteFactory.Field = function(formElement, fieldElement) {
 
 		jQuery.ajax({
 			async:		'true',
-			url:		TYPO3.settings.ajaxUrls['ajaxDispatcher'],
+			url:		SiteFactory.ajaxUrl,
 			type:		'GET',
 			dataType:	'html',
 			data: {
@@ -133,7 +133,7 @@ SiteFactory.Field = function(formElement, fieldElement) {
 	/**
 	* Handles errors display.
 	*
-	* @returns	SiteFactory.Field
+	* @returns	{SiteFactory.Field}
 	*/
 	this.showErrors = function() {
 		this.parentElement.removeClass('has-success');

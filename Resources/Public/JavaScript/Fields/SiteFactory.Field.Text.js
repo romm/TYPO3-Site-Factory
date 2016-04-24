@@ -1,5 +1,7 @@
 jQuery(document).ready(function() {
-	SiteFactory.Form.GetAllInstances().each(function(formInstance) {
+	var instances = SiteFactory.Form.GetAllInstances();
+	for (var i = 0; i < instances.length; i++) {
+		var formInstance = instances[i];
 		var textFields = formInstance.getFieldsByFieldType('text');
 
 		for(var index in textFields) {
@@ -33,5 +35,5 @@ jQuery(document).ready(function() {
 				);
 			}
 		}
-	});
+	}
 });

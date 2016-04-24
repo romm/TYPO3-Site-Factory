@@ -33,8 +33,8 @@ class CacheManager
     /**
      * Returns a cache instance.
      *
-     * @param   string $name Name of the cache. Must be one of the class' constants.
-     * @return  FrontendInterface
+     * @param  string $name Name of the cache. Must be one of the class' constants.
+     * @return FrontendInterface
      */
     public static function getCacheInstance($name)
     {

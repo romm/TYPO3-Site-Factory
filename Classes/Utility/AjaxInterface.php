@@ -11,16 +11,9 @@
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-namespace Romm\SiteFactory\Duplication;
+namespace Romm\SiteFactory\Utility;
 
-/**
- * Class containing functions called when a site is being duplicated.
- */
-interface DuplicationProcessInterface
+interface AjaxInterface
 {
 
-    /**
-     * Do the process of your duplication step in this function.
-     */
-    public function run();
 }

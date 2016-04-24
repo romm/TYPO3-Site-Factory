@@ -22,10 +22,10 @@ SiteFactory.FineUploaderDefaultSettings = function() {
 
 	// TYPO3 request handler when a new file is added.
 	this.request = {
-		endpoint:       TYPO3.settings.ajaxUrls['ajaxDispatcher'],
+		endpoint:       SiteFactory.ajaxUrl,
 		paramsInBody:   false,
 		params: {
-			ajaxID:		'ajaxDispatcher',
+			//ajaxID:		'ajaxDispatcher',
 			request: {
 				function: 'Romm\\SiteFactory\\Utility\\FileUtility->ajaxMoveUploadedFileToSiteFactoryFolder'
 			}
@@ -34,9 +34,9 @@ SiteFactory.FineUploaderDefaultSettings = function() {
 
 	// Request managing the already existing files for a field.
 	this.session = {
-		endpoint:       TYPO3.settings.ajaxUrls['ajaxDispatcher'],
+		endpoint:       SiteFactory.ajaxUrl,
 		params: {
-			ajaxID:		'ajaxDispatcher',
+			//ajaxID:		'ajaxDispatcher',
 			request: {
 				function: 'Romm\\SiteFactory\\Utility\\FileUtility->getExistingFiles'
 			},
@@ -48,7 +48,7 @@ SiteFactory.FineUploaderDefaultSettings = function() {
 	this.deleteFile = {
 		enabled:		true,
 		forceConfirm:	true,
-		endpoint:		TYPO3.settings.ajaxUrls['ajaxDispatcher'] + '&dummy='
+		endpoint:		SiteFactory.ajaxUrl + '&dummy='
 	};
 
 	// Paths to the thumbnails.

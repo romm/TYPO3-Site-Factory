@@ -15,6 +15,7 @@ namespace Romm\SiteFactory\Form;
 
 use Romm\SiteFactory\Core\Core;
 use Romm\SiteFactory\Form\Fields\AbstractField;
+use Romm\SiteFactory\Utility\AjaxInterface;
 
 /**
  * Class containing functions allowing to check if a field is correctly filled,
@@ -24,16 +25,16 @@ use Romm\SiteFactory\Form\Fields\AbstractField;
  * - \Romm\SiteFactory\Core\Configuration\Configuration
  * - \Romm\SiteFactory\Core\Configuration\FieldsConfiguration
  */
-class FieldValidation
+class FieldValidation implements AjaxInterface
 {
 
     /**
      * Checks if a given field is correctly filled.
      *
-     * @param    AbstractField $field       The field.
+     * @param    AbstractField $field The field.
      * @return    array  An array with 2 indexes:
-     *                   - fieldLabel:       The translated label of the field.
-     *                   - validationResult: List of TYPO3\CMS\Extbase\Error\Result
+     *                                - fieldLabel:       The translated label of the field.
+     *                                - validationResult: List of TYPO3\CMS\Extbase\Error\Result
      */
     public function validateField(AbstractField $field)
     {
@@ -49,14 +50,11 @@ class FieldValidation
      * Ajax implementation of the function "validateField". Will display the
      * result encoded in JSON.
      *
-     * @param    string $content Not used.
-     * @param    array  $params  Parameters.
-     * @return    string    JSON encoded result.
+     * @param  array $arguments Parameters.
+     * @return string    JSON encoded result.
      */
-    public function ajaxValidateField($content, $params)
+    public function ajaxValidateField($arguments)
     {
-        $arguments = $params['arguments'];
-
         // @todo : Exception ?
         if (!isset($arguments['fieldName']) || !isset($arguments['value']) || !isset($arguments['pageUid'])) {
             return '';
@@ -72,6 +70,6 @@ class FieldValidation
 
         $validation['validationResult'] = $validationResult;
 
-        return json_encode($validation);
+        return $validation;
     }
 }

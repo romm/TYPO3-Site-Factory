@@ -47,17 +47,17 @@ class AdministrationController extends AbstractController
 
     /**
      * @var SaveRepository
-     * @inject
      */
     protected $saveRepository = null;
 
     /**
      * @var PagesRepository
-     * @inject
      */
-    protected $pageRepository = null;
+    protected $pagesRepository = null;
 
-    /** @var array $fieldsConfiguration */
+    /**
+     * @var array $fieldsConfiguration
+     */
     public $fieldsConfiguration = null;
 
     /**
@@ -82,10 +82,10 @@ class AdministrationController extends AbstractController
             $defaultQuerySettings = Core::getObjectManager()->get(QuerySettingsInterface::class);
             $defaultQuerySettings->setRespectStoragePage(false);
             $defaultQuerySettings->setIgnoreEnableFields(true);
-            $this->pageRepository->setDefaultQuerySettings($defaultQuerySettings);
+            $this->pagesRepository->setDefaultQuerySettings($defaultQuerySettings);
 
             /** @var Pages $page */
-            $page = $this->pageRepository->findByUid($site->getRootPageUid());
+            $page = $this->pagesRepository->findByUid($site->getRootPageUid());
 
             // The page may have been deleted.
             if (!$page) {
@@ -107,9 +107,9 @@ class AdministrationController extends AbstractController
      * Useful when you want to list a already duplicated  site's properties, or
      * when you are editing a site.
      *
-     * @param    Save $site                   The saved site.
-     * @param    bool $onlyModificationFields True if you want only the fields that are accessible when editing, false otherwise.
-     * @return    AbstractField[]
+     * @param Save $site                   The saved site.
+     * @param bool $onlyModificationFields True if you want only the fields that are accessible when editing, false otherwise.
+     * @return AbstractField[]
      */
     private function fillFieldsValuesFromSavedSite(Save $site, $onlyModificationFields = true)
     {
@@ -216,7 +216,7 @@ class AdministrationController extends AbstractController
      * If errors occur, information will be assigned to the view. If all fields
      * are correctly filled, a redirection is sent to "processCopyAction".
      *
-     * @param    AbstractField[] $fields The fields configuration.
+     * @param AbstractField[] $fields The fields configuration.
      */
     public function processFormSubmit($fields)
     {
@@ -336,4 +336,19 @@ class AdministrationController extends AbstractController
     {
     }
 
+    /**
+     * @param SaveRepository $saveRepository
+     */
+    public function injectSaveRepository(SaveRepository $saveRepository)
+    {
+        $this->saveRepository = $saveRepository;
+    }
+
+    /**
+     * @param PagesRepository $pagesRepository
+     */
+    public function injectPagesRepository(PagesRepository $pagesRepository)
+    {
+        $this->pagesRepository = $pagesRepository;
+    }
 }

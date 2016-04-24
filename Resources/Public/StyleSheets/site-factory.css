@@ -439,3 +439,8 @@
 	margin: 5px;
 	font-weight: bold;
 }
+
+/* Overrides TYPO3 7 new CSS */
+.form-group.has-error label:before {
+	display: none;
+}
