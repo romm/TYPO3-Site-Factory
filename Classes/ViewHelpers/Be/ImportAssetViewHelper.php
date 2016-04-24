@@ -30,14 +30,18 @@ class ImportAssetViewHelper extends AbstractBackendViewHelper
      */
     public function render($cssFiles = [], $jsFiles = [])
     {
+        $pageRenderer = (version_compare(TYPO3_version, '7.0', '<'))
+            ? $this->getDocInstance()->getPageRenderer()
+            : $this->getPageRenderer();
+
         foreach ($cssFiles as $value) {
             $path = $this->getFileRealPath($value);
-            $this->getPageRenderer()->addCssFile($path);
+            $pageRenderer->addCssFile($path);
         }
 
         foreach ($jsFiles as $value) {
             $path = $this->getFileRealPath($value);
-            $this->getPageRenderer()->addJsLibrary($path, $path);
+            $pageRenderer->addJsLibrary($path, $path);
         }
     }
 
