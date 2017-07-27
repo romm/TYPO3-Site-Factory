@@ -274,6 +274,8 @@ abstract class AbstractDuplicationProcess implements DuplicationProcessInterface
         if (!self::$duplicationConfiguration[$pageUid][$siteModificationToken]) {
             $duplicationConfiguration = Core::sortArrayByPositionValue(TypoScriptUtility::getExtensionConfigurationFromPath('duplication', $pageUid));
 
+			ksort($duplicationConfiguration);
+			
             $cleanedDuplicationConfiguration = [];
 
             // For HTML convention causes, we replace the lower-camel-case indexes with lower-case-underscored ones.

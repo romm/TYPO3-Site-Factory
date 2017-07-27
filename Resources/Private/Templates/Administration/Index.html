@@ -1,4 +1,5 @@
 {namespace sf=Romm\SiteFactory\ViewHelpers}
+{namespace core=TYPO3\CMS\Core\ViewHelpers}
 
 <f:layout name="Backend/Default" />
 
@@ -74,6 +75,5 @@ Useful variables:
 Contains the buttons which will appear in the header menu.
 
 <f:section name="headerButtons">
-	<f:be.buttons.icon uri="{f:uri.action(action: 'new')}" icon="actions-document-new" title="{f:translate(key: 'index.create_new_site')}" />
-	<!--<f:be.buttons.icon uri="{f:uri.action(action: 'help')}" icon="actions-document-info" title="{f:translate(key: 'module.header_buttons.help')}" />-->
+	<f:link.action action="new" ><core:icon identifier="apps-pagetree-collapse" alternativeMarkupIdentifier="{f:translate(key: 'index.create_new_site')}" /></f:link.action>
 </f:section>

@@ -3,7 +3,6 @@
 	<file source-language="en" datatype="plaintext">
 		<header />
 		<body>
-
 			<trans-unit id="fields.validation.select.wrong_option_value">
 				<source>The value "%s" is not a correct.</source>
 			</trans-unit>
@@ -25,7 +24,12 @@
 			<trans-unit id="fields.validation.integer_value">
 				<source>This value must be an integer.</source>
 			</trans-unit>
-
+			<trans-unit id="fields.validation.domain_name_value">
+				<source>This value must match a domain name.</source>
+			</trans-unit>			
+			<trans-unit id="fields.validation.empty_select">
+				<source>You have to fill the select box.</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
