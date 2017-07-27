@@ -30,12 +30,12 @@
 				<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 			</div>
 
-			<span class="dummy dummy-status-pending"><f:be.buttons.icon icon="actions-document-info" /></span>
+			<span class="dummy dummy-status-pending"><core:icon identifier="actions-document-info" /></span>
 			<span class="dummy dummy-status-processing"><f:image src="EXT:t3skin/images/spinner/big-f0f0f0.gif" class="loading" /></span>
-			<span class="dummy dummy-status-ok"><f:be.buttons.icon icon="status-status-checked" /></span>
-			<span class="dummy dummy-status-error"><f:be.buttons.icon icon="status-status-permission-denied" /></span>
-			<span class="dummy dummy-status-warning"><f:be.buttons.icon icon="status-dialog-warning" /></span>
-			<span class="dummy dummy-status-notice"><f:be.buttons.icon icon="actions-document-info" /></span>
+			<span class="dummy dummy-status-ok"><core:icon identifier="status-status-checked" /></span>
+			<span class="dummy dummy-status-error"><core:icon identifier="status-status-permission-denied" /></span>
+			<span class="dummy dummy-status-warning"><core:icon identifier="status-dialog-warning" /></span>
+			<span class="dummy dummy-status-notice"><core:icon identifier="actions-document-info" /></span>
 
 			<div class="row">
 				<ul class="site-duplication-process col-sm-6 col-sm-push-3 col-xs-12">
@@ -58,7 +58,7 @@
 	<f:section name="processElement">
 		<li class="{name}">
 			<div class="result">
-				<span class="status"><f:be.buttons.icon icon="actions-system-help-open" /></span><f:translate key="{configuration.label}" />
+				<span class="status"><core:icon identifier="actions-system-help-open" /></span><f:translate key="{configuration.label}" />
 				<i class="time">[00:00]</i>
 				<div class="result-text-container">
 					<ul class="result-list"></ul>
@@ -72,9 +72,7 @@
 
 	<!-- Header buttons. -->
 	<f:section name="headerButtons">
-		<f:be.buttons.icon uri="{f:uri.action(action: 'index')}" icon="actions-document-close" title="{f:translate(key: 'module.header_buttons.index')}" />
-		<f:be.buttons.icon uri="{f:uri.action(action: 'new')}" icon="actions-document-new" title="{f:translate(key: 'module.header_buttons.new')}" />
-		<!--<f:be.buttons.icon uri="{f:uri.action(action: 'help')}" icon="actions-document-info" title="{f:translate(key: 'module.header_buttons.help')}" />-->
-		<!--<f:be.buttons.icon uri="{f:uri.action(action: 'configure')}" icon="actions-system-extension-configure" title="{f:translate(key: 'module.header_buttons.help')}" />-->
+		<f:link.action action="index" ><core:icon identifier="actions-document-close" alternativeMarkupIdentifier="{f:translate(key: 'module.header_buttons.index')}" /></f:link.action>
+		<f:link.action action="new" ><core:icon identifier="actions-document-new" alternativeMarkupIdentifier="{f:translate(key: 'module.header_buttons.new')}" /></f:link.action>
 	</f:section>
 </div>
