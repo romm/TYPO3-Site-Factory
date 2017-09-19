@@ -13,7 +13,7 @@
 		</div>
 	</label>
 	<div class="col-sm-9">
-		<div class="form-field{f:if(condition: '{field.validation}', then: ' is-evaluated')}" data-type="{field.lowerCaseType}" data-fieldtype="{field.lowerCaseFieldType}" data-name="{field.name}" data-label="{field.label->sf:addSlashes(onlyDoubleQuotes: 1)}">
+		<div class="form-field{f:if(condition: field.validation, then: ' is-evaluated')}" data-type="{field.lowerCaseType}" data-fieldtype="{field.lowerCaseFieldType}" data-name="{field.name}" data-label="{field.label->sf:addSlashes(onlyDoubleQuotes: 1)}">
 			<f:render partial="Form/Fields/{field.type}" arguments="{_all}" />
 		</div>
 
