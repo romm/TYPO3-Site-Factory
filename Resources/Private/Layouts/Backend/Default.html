@@ -16,7 +16,7 @@
 
 	<script type="text/javascript">
 		var pathSite = '{pathSite}';
-		SiteFactory.ajaxUrl = "{f:uri.action(controller: 'Ajax', action: 'dispatch')}";
+		SiteFactory.ajaxUrl = "{f:uri.action(controller: 'Ajax', action: 'dispatch') -> f:format.raw()}";
 	</script>
 
 	<div class="typo3-fullDoc">
