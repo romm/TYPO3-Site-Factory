@@ -334,9 +334,9 @@ class Core
      */
     public static function loadJquery()
     {
-        /** @var DocumentTemplate $documentTemplate */
-        $documentTemplate = self::getDocumentTemplate();
-        $pageRenderer = $documentTemplate->getPageRenderer();
+        /** @var PageRenderer $pageRenderer */
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+
         $pageRenderer->loadJquery(PageRenderer::JQUERY_VERSION_LATEST, 'local', $pageRenderer::JQUERY_NAMESPACE_DEFAULT_NOCONFLICT);
     }
 
