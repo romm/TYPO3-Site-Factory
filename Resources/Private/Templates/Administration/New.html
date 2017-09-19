@@ -1,3 +1,4 @@
+{namespace core=TYPO3\CMS\Core\ViewHelpers}
 {namespace sf=Romm\SiteFactory\ViewHelpers}
 
 <f:layout name="Backend/Default" />
@@ -96,14 +97,28 @@ Useful variables:
 Contains the buttons which will appear in the header menu.
 
 <f:section name="headerButtons">
-	<f:be.buttons.icon uri="{f:uri.action(action: 'index')}" icon="actions-document-close" title="{f:translate(key: 'module.header_buttons.index')}" />
-	<f:be.buttons.icon uri="{f:uri.action(action: 'new')}" icon="actions-document-new" title="{f:translate(key: 'module.header_buttons.new')}" />
-	<!--<f:be.buttons.icon uri="{f:uri.action(action: 'help')}" icon="actions-document-info" title="{f:translate(key: 'module.header_buttons.help')}" />-->
+	<f:link.action action="index" title="{f:translate(key: 'module.header_buttons.index')}">
+		<core:icon identifier="actions-document-close" />
+	</f:link.action>
+
+	<f:link.action action="new" title="{f:translate(key: 'module.header_buttons.new')}">
+		<core:icon identifier="actions-document-new" />
+	</f:link.action>
+
+	<f:comment>
+		<f:link.action action="help" title="{f:translate(key: 'module.header_buttons.help')}">
+			<core:icon identifier="actions-document-info" />
+		</f:link.action>
+	</f:comment>
+
 	<f:if condition="{fieldsConfiguration}">
-		<f:be.buttons.icon uri="#" additionalAttributes="{onclick: 'window[\'{formId}\'].submit(\'new\');'}" icon="actions-document-save" title="{f:translate(key: 'module.header_buttons.save')}" />
+		<a href="#" onclick="window['{formId}'].submit('new');" title="{f:translate(key: 'module.header_buttons.save')}">
+			<core:icon identifier="actions-document-save" />
+		</a>
 
 		<span class="static-site-name">
-			<f:be.buttons.icon icon="status-status-current" />
+			<core:icon identifier="status-status-current" />
+
 			<span class="content"></span>
 		</span>
 	</f:if>

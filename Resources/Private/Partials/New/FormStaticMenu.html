@@ -1,3 +1,5 @@
+{namespace core=TYPO3\CMS\Core\ViewHelpers}
+
 <f:render partial="New/EasterEgg" />
 
 <div class="static-menu row col-sm-4 col-xs-6 col-xs-offset-8" data-site-factory-form="{formId}">
@@ -57,7 +59,7 @@
 							<strong style="font-size: 1.35em;">&nbsp;<a href="#" class="alert-link easter-egg" onclick="beginEasterEgg(); return false;">&#12484;</a></strong>
 
 							<div id="collapse-menu-success" class="panel-collapse collapse in">
-								<f:translate key="form.static_menu.success_text" />&nbsp;<f:be.buttons.icon icon="actions-document-save" />
+								<f:translate key="form.static_menu.success_text" />&nbsp;<core:icon identifier="actions-document-save" />
 							</div>
 						</div>
 					</f:else>

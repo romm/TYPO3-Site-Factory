@@ -1,3 +1,4 @@
+{namespace core=TYPO3\CMS\Core\ViewHelpers}
 {namespace sf=Romm\SiteFactory\ViewHelpers\Be}
 
 <div xmlns="http://www.w3.org/1999/xhtml"
@@ -79,8 +80,13 @@
 
 
 	<f:section name="headerButtons">
-		<f:be.buttons.icon uri="{f:uri.action(action: 'index')}" icon="actions-document-close" title="{f:translate(key: 'module.header_buttons.index')}" />
-		<f:be.buttons.icon uri="{f:uri.action(action: 'new')}" icon="actions-document-new" title="{f:translate(key: 'index.create_new_site')}" />
+		<f:link.action action="index" title="{f:translate(key: 'module.header_buttons.index')}">
+			<core:icon identifier="actions-document-close" />
+		</f:link.action>
+
+		<f:link.action action="new" title="{f:translate(key: 'index.create_new_site')}">
+			<core:icon identifier="actions-document-new" />
+		</f:link.action>
 	</f:section>
 
 </div>
